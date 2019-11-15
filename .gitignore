@@ -8,4 +8,3 @@ var/logs/
 var/cache/
 web/bundles/
 web/uploads/
-var/
