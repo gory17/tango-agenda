@@ -1,0 +1,13 @@
+<div class='resultats'>
+  {% set counter = 0 %}
+  {% for video in videos %}
+    {% set counter = counter +1 %}
+    {% include 'FabienEventsEngineBundle:video:item-video.html.twig' with {'video': video,"mode":"list"  } only %}
+  {% endfor %}
+
+  {% if counter <=0 %}
+  <div class='container'>
+  <h3> {{"no_video_found"|trans}}</h3>
+  </div>
+  {% endif %}
+</div>

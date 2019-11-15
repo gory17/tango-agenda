@@ -1,0 +1,100 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block og %}
+
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'website','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+{% endblock %}
+
+{% block title %}
+{{ "search"|trans }}
+{% endblock %}
+
+{% block body %}
+<div class='container'>
+<h1>{{ "searchTitle"|trans }} </h1>
+<p><strong>{{ "search_results"|trans }}</strong> {{searchText}}</p>
+{% if dates|length >= 100 %}
+<p><strong>
+{% if app.request.getLocale()=="fr" %}
+Seuls les 150 premiers événements sont affichés
+{% else %}
+Only the 150 first events are displayed.
+{% endif %}
+</strong></p>
+{% endif %}
+</div>
+
+
+{% set counter = 0 %}
+{% for day in range(0, 365, 1)    %}
+  {% set displayDay = false %}
+  {% set displayDates = false %}
+  {% set displayCours = false %}
+
+  {% for date in dates %}
+    {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") == "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") %}
+        {% set displayDay = true %}
+        {% set displayDates = true %}
+     {% endif %}
+  {% endfor %}
+	{% if displayDay == true   %}
+      {% set counter = counter +1 %}
+      <div class="bande-{{ cycle(['odd', 'even'], counter ) }}" >
+        <div class="container" itemscope itemtype="http://schema.org/ItemList">
+          <h2 itemprop='name'>{{ "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL yyyy") }} </h2>
+
+          {% if displayDates == true   %}
+			<p class='loadingMsg'>Loading ...</p>
+			<div class='owl-carousel owl-theme'>
+			
+              {% for date in dates %}
+                {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") == "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") %}
+
+                    {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"card"  } only %}
+                  
+                 {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+	{% endif %}
+{% endfor %}
+
+</div>
+{% endblock %}
+
+
+{% block codeJs %}
+  <script>
+
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+      center: true,
+        loop:false,
+		nav:true,
+        margin:20,
+		items:2,
+        onInitialize:callback,
+		responsive:{
+			0:{
+				items:2
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+        
+    });
+  });
+
+  function callback(){
+    $(".loadingMsg").hide();
+  }
+
+  </script>
+{% endblock %}

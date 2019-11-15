@@ -1,0 +1,471 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Administration
+{% endblock %}
+
+{% block body %}
+<div class='container'>
+<h1>Administration</h1>
+<p>Connecté en tant que {{ app.user.username }}</p>
+
+<ul class="nav nav-tabs">
+  <li class="active"><a data-toggle="tab" href="#importer">Opérations</a></li>
+  <li><a data-toggle="tab" href="#blog" >Blog</a></li>
+
+  {% for type in listTypes %}
+    {% set nombre = "" %}
+      {% for typeCount in listCount %}
+        {% if typeCount.slug == type.slug %}
+          {% set nombre = typeCount.nombre %}
+        {% endif %}
+      {% endfor %}
+
+      <li><a data-toggle="tab" data-target='#tab{{type.id}}' href="{{ path("admin_home_page",{"id":type.id}) }}">{{ type.title }} <span class='badge'>{{ nombre }}</span></a></li>
+  {% endfor %}
+
+</ul>
+
+<div class="tab-content">
+
+    <div id="blog" class="tab-pane fade in">
+      <h2>Blog</h2>
+      <div class='panel panel-default'>
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-8">
+              Articles de blog
+            </div>
+            <div class="col-md-2">
+              <a href="{{ path('admin_post_new')}}" class=' btn btn-primary btn-large'>Nouveau post</a>
+
+            </div>
+            <div class="col-md-2">
+              <a href="{{ path('admin_categorypost_index')}}" class=' btn btn-secondary btn-large'>Catégories</a>
+
+            </div>
+          </div>
+
+
+        </div>
+
+        <table class='table table-striped'>
+            <thead>
+                <tr>
+                    <th>Titre</th>
+                    <th>Slug</th>
+                    <th>Auteur</th>
+                    <th>Date</th>
+                    <th>Publié ?</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for post in posts %}
+                <tr>
+                    <td><a href="{{ path('admin_post_show', { 'id': post.id }) }}">{{ post.title }}</a></td>
+                    <td>{{ post.slug }}</td>
+                    <td>{{ post.author }}</td>
+                    <td>{% if post.date %}{{ post.date|date('d/m/Y H:i:s') }}{% endif %}</td>
+                    <td>{{ post.publish }}</td>
+                    <td>
+                        <ul class='list-inline'>
+                            <li>
+                                <a class="btn btn-info" href="{{ path('admin_post_show', { 'id': post.id }) }}">Voir</a>
+                            </li>
+                            <li>
+                                <a class='btn btn-info' href="{{ path('admin_post_edit', { 'id': post.id }) }}">Editer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+
+      </div>
+    </div>
+
+
+    <div id="importer" class="tab-pane fade in active">
+      <div class='resultats'></div>
+          <h2>Opérations système</h2>
+          <div class='panel panel-default'>
+            <div class="panel-heading">
+              Importer des Evenements
+            </div>
+
+            <div class="panel-body">
+              <h3>Saisie du token utilisateur</h3>
+              <p><a target="_blank" href="https://developers.facebook.com/tools/explorer/194083261040351">Voir mon token</a></p>
+              <p>Saisir le token Facebook : <input type="text" name="token" id="token" value="" /></p>
+
+              <h3>Importer les événements</h3>
+
+              <a class='importlink btn btn-primary ajaxbt' href="{{ path("events_import_all_fb") }}">Importer</a></li>
+
+
+              <a class='batchImport btn btn-primary ajaxbt' href="{{ path("ajax_process_import") }}">Sauvegarder</a></li>
+
+              <hr />
+              <h3>Mettre à jour les événements ?</h3>
+              <p>
+              <a href="{{ path("events_update_all") }}" class='btn btn-primary updateevtbt'>Update des évenements</a>
+              </p>
+
+              <hr />
+              <h3>Nettoyer les anciens événements</h3>
+              <a href="{{ path("events_nettoyer") }}" class='btn btn-primary ajaxbt '>Nettoyer</a>
+
+              <hr>
+
+              <h3>Bannir un événement</h3>
+
+              <p><input type="text" name="bannurl" value="" id="bannurl">
+              <a href="{{ path("events_bann_ajax") }}" class='btn btn-primary bannbt '>Bannir un évenement</a>
+              </p>
+
+              <hr />
+              <p>
+              <a href="{{ path("parameter_edit",{id:1}) }}" class='btn btn-primary parameter '>Configuration</a>
+              </p>
+
+
+              <hr />
+              <p>
+              <a href="{{ path("publicite_index") }}" class='btn btn-primary parameter '>Gestion des publicités</a>
+              </p>
+
+            </div>
+        </div>
+
+
+
+      <div class='panel panel-default'>
+        <div class="panel-heading">
+          Gérer les requêtes
+        </div>
+
+        <div class="panel-body">
+          <p>
+            <a href="{{ path("requetefb_index") }}" class='btn btn-primary '>Administration des requêtes</a>
+          </p>
+        </div>
+      </div>
+
+
+
+      <div class='panel panel-default'>
+        <div class="panel-heading">
+          Gérer les personnes
+        </div>
+
+        <div class="panel-body">
+          <p>
+            <a href="{{ path("person_index") }}" class='btn btn-primary '>Administration des personnes</a>
+          </p>
+        </div>
+
+
+      </div>
+
+
+
+      <div class='panel panel-default'>
+        <div class="panel-heading">
+          Gérer les Groupes Facebook
+        </div>
+
+        <div class="panel-body">
+          <p>
+            <a href="{{path('events_import_all_fb')}}" id="importGroupButton">Importer les groupes</a>
+              <a href="{{ path("groupfb_index") }}" class='btn btn-primary '>Administration des Groupes Facebook</a>
+              <a href="{{ path("group_find_index") }}" class='btn btn-primary '> Trouver de nouveaux groupes</a>
+          </p>
+        </div>
+      </div>
+
+
+      <div class='panel panel-default'>
+        <div class="panel-heading">
+          Gérer les pays
+        </div>
+
+        <div class="panel-body">
+          <p>
+            <a href="{{ path("admin_country_index") }}" class='btn btn-primary '>Administration des Pays et villes</a>
+          </p>
+        </div>
+      </div>
+
+
+
+
+  </div>
+
+  {% for type in listTypes %}
+    <div id="tab{{type.id}}" class="tab-pane fade"></div>
+  {% endfor %}
+
+
+
+</div>
+
+
+{% endblock %}
+
+{% block codeJs %}
+
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+  $( "input.datetimepicker" ).datepicker({ dateFormat: 'yy-mm-ss h:i:s', firstDay: 1   } );
+
+
+  $(".batchImport").click(function(){
+
+    var tokenfb=$("#token").val();
+    var link=$(this).attr("href");
+
+
+    $(".resultats").empty();
+
+    $(".resultats").append("<div class='alert alert-info'>Imports en cours ...</div>");
+    launchProcess(tokenfb,link);
+
+
+    return false;
+
+  });
+
+
+
+  function launchProcess(tokenfb,link){
+    $.ajax({
+        url: link,
+        type: 'POST',
+        data:
+        {
+            tokenfb : tokenfb
+        },
+        success: function(response) {
+          if(response!="termine"){
+            launchProcess(tokenfb,link);
+          }
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-success'><h3>Fin des imports</h3>"+response+"</div>");
+        },
+        error: function(response) {
+          launchProcess(tokenfb,link);
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+        }
+      });
+  }
+});
+</script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(document).on('click','[data-toggle="tab"]',function(e) {
+    var $this = $(this),
+        loadurl = $this.attr('href'),
+          targ = $this.attr('data-target');
+
+    $.get(loadurl, function(data) {
+        $(targ).html(data);
+    });
+
+    $this.tab('show');
+    return false;
+  });
+});
+</script>
+
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+  $(".bannbt").click(function(){
+
+    urlCible=$(this).attr("href");
+    urlBann=$("#bannurl").val();
+    $.ajax({
+      url: urlCible,
+      type: 'POST',
+      data:
+      {
+          urlbann : urlBann
+      },
+      success: function(response) {
+        $(".resultats").empty();
+        $(".resultats").html("<div class='alert alert-success'><h3>Opération terminée</h3>"+response+"</div>");
+      }
+    });
+    return false;
+  });
+
+  $("a.updateevtbt").click(function(){
+
+    urlCible=$(this).attr("href");
+    urlAction=$("#updateevt").val();
+
+    $(".resultats").empty();
+    $(".resultats").append("<div class='alert alert-info'>Update en cours ...</div>");
+
+    updateProcess(urlCible,0)
+
+
+    return false;
+  });
+
+
+   function updateProcess(link,offset){
+      $.ajax({
+          url: link,
+          type: 'POST',
+          data:
+          {
+              offset : offset
+          },
+          success: function(response) {
+              $(".resultats").empty();
+              $(".resultats").html("<div class='alert alert-success'><h3>Update en cours</h3>"+response+"</div>");
+              if(response!='Termine'){
+                offset=offset+10;
+                updateProcess(link,offset);
+              }else{
+                $(".resultats").html("<div class='alert alert-success'><h3>Fin des updates</h3><p>Terminé !</p></div>");
+              }
+          },
+          error: function(response) {
+              $(".resultats").empty();
+              $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+              if(response!='Termine'){
+                offset=offset+10;
+                updateProcess(link,offset);
+              }
+
+          }
+        });
+    }
+
+
+
+  $(".importOne").click(function(){
+
+    idFb=$("#urlsingle").val();
+    idFb=idFb.replace("https://www.facebook.com/events/","");
+    idFb=idFb.replace('/',"");
+
+    urlCible="{{path("events_import_event_fb_ajax")}}"+"/"+$("#typesingle").val()+"/"+idFb+"/"+$("#token").val();
+
+    window.open(urlCible,'_blank');
+
+    return false;
+  });
+});
+</script>
+
+
+
+
+
+<script>
+  $(function () {
+    jQuery(document).ready(function() {
+
+        $(".importlink").click(function(){
+          var tokenfb=$("#token").val();
+          var link=$(".importlink").attr("href");
+          $(".resultats").empty();
+          $(".resultats").append("<div class='alert alert-info'>Recherche en cours ...</div>");
+
+          var linkGroup=$("#importGroupButton").attr("href");
+          $(".resultats").empty();
+          $(".resultats").append("<div class='alert alert-info'>Indexation des groupes cours ...</div>");
+
+          searchProcessGroup();
+          //searchProcess();
+
+          return false;
+        });
+
+
+      });
+  });
+
+
+
+  function searchProcessGroup(){
+    var link=$(".importlink").attr("href");
+    var tokenfb=$("#token").val();
+
+    $.ajax({
+        url: link,
+        method: 'POST',
+        data:
+        {
+            importEntity:"GroupFb",
+            tokenfb : tokenfb,
+
+        },
+        success: function(response) {
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-success'><h3>Indexations des groupes en cours</h3>"+response+"</div>");
+            if(response!="done"){
+              searchProcessGroup();
+            }else{
+              $(".resultats").html("<div class='alert alert-success'><h3>Fin des indexations de groupe</h3><p>Terminé !</p></div>"+response);
+              //lance dans la foulee les requetes par mot
+              searchProcess();
+            }
+        },
+        error: function(response) {
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+            searchProcessGroup();
+        }
+      });
+  }
+
+  function searchProcess(){
+    var link=$(".importlink").attr("href");
+    var tokenfb=$("#token").val();
+
+    $.ajax({
+        url: link,
+        method: 'POST',
+        data:
+        {
+            importEntity:"RequeteFb",
+            tokenfb : tokenfb,
+        },
+        success: function(response) {
+          $(".resultats").empty();
+          $(".resultats").html("<div class='alert alert-success'><h3>Indexations des requetes en cours</h3>"+response+"</div>");
+          if(response!="done"){
+            searchProcess();
+          }else{
+            $(".resultats").html("<div class='alert alert-success'><h3>Fin des indexations des requetes</h3><p>Terminé !</p></div>");
+            //Lancement des imports dans la foulée
+
+            //launchProcess(tokenfb, $(".batchImport").attr("href"));
+            launchProcess(tokenfb,"{{ path("ajax_process_import")}}");
+          }
+        },
+        error: function(response) {
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+
+            searchProcess();
+        }
+      });
+  }
+</script>
+{% endblock %}

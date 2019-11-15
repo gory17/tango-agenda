@@ -1,0 +1,26 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+Edition personne
+{% endblock %}
+
+{% block body %}
+<h1>Edition d'une personne</h1>
+  <div class="container">
+
+    <div class="">
+
+
+    {{ form_start(edit_form) }}
+        {{ form_widget(edit_form) }}
+        <input type="submit" value="Editer" class="btn btn-primary" />
+
+
+
+            <a href="{{ path('person_index') }}" class="btn btn-secondary">retour</a>
+            <a href="{{ path("person_delete",{"id":person.id})}}" class='btn btn-warning btn-alert'>Supprimer</a>
+
+      {{ form_end(edit_form) }}
+      </div>
+</div>
+{% endblock %}

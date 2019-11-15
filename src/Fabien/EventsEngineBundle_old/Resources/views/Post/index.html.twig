@@ -1,0 +1,53 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+Liste des posts
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+
+    <h1>Liste des posts</h1>
+
+    <table class='table table-striped'>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Slug</th>
+                <th>Auteur</th>
+                <th>Date</th>
+                <th>Publié ?</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td><a href="{{ path('admin_post_show', { 'id': post.id }) }}">{{ post.title }}</a></td>
+                <td>{{ post.slug }}</td>
+                <td>{{ post.author }}</td>
+                <td>{% if post.date %}{{ post.date|date('d/m/Y H:i:s') }}{% endif %}</td>
+                <td>{{ post.publish }}</td>
+                <td>
+                    <ul class='list-inline'>
+                        <li>
+                            <a class="btn btn-info" href="{{ path('admin_post_show', { 'id': post.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a class='btn btn-info' href="{{ path('admin_post_edit', { 'id': post.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-inline">
+        <li>
+            <a class="btn btn-lg btn-primary" href="{{ path('admin_post_new') }}">Create a new post</a>
+        </li>
+    </ul>
+
+  </div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+List des villes
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <h1>Liste des {{entity}}</h1>
+
+  <ul>
+  {% for item in listItem %}
+    <li>{{ item.title }} - <a href='{{path("admin_"~ entity ~"_edit",{"id":item.id})}}'>edit</a> -  <a href='{{ path("admin_"~ entity ~"_delete",{"id":item.id}) }}'>delete</a></li>
+  {% endfor %}
+  </ul>
+
+  <a href="{{ path("admin_"~ entity ~"_new",{"idstate": idstate })}}" class="btn btn-lg btn-primary">Ajouter</a>
+    <a href="{{ path("admin_country_index")}}" class="btn btn-lg btn-primary">Retour aux pays</a>
+</div>
+{% endblock %}
+
+
+
+{% block codeJs %}
+
+{% endblock %}

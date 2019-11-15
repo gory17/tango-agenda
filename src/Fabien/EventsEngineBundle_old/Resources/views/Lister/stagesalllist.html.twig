@@ -1,0 +1,64 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Workshops all around the world
+{% endblock %}
+
+
+{% block body %}
+{% if error_message is defined %}
+<div class='container'>
+  <div class='alert alert-warning'>
+  <h3>Oops ! Quelque chose s'est mal passé !</h3>
+  {{ error_message }}
+  </div>
+</div>
+{% endif %}
+
+{% if success_message is defined %}
+<div class='container'>
+  <div class='alert alert-success'>
+  <h3>Opération réalisée avec succès</h3>
+  {{ success_message }}
+  </div>
+</div>
+{% endif %}
+
+
+<div class='container'>
+  <h1>Tous les stages de tango</h1>
+
+  <div class='allEvents'>
+    {% set counter = 0 %}
+    {% set month ="" %}
+    {% for date in listDatesEvents %}
+      {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") != month %}
+      {% if not loop.first %}
+      </div>
+      </div>
+      {% endif %}
+      {% set counter = counter +1 %}
+      <div class="bande-{{ cycle(['odd', 'even'], counter ) }}">
+      <div class='container row"'>
+        <div class='col-xs-12'>
+        <h2>{{ date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") }}</h2>
+        </div>
+        {% set month = date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") %}
+      {% endif %}
+
+      {% if date.event.valorisation ==1 %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo"  } only %}
+      {% else %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small"  } only %}
+      {% endif %}
+
+      {% if loop.last %}
+      </div>
+      </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

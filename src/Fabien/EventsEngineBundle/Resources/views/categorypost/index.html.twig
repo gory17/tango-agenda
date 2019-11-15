@@ -1,0 +1,47 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Administration des catégories
+{% endblock %}
+
+{% block body %}
+  <div class='container'>
+    <h1>Catégories</h1>
+    <table class='table table-striped'>
+        <thead>
+            <tr>
+
+                <th>Titre</th>
+                <th>Slug</th>
+                <th>Ordre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for categoryPost in categoryPosts %}
+            <tr>
+                <td><a href="{{ path('admin_categorypost_show', { 'id': categoryPost.id }) }}">{{ categoryPost.id }}</a></td>
+                <td>{{ categoryPost.title }}</td>
+                <td>{{ categoryPost.slug }}</td>
+                <td>{{ categoryPost.rank }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('admin_categorypost_show', { 'id': categoryPost.id }) }}">Voir</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('admin_categorypost_edit', { 'id': categoryPost.id }) }}">Editer</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <a class='btn btn-large btn-primary' href="{{ path('admin_categorypost_new') }}">Nouvelle catégorie</a>
+
+  </div>
+{% endblock %}

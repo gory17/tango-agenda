@@ -1,0 +1,242 @@
+{# template principal #}
+
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html prefix="fb: http://www.facebook.com/2008/fbml" lang="{{app.request.getLocale()}}">
+<head>
+
+  {% block meta %}
+
+    {% if app.request.getLocale()=="fr" %}
+      {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':'Marathons de tango, Festivals de tango et milongas à travers le monde','description': "Trouvez un événement tango à coté de chez vous ou à l'autre bout du monde. Des centaines de stages, festivals, marathons et milongas y sont référencés !"  } only %}
+    {% else %}
+      {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':'Tango marathons, tango festivals and milongas arround the world','description': "Find tango events over the world : workshops, marathons, festivals, lessons or milonga."  } only %}
+    {% endif %}
+
+  {% endblock %}
+
+
+
+
+  {% block og %}
+
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'article','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+  {% endblock %}
+
+  {% block scripttop %}
+
+  {% endblock %}
+
+  {% block stylesheets %}
+  <link rel="stylesheet" type="text/css"   href="{{ asset('bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/cssprincipale.css') }}?variable={{ date().timestamp }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('js/jquery-ui/jquery-ui.min.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('js/bootstrap-select/dist/css/bootstrap-select.min.css') }}">
+  <link rel="stylesheet" type="text/css"  href="{{ asset('js/owl/assets/owl.carousel.min.css') }}">
+  <link rel="stylesheet" type="text/css"  href="{{ asset('js/owl/assets/owl.theme.default.min.css') }}">
+  <link rel="stylesheet" type="text/css"   href="{{ asset('js/addcal/AddCalEvent.css') }}">
+
+	{% include 'FabienEventsEngineBundle:General:css.twig'%}
+  
+  <!-- Matomo -->
+
+    <script type="text/javascript">
+
+      var _paq = _paq || [];
+
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+
+      _paq.push(['trackPageView']);
+
+      _paq.push(['enableLinkTracking']);
+
+      (function() {
+
+        var u="//www.tango-agenda.com/ta/";
+
+        _paq.push(['setTrackerUrl', u+'fg.php']);
+
+	
+        _paq.push(['setSiteId', '1']);
+
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'p.js'; s.parentNode.insertBefore(g,s);
+
+      })();
+
+    </script>
+
+    <!-- End Matomo Code -->
+
+
+  {% endblock %}
+
+
+  {% block amp %}
+  {% endblock %}
+
+
+
+
+</head>
+
+<body>
+
+
+    <div id="topnav">
+      {% block main_navigation %}
+      {% endblock %}
+    </div>
+
+    <div id='head'>
+      {% block header %}
+      {% endblock %}
+    </div>
+
+
+      <div id="content">
+        {% block body %}
+        {% endblock %}
+
+      </div>
+
+    <footer>
+      <div class='footer' >
+        {% block footer %}
+        {% endblock %}
+      </div>
+    </footer>
+
+
+  {% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+
+    <script  src="{{ asset('js/jquery.min.js') }}"></script>
+    <script  src="{{ asset('js/listjs.js') }}"></script>
+    <script  src="{{ asset('js/jquery.autocomplete.min.js') }}"></script>
+    <script  src="{{ asset('bootstrap/js/bootstrap.min.js') }}"></script>
+    <script  src="{{ asset('js/jquery-ui/jquery-ui.min.js') }}"></script>
+
+    <script  src="{{ asset('js/bootstrap-select/dist/js/bootstrap-select.min.js') }}"></script>
+    <script  src="{{ asset('js/owl/owl.carousel.min.js') }}"></script>
+    <script  src="{{ asset('js/addcal/AddCalEventZones.js') }}"></script>
+    <script  src="{{ asset('js/addcal/AddCalEvent.js') }}"></script>
+	<script  src="{{ asset('js/jquery.lazyload.min.js') }}"></script>
+		
+	
+    <script type="text/javascript">
+    $('.cityInputMenu').devbridgeAutocomplete({
+        serviceUrl: '{{ path("ajax_find_city_menu") }}',
+        //minChars : 1,
+        type:"POST",
+        onSelect: function (suggestion) {
+            window.location.href=suggestion.data;
+        }
+
+    });
+    </script>
+
+
+    <script>
+    $( function() {
+      $( ".datepicker input" ).datepicker({ dateFormat: 'dd/mm/yy', firstDay: 1   } );
+
+    } );
+
+	
+    </script>
+
+
+	
+	
+     <script>
+		
+	 
+      //Moteur de recherche
+       $(function () {
+	   
+         jQuery(document).ready(function() {
+             console.log("jQuery est prêt !");
+
+			$(".lazyload").lazyload({ 
+				effect: "fadeIn" 
+			});
+			
+
+			
+			 
+             $(".toggle-search").click(function(){
+                $("#search_menu").slideToggle("slow");
+                return false;
+             });
+
+             $("#btn-launch-search").click(function(){
+
+                $link=$(this).attr("href")+"?mode=search";
+                $searchtype=$("#searchType").val();
+                $end=$("#end").val();
+                $start=$("#start").val();
+                $city=$("#city").val();
+                $country=$("#country").val();
+
+                if($searchtype!="")$link=$link+"&type="+$searchtype;
+                if($end!="")$link=$link+"&end="+$end;
+                if($start!="")$link=$link+"&start="+$start;
+                if($city!="")$link=$link+"&city="+$city;
+                if($country!="")$link=$link+"&country="+$country;
+
+                window.location.href=$link;
+                return false;
+             });
+
+
+             {% if app.request.getLocale()=="en" %}
+              $("input.datepicker").datepicker({ dateFormat: 'yy/mm/dd', firstDay: 1   });
+             {% else %}
+              $("input.datepicker").datepicker({ dateFormat: 'dd/mm/yy', firstDay: 1   });
+             {% endif %}
+
+             $(".countryfieldSearch").change(function() {
+                 mafonctionchangeSearch($(this).val());
+             }).trigger('change');
+
+               function mafonctionchangeSearch(idpays)
+               {
+                 $.ajax({
+                     url: '{{ path("ajax_list_city") }}',
+                     type: 'POST',
+                     data:
+                     {
+                         id : idpays,
+                         mode :"active"
+                     },
+                     dataType: 'json',
+                     success: function(reponse) {
+
+                         $(".cityfieldSearch").empty();
+                         $(".cityfieldSearch").append('<option value="" selected></option>');
+                         $.each(reponse, function(index, element) {
+
+                             $(".cityfieldSearch").append('<option value="'+ element.id +'"> '+ element.title +' </option>');
+                         });
+
+                     }
+                   });
+                 }
+           });
+       });
+     </script>
+
+
+  {% endblock %}
+
+  {% block codeJs %}
+
+  {% endblock %}
+
+
+</body>
+</html>

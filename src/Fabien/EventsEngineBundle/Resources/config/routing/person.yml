@@ -1,0 +1,3 @@
+person_link_events:
+    path:     /linkmaestros
+    defaults: { _controller: "FabienEventsEngineBundle:Person:linkMaestros" }

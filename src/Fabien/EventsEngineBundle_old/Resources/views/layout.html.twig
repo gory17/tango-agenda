@@ -1,0 +1,51 @@
+{% extends "layout.html.twig" %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block main_navigation %}
+
+  {{ render(controller('FabienEventsEngineBundle:Home:getMenu')) }}
+
+{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+
+
+{% block body %}
+:)
+{% endblock %}
+
+
+{% block footer %}
+<div class='footer'>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+
+        <ul>
+          <li>Contact : <a href="mailto:contact@tango-agenda.com">contact@tango-agenda.com</a>
+            </li>
+          <li><a href='http://tango-agenda.com/blog-tango/presentation-site'>{{ "about_tango_agenda"|trans }}</a></li>
+          <li><a href="http://tango-agenda.com/blog-tango/conditions-utilisation">{{ "terms_of_us"|trans }}</a></li>
+        </ul>
+      </div>
+      <div class="col-md-6 socialFooter">
+        <p><a href="{{ path('events_rss')}}"><img src="{{asset('img/rss.png')}}" alt='logo du flux rss des festivals' /> Fil RSS des festivals, marathons & encuentros</a></p>
+        <p><a href="{{ path('fabien_events_blog_rss')}}"><img src="{{asset('img/rss.png')}}" alt='logo du flux rss des articles' /> Fil RSS des articles</a></p>
+        <p><span class='glyphicon glyphicon-thumbs-up'></span> {{ "follow_us"|trans }} <br /> {{ "on_facebook"|trans }}
+        <div class="fb-like" data-href="https://www.facebook.com/Tango-agenda-224337508041247/" data-layout="standard" data-action="like" data-size="large" data-show-faces="false" data-share="false"></div>
+        </p>
+      </div>
+    </div>
+
+
+      {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+        <p>Connecté en tant que {{ app.user.username }} <a href="{{ path("logout") }}">Déconnexion</a></p>
+      {% endif %}
+
+  </div>
+
+</div>
+{% endblock %}

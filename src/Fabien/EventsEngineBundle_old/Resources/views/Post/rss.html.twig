@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+
+	<title>Tango-agenda - articles</title>
+	<link>http://www.tango-agenda.Com</link>
+	<description>Tous les articles</description>
+
+	<language>fr-FR</language>
+
+
+{% for post in posts %}
+
+{% if post.title %}
+<item>
+  <title>{{ post.title }}</title>
+  <category><![CDATA[ Blog ]]></category>
+	<guid isPermaLink="false">http://www.tango-agenda.com{{ path("fabien_events_blog_view",{'slug':post.slug}) }}</guid>
+  <link>http://www.tango-agenda.com{{ path("fabien_events_blog_view",{'slug':post.slug}) }}</link>
+
+  <description>
+    <![CDATA[
+
+      <img class="img-responsive" src='
+          {{ asset(uploadImage~post.imageDefault.url) }}
+        ' alt=''/>
+  <br />{{post.header|striptags }}
+  ]]>
+</description>
+</item>
+{% endif %}
+
+
+
+
+{% endfor %}
+
+</channel>
+</rss>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+
+	<title>Tango-agenda</title>
+	<link>http://www.tango-agenda.Com</link>
+	<description>L'agenda du tango argentin</description>
+
+	<language>fr-FR</language>
+
+
+{% for event in events %}
+{% if event.title %}
+<item>
+  <title>{{ event.title }}</title>
+  <category><![CDATA[{{ event.TypeEvent.title }}]]></category>
+
+  {% set ladate="" %}
+
+  {% for date in event.dates %}
+  {% set ladate= date.start|localizeddate('none', 'none', "","Europe/Paris","dd/MM/Y") %}
+
+  {% if (loop.first) %}
+  <guid isPermaLink="false">http://www.tango-agenda.com{{ path("date_view",{'id':date.id}) }}</guid>
+  <link>http://www.tango-agenda.com{{ path("date_view",{'id':date.id}) }}</link>
+  {% endif %}
+  {% endfor %}
+  <description>
+    <![CDATA[
+    {% if event.image.url is defined %}
+      <img class="img-responsive" src='
+          {{ asset(uploadImage~event.image.url) }}
+        ' alt='{{ event.image.alt }}'/>
+    {% endif %}
+  <br /><strong>{{ event.TypeEvent.title }} - {{ event.city.title }}, {{event.city.state.country.title}} - {{ ladate }}</strong>
+  <br />{{ event.description|striptags }}
+  ]]>
+</description>
+</item>
+{% endif %}
+
+
+
+{% endfor %}
+
+</channel>
+</rss>

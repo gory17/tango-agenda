@@ -1,0 +1,4 @@
+amp_home:
+    path:  /home
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:index_amp

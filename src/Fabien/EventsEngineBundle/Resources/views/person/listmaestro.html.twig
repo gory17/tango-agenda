@@ -1,0 +1,170 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Liste des maestros de tango","description":"Retrouvez tous les événements et vidéos de vos maestros préférés" } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Tango maestro list","description":"Find all informations about your favorites maestros" } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block og %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Liste des maestros de tango","descriptionOG":"Retrouvez tous les événements et vidéos de vos maestros préférés","imageOG":"web/img/fond-videos.jpg"  } only %}
+
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Tango maestro list","descriptionOG":"Find all informations about your favorites tangos artists","imageOG":"web/img/fond-videos.jpg" } only %}
+
+{% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+<article>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=194083261040351";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<header>
+<div class="header-maestro-list bande-video bande-general">
+  <div class="container">
+    <div class="col-md-8 ">
+        <h1><span>{{"maestro_list"|trans}}</span></h1>
+        <p class='slogan2'><span>{{"slogan_maestro"|trans}}</span></p>
+    </div>
+
+
+    <div class="col-md-4 presentation-site round-box ">
+      <div class="accueil-bigevent">
+          <div class="accueil-nb-events">{{countMaestros}}</div>
+          <p class="accueil-nb-slogan">{{"maestros"|trans}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+</header>
+
+<section>
+
+
+  <div class ="maestro-list ">
+
+    <div class="container " id="maestros-profils">
+      <h2>{{"maestro_list"|trans}}</h2>
+
+      <div class="row center">
+        <div class="filter bigsearchbox col-md-offset-3 col-md-6 ">
+          <div class="input-group centered">
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+            </span>
+            <input type="text" id="cityInputMenu" class="cityMilongaCours input-lg search" name="" value="" placeholder="{{"searchbyname"|trans}}" autocomplete="off">
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="list">
+        {% set listMaestro =[] %}
+        {% for maestro in listmaestros %}
+
+          {% if maestro.image.url is defined  and maestro.slug !="" %}
+            {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro,"fullInfos" : true} only %}
+              {% set listMaestro = {'maestro': maestro} %}
+
+            {% if maestro.partner is defined and maestro not in listMaestro %}
+
+              {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.partner,"fullInfos" : true} only %}
+            {% endif %}
+
+          {% endif %}
+
+        {% endfor %}
+      </div>
+
+
+  </div>
+</section>
+
+
+
+</article>
+{% endblock %}
+
+
+{% block codeJs %}
+<script type="text/javascript">
+var liste = new List('maestros-profils', {
+  valueNames: ['maestro-nom']
+  });
+</script>
+
+
+<script>
+
+  $(document).ready(function(){
+    $(".open-video").click(function(){
+
+      var $content='<iframe width="560" height="315" src="'+$(this).attr('href')+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+
+      $(".modal-body").html($content);
+
+      $(".modal-title").html($(this).data("title"));
+
+      $('#view-video').modal("show");
+      return false;
+    });
+
+
+    $(".close").click(function(){
+      $(".modal-body").html("");
+    });
+
+
+  });
+
+
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        loop:false,
+		nav:true,
+        margin:20,
+		items:2,
+        onInitialize:callback,
+		responsive:{
+			0:{
+				items:2
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+
+    });
+  });
+
+  function callback(){
+    $(".loadingMsg").hide();
+  }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,342 @@
+admin_home:
+  path:  /
+  defaults:
+    _controller: FabienEventsEngineBundle:Admin:displayHomeAdmin
+
+admin_home_page:
+  path: /type/{id}
+  defaults :
+    _controller : FabienEventsEngineBundle:Admin:displayHomeAdminType
+  requirements:
+    id: \d+
+
+
+video_delete:
+  path : video/delete/{id}
+  defaults :
+    _controller : FabienEventsEngineBundle:Video:delete
+  requirements:
+    id: \d+
+
+group_find_index:
+      path:     /findnewgroup
+      defaults: { _controller: "FabienEventsEngineBundle:Admin:findNewGroup" }
+      methods:  GET
+
+
+
+groupfb_index:
+    path:     /groupesfb
+    defaults: { _controller: "FabienEventsEngineBundle:GroupFb:index" }
+    methods:  GET
+
+groupfb_show:
+    path:     /groupesfb/{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:GroupFb:show" }
+    methods:  GET
+
+groupfb_new:
+    path:     /groupesfb/new
+    defaults: { _controller: "FabienEventsEngineBundle:GroupFb:new" }
+    methods:  [GET, POST]
+
+groupfb_edit:
+    path:     /groupesfb/{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:GroupFb:edit" }
+    methods:  [GET, POST]
+
+groupfb_delete:
+    path:     /groupesfb/{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:GroupFb:delete" }
+    methods:  DELETE
+
+
+
+
+
+
+
+person_index:
+    path:     /person
+    defaults: { _controller: "FabienEventsEngineBundle:Person:index" }
+    methods:  GET
+
+person_show:
+    path:     /person/{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:Person:show" }
+    methods:  GET
+
+person_new:
+    path:     /person/new
+    defaults: { _controller: "FabienEventsEngineBundle:Person:new" }
+    methods:  [GET, POST]
+
+person_edit:
+    path:     /person/{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:Person:edit" }
+    methods:  [GET, POST]
+
+person_delete:
+    path:     /person/{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:Person:delete" }
+    methods:  [GET, POST]
+
+
+
+
+
+
+
+requetefb_index:
+    path:     /requetes
+    defaults: { _controller: "FabienEventsEngineBundle:RequeteFb:index" }
+    methods:  GET
+
+requetefb_show:
+    path:     /requetes/{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:RequeteFb:show" }
+    methods:  GET
+
+requetefb_new:
+    path:     /requetes/new
+    defaults: { _controller: "FabienEventsEngineBundle:RequeteFb:new" }
+    methods:  [GET, POST]
+
+requetefb_edit:
+    path:     /requetes/{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:RequeteFb:edit" }
+    methods:  [GET, POST]
+
+requetefb_delete:
+    path:     /requetes/{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:RequeteFb:delete" }
+    methods:  DELETE
+
+
+
+events_bann:
+  path: /banned/{url}
+  defaults:
+    _controller: FabienEventsEngineBundle:Banned:addBannUrl
+
+events_bann_ajax:
+  path: /bannajax
+  defaults:
+    _controller: FabienEventsEngineBundle:Banned:addBannUrlAjax
+
+
+
+
+events_admin_edit:
+    path:      /event/{id}/edit
+    defaults:
+        _controller: FabienEventsEngineBundle:Event:edit
+    requirements:
+      id: \d+
+
+
+events_publish:
+    path:      /event/{id}/publish/{mode}
+    defaults:
+        _controller: FabienEventsEngineBundle:Event:publish
+    requirements:
+      id: \d+
+
+events_valorise:
+    path:      /event/{id}/valorise/{mode}
+    defaults:
+        _controller: FabienEventsEngineBundle:Event:valorise
+    requirements:
+      id: \d+
+
+events_admin_delete:
+    path:      /event/{id}/delete
+    defaults:
+        _controller: FabienEventsEngineBundle:Event:delete
+    requirements:
+      id: \d+
+
+events_delete:
+    path:      /event/{id}/delete
+    defaults:
+        _controller: FabienEventsEngineBundle:Event:delete
+    requirements:
+      id: \d+
+
+
+
+
+
+
+
+admin_post_index:
+    path:     /post/
+    defaults: { _controller: "FabienEventsEngineBundle:Post:index" }
+    methods:  GET
+
+admin_post_show:
+    path:     /post/{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:Post:show" }
+    methods:  GET
+
+admin_post_new:
+    path:     /post/new
+    defaults: { _controller: "FabienEventsEngineBundle:Post:new" }
+    methods:  [GET, POST]
+
+admin_post_edit:
+    path:     /post/{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:Post:edit" }
+    methods:  [GET, POST]
+
+admin_post_delete:
+    path:     /post/{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:Post:delete" }
+    methods:  DELETE
+
+
+
+
+admin_city_index:
+    path:     /state/{iditem}/city/list
+    defaults: { _controller: "FabienEventsEngineBundle:City:indexAdmin" }
+    methods:  GET
+
+admin_city_edit:
+    path:     /city/edit/{id}
+    defaults: { _controller: "FabienEventsEngineBundle:City:edit" }
+    methods:  [GET, POST]
+
+admin_city_delete:
+    path:     /city/delete/{id}
+    defaults: { _controller: "FabienEventsEngineBundle:City:delete" }
+    methods:  GET
+
+admin_city_new:
+    path:     /state/{idstate}/city/new
+    defaults: { _controller: "FabienEventsEngineBundle:City:new" }
+
+
+
+admin_state_index:
+    path:     /country/{iditem}/state/list
+    defaults: { _controller: "FabienEventsEngineBundle:State:indexAdmin" }
+    methods:  GET
+
+admin_state_edit:
+    path:     /state/edit/{id}
+    defaults: { _controller: "FabienEventsEngineBundle:State:edit" }
+    methods:  [GET, POST]
+
+admin_state_delete:
+    path:     /state/delete/{id}
+    defaults: { _controller: "FabienEventsEngineBundle:State:delete" }
+    methods:  GET
+
+admin_state_new:
+    path:     /country/{idcountry}/state/new
+    defaults: { _controller: "FabienEventsEngineBundle:State:new" }
+    methods:  [GET, POST]
+
+
+admin_country_index:
+    path:     /country/list
+    defaults: { _controller: "FabienEventsEngineBundle:Country:indexAdmin" }
+
+admin_country_edit:
+    path:     /country/edit/{id}
+    defaults: { _controller: "FabienEventsEngineBundle:Country:edit" }
+    methods:  [GET, POST]
+
+admin_country_delete:
+    path:     /country/delete/{id}
+    defaults: { _controller: "FabienEventsEngineBundle:Country:delete" }
+    methods:  GET
+
+admin_country_new:
+    path:     /country/new
+    defaults: { _controller: "FabienEventsEngineBundle:Country:new" }
+
+admin_categorypost_index:
+    path:     /categorypost/
+    defaults: { _controller: "FabienEventsEngineBundle:CategoryPost:index" }
+    methods:  GET
+
+admin_categorypost_show:
+    path:     /categorypost/{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:CategoryPost:show" }
+    methods:  GET
+
+admin_categorypost_new:
+    path:     /categorypost/new
+    defaults: { _controller: "FabienEventsEngineBundle:CategoryPost:new" }
+    methods:  [GET, POST]
+
+admin_categorypost_edit:
+    path:     /categorypost/{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:CategoryPost:edit" }
+    methods:  [GET, POST]
+
+admin_categorypost_delete:
+    path:     /categorypost/{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:CategoryPost:delete" }
+    methods:  DELETE
+
+
+
+
+
+parameter_index:
+    path:     /
+    defaults: { _controller: "FabienEventsEngineBundle:Parameter:index" }
+    methods:  GET
+
+parameter_show:
+    path:     /{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:Parameter:show" }
+    methods:  GET
+
+parameter_new:
+    path:     /new
+    defaults: { _controller: "FabienEventsEngineBundle:Parameter:new" }
+    methods:  [GET, POST]
+
+parameter_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:Parameter:edit" }
+    methods:  [GET, POST]
+
+parameter_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:Parameter:delete" }
+    methods:  DELETE
+
+
+
+
+
+
+publicite_index:
+    path:     /publicite/list
+    defaults: { _controller: "FabienEventsEngineBundle:Publicite:index" }
+    methods:  GET
+
+publicite_show:
+    path:     /publicite/{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:Publicite:show" }
+    methods:  GET
+
+publicite_new:
+    path:     /publicite/new
+    defaults: { _controller: "FabienEventsEngineBundle:Publicite:new" }
+    methods:  [GET, POST]
+
+publicite_edit:
+    path:     /publicite/{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:Publicite:edit" }
+    methods:  [GET, POST]
+
+publicite_delete:
+    path:     /publicite/{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:Publicite:delete" }
+    methods:  DELETE

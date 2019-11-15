@@ -1,0 +1,124 @@
+home: Home
+last_posts: Last posts
+events_saved: Events saved
+about_tango_agenda: About Tango-Agenda.com
+terms_of_us: Terms of use
+follow_us: Follow us
+on_facebook: on Facebook
+country_list: Cities
+milonga_and_lessons: Milongas & classes
+search_by_country: Search by country
+events: events
+cities_of: cities of %cityName%
+tango_events_in : Events in %countryName%
+all_cities: All cities
+by: by
+le_date: ,
+comments: comments
+Help : Help
+help_choose_day : Choose de day of the week of your course
+help_choose_period : Then choose the start date and the end date (exemple from 01/01/2017 to 20/06/2018)
+post_list: Posts list
+tang_blog: Tango blog
+lessons_in: Classes in
+no_lesson_on: No classes found in
+events_in: Events in
+see_the: see the
+tango_lessons: tango classes
+no_lessons_found: no class found
+Delete : Delete
+see_next_2_weeks: see next 30 days
+no_events_ins: No events in
+what_a_shame_please_add_an_event: What a shame ! Please add an event :)
+add: Add
+the: on
+see_all_posts: See all posts
+choose_a_city:  city
+Ajouter : Add event
+or: or
+choose_a_country: Choose a country
+close: Close
+form_ajout_evt : Event form
+Adresse_fb_manquante : Enter a valid Facebook URL
+featured_articles: Recommended
+inscriptions_starts: Registration opening
+for_big_events: For tango festivals, marathons, encuentros and tang week-ends
+opening: opening
+last_events: Last events
+tango_worshops_in: Tango workshops in
+something_whent_wrong: Something went wrong
+operation_success: Operation succeeded
+a_la_une: Recommended
+list_of: List of %typeTitle%
+lesxxxxstype: Tango %typeTitle%s
+registration_opening: Registration opening
+open_on: opening :
+du_from: from
+au_to: to
+events_added_these: Last events added
+last_days: days
+no_event_found: no event found
+add_form: Add form
+validation_needed: Your event will be available after validation. Thank you ! :) .
+facebook_event : Facebook event
+please_choose_type : please choose an event type
+add_an_event_or_lesson: Add an event or a class
+Add_tango_Agenda : Add your event on Tango-Agenda
+Text_Add_tango_Agenda : It's free and easy !
+Event_add_copy_paste : Copy / paste your facebook event URL
+Event_on_fb_Add : Is your event already on Facebook ?
+click_here : click here
+sinon : if not
+Event_type_Add : What kind of event is it ?
+'Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes.': 'There are 2 ways to add your event.'
+'Méthode 1 : Importer de Facebook': '1. Import from Facebook'
+'Votre événement doit respecter quelques critères': 'your event must match the following criteria :'
+'il doit s''agir d''un événement et non d''une page': "it must be a facebook event importation (it won't work with a facebook group)"
+'votre événement doit avoir un statut public': 'your event must be public'
+'il doit contenir une photo d''illustration': 'it must have a picture'
+'le lieu doit être renseigné': 'it must have a clear location'
+'Saisissez ci-dessous l''adresse de l''événement Facebook à ajouter.': 'Url of your facebook event (please copy and paste it)'
+'Méthode 2 : Utiliser le formulaire d''ajout d''événement': '2. Fill in the form'
+'Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet': 'Enter all informations about your event'
+'Formulaire d''ajout': 'Event form'
+'Les événements doivent concerner uniquement le tango argentin. Si ce n''est pas le cas, ils seront supprimés sans préavis.': 'All non-tango related events will be deleted.'
+events_list: Events list
+add_an_event: Add an event
+Something_whent_wrong: something went wrong :(
+Operation_success: operation succeeded
+event_form: Event form
+event_type: Event type
+event_title: Title
+Address: Address
+Country: Country
+closest_city: City (or closest city)
+Other_city: Other city (if not listed above)
+website: Website
+fb_page: Facebook page
+Organizer: Organizer
+gender_balanced: Gender balanced ?
+registration: registration
+actual_picture: current picture
+no_picture: no picture
+send_an_image: Send a picture
+add_a_date: Add a date
+a_in: In
+du_form: From
+organized_by: Organizer
+address: Address
+registration_opent_at: Registration opening
+more_informations: more informations
+tango_worshop: Tango workshop
+every_events : All events
+added_this_last_7_days : added these last 7 days
+milonga_and_classes : Milongas & classes
+these_last_7_days : these last 7 days
+added : added
+most_active_cities : Most active tango cities
+save : Save
+date_start : Start date
+date_end : End date
+date_informations : More informations
+delete : Delete
+other_countries: Other countries
+search_by_city: Search a city

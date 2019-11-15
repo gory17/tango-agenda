@@ -1,0 +1,76 @@
+events_home:
+  path:  /
+  defaults:
+    _controller: FabienEventsEngineBundle:Event:index
+
+events_view:
+    path:      /{id}
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:view
+    requirements:
+      id: \d+
+
+events_add:
+    path:      /new
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:newDirect
+
+events_add_save:
+    path:      /newold
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:newFirstPage
+
+
+events_add_form:
+    path:      /new/form
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:newDirect
+
+events_add_form_type:
+    path:      /new/form/{type}
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:newDirect
+
+
+
+events_add_fb:
+    path:      /new/fb/{fbid}/{type}
+    defaults:
+      _controller: FabienEventsEngineBundle:Importer:newFb
+    requirements:
+      id: \d+
+
+events_update_one_fb:
+    path:      /updatefb/{id}
+    defaults:
+      _controller: FabienEventsEngineBundle:Importer:updateFb
+    requirements:
+      id: \d+
+
+events_update_all:
+    path:      /updatefb/all
+    defaults:
+      _controller: FabienEventsEngineBundle:Importer:updateFbAll
+
+
+events_recap:
+  path: /lastevents/{type}/{days}/{format}
+  defaults:
+    _controller: FabienEventsEngineBundle:Event:lastEvents
+
+events_rss:
+  path: /rss
+  defaults:
+    _controller : FabienEventsEngineBundle:Event:rssBigEvents
+
+events_slug:
+  path: /slugit
+  defaults:
+    _controller: FabienEventsEngineBundle:Event:slugit
+
+events_edit:
+    path:      /{id}/edit
+    defaults:
+        _controller: FabienEventsEngineBundle:Event:edit
+    requirements:
+      id: \d+

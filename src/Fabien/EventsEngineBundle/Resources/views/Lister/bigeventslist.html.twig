@@ -1,0 +1,553 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+
+{% block amp %}
+<link rel="amphtml" href="{{path("fabien_events_engine_bigevents_list",{"slug":typeEvt.slug})}}">
+{% endblock %}
+
+{% set typeTitle = typeEvt.title  %}
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Voir les " ~ listDates|length~ " " ~ typeTitle|lower ~"s de tango","description":"Trouvez votre prochain " ~ typeTitle ~ " tango à travers le monde. Déjà " ~ listDates|length ~ " " ~ typeTitle ~ "s consultables !" } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "View all " ~ listDates|length~ " tango " ~ typeTitle|lower ~"s","description":"Search and find your next tango " ~ typeTitle ~ " accross the world. " ~ listDates|length ~ " tango " ~ typeTitle ~ "s saved !" } only %}
+{% endif %}
+{% endblock %}
+
+{% block og %}
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'titleOG': typeTitle~"s de tango","descriptionOG":"Découvrez tous les "~typeTitle~"s de tango à travers le monde !"  ,"imageOG":'/web/img/logo.png'  } only %}
+{% endblock %}
+
+{% block body %}
+{% if error_message is defined %}
+<div class='container'>
+  <div class='alert alert-warning'>
+  <h3>{{ "something_whent_wrong"|trans }}</h3>
+  {{ error_message }}
+  </div>
+</div>
+{% endif %}
+
+{% if success_message is defined %}
+<div class='container'>
+  <div class='alert alert-success'>
+  <h3>{{ "operation_succes"|trans }}</h3>
+  {{ success_message }}
+  </div>
+</div>
+{% endif %}
+
+
+<div class="big-events-header big-events-{{ typeEvt.slug }}">
+
+  <div class='container'>
+      <div class="col-md-8">
+        {% if app.request.getLocale()=="fr" %}
+          <h1><span>
+          {{"find_next"|trans}} {{ typeEvt.title }} de tango
+          </span></h1>
+          {% if typeEvt.description is defined %}
+          <p class='bigevent-desc'><span>{{ typeEvt.description }}</span></p>
+          {% endif %}
+        {% else %}
+          <h1><span>{{"find_next"|trans}} tango {{ typeEvt.titleTrad|lower }}s</span></h1>
+          {% if typeEvt.descriptionTrad is defined %}
+          <p class='bigevent-desc'><span>{{ typeEvt.descriptionTrad }}</span></p>
+          {% endif %}
+        {% endif %}
+
+      </div>
+      <div class="col-md-4 presentation-site round-box">
+        <div class="accueil-bigevent">
+          {% if app.request.getLocale()=="fr" %}
+            <div class='accueil-nb-events'>{{listDates|length}}</div>
+            <p class="accueil-nb-slogan">{{ typeEvt.title }}s de tango</p>
+          {% else %}
+            <div class='accueil-nb-events'>{{listDates|length}}</div>
+            <p class="accueil-nb-slogan">Tango {{ typeEvt.titleTrad|lower }}s</p>
+          {% endif %}
+        </div>
+
+      </div>
+  </div>
+
+</div>
+
+
+
+<div class="bande-top-events hidden-xs">
+  <div class='container'>
+
+
+    {% if typeTitle=="Stage" %}
+    <h2>{{ "choose_a_country"|trans }}</h2>
+    {% for country in countryDispo %}
+    {% if country.title !="Inconnu" and country.cptevt >=5 %}
+    <div class="col-md-3 col-xs-6">
+      <a class='btn-country btn btn-primary btn-xs btn-block ' href="{{ path("fabien_events_engine_stage_list",{'location':country.slug}) }}">
+          <img src="{{ asset('img/flags/flags_iso/24')}}/{{country.sortname|lower }}.png" class='bigflag' alt="flag {{ country.title }} ">
+          {{ country.title }}
+          <span class="badge">{{country.cptevt}}</span>
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+    <div class="col-md-3 col-xs-6">
+      <a class="btn-country btn btn-primary btn-lg btn-block" data-toggle="collapse" data-target="#country-others">{{ "other_countries"|trans }} <span class="caret"></span></a>
+    </div>
+
+    <div id="country-others" class="collapse">
+    {% for country in countryDispo %}
+    {% if country.title !="Inconnu" and country.cptevt <5 %}
+    <div class="col-md-3 col-xs-6">
+      <a class='btn-country btn btn-primary btn-xs btn-block ' href="{{ path("fabien_events_engine_stage_list",{'location':country.slug}) }}">
+          <img src="{{ asset('img/flags/flags_iso/24')}}/{{country.sortname|lower }}.png" class='bigflag' alt="flag {{ country.title }} ">
+          {{ country.title }}
+          <span class="badge">{{country.cptevt}}</span>
+        </a>
+    </div>
+    {% endif %}
+    {% endfor %}
+    </div>
+
+    {% else %}
+    <h2><span class="glyphicon glyphicon-bullhorn"></span> {{ "a_la_une"|trans }}</h2>
+
+    <div class="row row-item-top" itemscope itemtype="http://schema.org/ItemList">
+      <div class='col-md-7'>
+        {% for date in lastDatesEvents|slice(0, 1) %}
+          {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"topPageBig","lazyload":"full"  } only %}
+        {% endfor %}
+      </div>
+      <div class="col-md-5">
+        {% for date in lastDatesEvents|slice(1, 2) %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"topPage","lazyload":"full"  } only %}
+        {% endfor %}
+      </div>
+    </div>
+
+    {% endif %}
+
+  </div>
+</div>
+
+
+
+
+
+
+{% if typeTitle!="Stage" %}
+<div class='bande-accueil accueil-map-events'>
+  <div class="container">
+
+
+    <div  class="col-md-9 hidden-xs">
+        <h2><span class='glyphicon glyphicon-map-marker'></span>
+          {% if app.request.getLocale()=="fr" %}
+
+      	     Carte des {{ typeEvt.title }}s de tango
+
+          {% else %}
+            {{ typeEvt.titleTrad|lower }}s tango map
+          {% endif %}
+
+        </h2>
+    </div>
+
+
+
+
+  <div class="col-md-8 col-xs-12 hidden-xs">
+		<p>
+			<select class="form-control d-inline" name="month-map" id="month-map">
+				<option value="all">{{"by_month"|trans}}</option>
+				{% for i in 0..11 %}
+				<option value="{{ "now"|date_modify("+"~i~" month")|date("m-Y") }}">{{ "now"|date_modify("+"~i~" month")|localizeddate('none', 'none', "","Europe/Paris","LLLL Y") }}</option>
+				{% endfor %}
+			  </select>
+		</p>
+		<div id="map-big-events"></div>
+	</div>
+
+	<div class="col-md-4 col-xs-12">
+
+			<div class='pub-mobile'>
+				<script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+				<!-- annonce carrée -->
+				<ins class="adsbygoogle"
+					 style="display:block"
+					 data-ad-client="ca-pub-7075025232332457"
+					 data-ad-slot="6039767468"
+					 data-ad-format="auto"></ins>
+				<script>
+				window.onload = function() {
+					(adsbygoogle = window.adsbygoogle || []).push({});
+				}
+				</script>
+			</div>
+		</div>
+  </div>
+
+</div>
+{% endif %}
+
+
+
+
+
+
+
+{% if typeEvt.slug =="tango-marathon" or typeEvt.slug =="tango-encuentro" %}
+<div class="accueil-inscriptions hidden-xs">
+  <div class='container'>
+    {% if  typeTitle =="Marathon" %}
+      <h2><span class="glyphicon glyphicon-pencil"></span> {{ "registration_opening"|trans }}</h2>
+        <div class='row'>
+
+        {% for date in inscDates %}
+
+        <div class='item-date-inscription col-xs-6 col-md-4 col-lg-3 '>
+        {% if date.event.dateInscription %}
+          <p><span class='glyphicon glyphicon-calendar'></span> {{ "open_on"|trans }}
+          {{ date.event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy 'à' HH:mm") }} <br />
+          </p>
+          <p>
+            <a href="{{ path("date_view",{'id':date.id}) }}"><strong>{{date.event.title}}</strong></a><br />
+            {{date.event.city.title}}, {{date.event.city.state.country.title}} <br />
+            {{ "du_from"|trans }} <span itemprop="startDate">{{ date.start|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }}</span>
+            {{ "au_to"|trans }}
+            <span itemprop="endDate">{{ date.end|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }}</span>
+            <!-- 3. Place event data -->
+          </p>
+
+        {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+
+    {% endif %}
+  </div>
+</div>
+
+{% endif %}
+
+
+<div class="menu-date-block">
+  <div class="container">
+    <nav>
+      <ul class="menu-date menu-date-large hidden-xs">
+
+      </ul>
+      <ul class="menu-date menu-date-small visible-xs">
+
+      </ul>
+    </nav>
+  </div>
+
+</div>
+
+  {% set counter = 0 %}
+
+  <div class='allEvents' itemscope itemtype="http://schema.org/ItemList">
+
+    {% set month ="" %}
+    {% for date in listDates %}
+
+      {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") != month %}
+      {% if not loop.first %}
+      </div>
+
+          <div class="container visible-xs">
+            <p class='loadingMsg'>Loading ...</p>
+            <div class='owl-carousel owl-carousel--first'>
+            {% for datebis in listDates %}
+
+              {% if datebis.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") == month %}
+
+              <div class='item-owl'>
+                  {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': datebis,"taille":"card","lazyload" : false  } only %}
+
+              </div>
+              {% endif %}
+
+            {% endfor %}
+            </div>
+          </div>
+
+      </div>
+
+
+
+      {% endif %}
+      {% set counter = counter +1 %}
+      <section>
+      <div class="bande-mois bande-{{ cycle(['odd', 'even'], counter ) }}" id="bande-{{ counter }}" data-link-name='{{ date.start|localizeddate('none', 'none', app.request.getLocale(),"Europe/Paris","LLLL") }}' data-link="bande-{{ counter }}">
+      <div class='container '>
+        <div class='col-xs-12'>
+
+        <h2><span class="glyphicon glyphicon-calendar"></span>
+          {% if app.request.getLocale()=="fr" %}
+          {{typeEvt.title}}s tango
+          {% else %}
+          tango {{typeEvt.titletrad}}s
+          {% endif %}
+          {{"in_en"|trans}} {{ date.start|localizeddate('none', 'none', app.request.getLocale(),"Europe/Paris","LLLL") }}
+        </h2>
+        </div>
+
+
+        {% set month = date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") %}
+
+
+
+
+      {% endif %}
+      <div class="hidden-xs list-in-lg">
+
+
+      {% if date.event.valorisation ==1 %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo","lazyload":"full"  } only %}
+      {% else %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small","lazyload":"full"  } only %}
+      {% endif %}
+      </div>
+
+      {% if loop.last %}
+      </div>
+      </div>
+      </section>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+
+
+
+{% endblock %}
+
+
+{% block codeJs %}
+
+
+
+
+<script type="text/javascript">
+
+
+ /* Déclaration des variables  */
+ var geocoder;
+ var map;
+ var markers = new Array();
+ var i = 0;
+
+ var gmarkers = [];
+
+
+ /* Initialisation de la carte  */
+ function initialize() {
+
+   var center = new google.maps.LatLng(48.8566667, 2.3509871);
+
+   /*
+   if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(function (position) {
+           center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+       });
+   }
+   */
+
+   map = new google.maps.Map(document.getElementById('map-big-events'), {
+     zoom: 4,
+     center: center,
+     mapTypeId: 'terrain'
+   });
+
+   var iw = new google.maps.InfoWindow();
+
+   var oms = new OverlappingMarkerSpiderfier(map, {
+     markersWontMove: true,
+     markersWontHide: true,
+     basicFormatEvents: true
+   });
+
+
+
+
+    $.getJSON( "{{asset("events.json")}}", function( data ) {
+     var items = [];
+
+
+     $.each( data, function( key, val ) {
+
+
+
+       markers.push(val);
+
+       if(val.type == "{{ typeEvt.slug }}"){
+           var latLng = new google.maps.LatLng(val.lat,val.lng);
+           var marker = new google.maps.Marker({
+               position: latLng,
+               map: map,
+               category:val.type,
+               month:val.month,
+             });
+
+
+
+         {% if app.request.getLocale()=="fr" %}
+           var localisationDate='Du '+val.start_fr+' au '+val.end_fr+' à '+val.city+' ('+val.country+')' ;
+         {% else %}
+           var localisationDate='From '+val.start_fr+' to '+val.end_fr+' in '+val.city+' ('+val.country+')' ;
+         {% endif %}
+         var urlDate='<a href="../date/'+val.date_id+'" class="btn btn-primary">Voir</a> ';
+
+         if(val.image){
+           imageMap='<p><a href="../date/'+val.date_id+'" ><img src="../../../'+val.image+'"/></a></p>';
+         }else{
+           imageMap='';
+         }
+
+
+         var contentString = '';
+
+           var infowindow = new google.maps.InfoWindow({
+               content: contentString
+             })
+
+
+         google.maps.event.addListener(marker, 'spider_click', function(e) {  // 'spider_click', not plain 'click'
+           $.ajax({
+             method: "POST",
+             url: "{{path('getInfosMarker_ajax')}}",
+             data: { id:val.date_id }
+           })
+             .done(function( msg ) {
+               contentString=msg;
+               iw.setContent(contentString);
+               iw.open(map, marker);
+             });
+
+         });
+         oms.addMarker(marker);  // adds the marker to the spiderfier _and_ the map
+
+       gmarkers.push(marker);
+
+         switch(val.type){
+           case "tango-encuentro":
+             marker.setIcon("{{asset('img/pins/bluepin.png')}}");
+             break;
+
+           case "tango-festival":
+             marker.setIcon("{{asset('img/pins/greenpin.png')}}");
+             break;
+
+           case "tango-marathon":
+             marker.setIcon("{{asset('img/pins/redpin.png')}}");
+             break;
+
+
+           case "voyage-tango":
+               marker.setIcon("{{asset('img/pins/yellowpin.png')}}");
+               break;
+
+           default :
+             marker.setIcon("{{asset('img/pins/violetpin.png')}}");
+             break;
+         }
+
+      }
+
+     });
+
+
+
+   });
+
+
+ }
+
+ var $slug="{{typeEvt.slug}}";
+
+
+ $(document).ready(function(){
+   $("#month-map").change(function(){
+     $month=$(this).val();
+     for (i = 0; i < markers.length; i++) {
+         marker = gmarkers[i];
+
+         // If is same category or category not picked
+         if (marker.month == $month || $month=="all" ) {
+             marker.setVisible(true);
+         }
+         // Categories don't match
+         else {
+             marker.setVisible(false);
+         }
+     }
+   });
+ });
+
+</script>
+
+
+
+<script type="text/javascript">
+$.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyCTDfepXC7qG_UQ9gxzA48hUuAM_M7i784', () => {
+  initialize();
+
+})
+</script>
+
+
+
+<script>
+$(document).ready(function(){
+
+  $(".bande-mois").each(function(){
+
+    $lien=$(this).data("link");
+    $mois=$(this).data("link-name");
+
+    $nbItems=$(this).children(".container").children(".list-in-lg").children(".item_event").length;
+
+    $(".menu-date").append("<li><a class='smoothScroll' href='#"+$lien+"'>"+$mois+" </a>&nbsp;<span class='badge'>"+$nbItems+"</span></li>");
+  });
+});
+</script>
+<script>
+$(document).ready(function() {
+$('.smoothScroll').on('click', function() { // Au clic sur un élément
+ var page = $(this).attr('href'); // Page cible
+ var speed = 750; // Durée de l'animation (en ms)
+ $('html, body').animate( { scrollTop: $(page).offset().top }, speed ); // Go
+ return false;
+});
+});
+
+
+$(document).ready(function(){
+  $(".owl-carousel").owlCarousel({
+    center: true,
+      items:2,
+      lazyLoad:true,
+      loop:false,
+      margin:20,
+      onInitialize:callback,
+      responsive:{
+          600:{
+              items:4
+          }
+      }
+  });
+});
+
+function callback(){
+  $(".loadingMsg").hide();
+}
+</script>
+
+
+{% endblock %}

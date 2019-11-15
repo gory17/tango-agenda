@@ -1,0 +1,16 @@
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<div class="container blockadmin">
+  <h2>Administration</h2>
+  <p>Connecté en tant que {{ app.user.username }}</p>
+  <p>
+  {% if event.publish == 0 %}
+  <a href="{{ path('events_publish',{"id" : event.id,"mode":"publier"}) }}" class='btn btn-success'>Publier</a>
+  {% else %}
+  <a href="{{ path('events_publish',{"id" : event.id,"mode":"depublier"}) }}" class='btn btn-warning'>Dépublier</a>
+  {% endif %}
+  <a href="{{ path('events_update_one_fb',{"id" : event.id}) }}" class='btn btn-primary'>Update FB</a>
+  <a href="{{ path('events_admin_edit',{"id" : event.id}) }}" class='btn btn-primary'>Editer</a>
+  <a href="{{ path('events_admin_delete',{"id" : event.id}) }}" class='btn btn-danger btsupprimer'>Supprimer</a>
+</p>
+</div>
+{% endif %}

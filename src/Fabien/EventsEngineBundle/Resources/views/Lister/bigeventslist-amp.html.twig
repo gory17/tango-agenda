@@ -1,0 +1,86 @@
+{% extends "FabienEventsEngineBundle::amp-layout.html.twig" %}
+
+{% set typeTitle = typeEvt.title %}
+
+{% block title %}
+{% if app.request.getLocale()=="fr" %}
+{{ typeEvt.title }}
+{% else %}
+{{ typeEvt.titletrad }}
+{% endif %}
+{% endblock %}
+
+{% block canonical %}
+<link rel="canonical" href="{{path("fabien_events_engine_bigevents_list",{"slug":typeEvt.slug})}}">
+{% endblock %}
+
+
+{% block body %}
+
+<div class="container">
+  {% if app.request.getLocale()=="fr" %}
+    <h1><span>{{ "lesxxxxstype"|trans({"%typeTitle%":typeTitle}) }}</span></h1>
+  {% else %}
+    <h1><span>{{ typeEvt.titleTrad }}s</span></h1>
+  {% endif %}
+
+  <h2>{{ "a_la_une"|trans }}</h2>
+
+  <amp-carousel width="400"
+    height="300"
+    layout="responsive"
+    type="slides"
+    autoplay
+    delay="3000">
+    {% for date in lastDatesEvents|slice(0, 4) %}
+    {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"amp"  } only %}
+    {% endfor %}
+  </amp-carousel>
+
+
+  {% set counter = 0 %}
+
+  <div class='allEvents' itemscope itemtype="http://schema.org/ItemList">
+    {% set month ="" %}
+    {% for date in listDates %}
+
+      {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") != month %}
+      {% if not loop.first %}
+
+      {% endif %}
+      {% set counter = counter +1 %}
+
+
+        <h2 class='delimiter-event-title'><span class="glyphicon glyphicon-calendar"></span>
+          {% if app.request.getLocale()=="fr" %}
+          {{typeEvt.title}}s tango
+          {% else %}
+          tango {{typeEvt.titletrad}}s
+          {% endif %}
+          {{"in_en"|trans}} {{ date.start|localizeddate('none', 'none', app.request.getLocale(),"Europe/Paris","LLLL") }}
+        </h2>
+
+        {% set month = date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL") %}
+
+      {% endif %}
+
+        <div class="card">
+        {% if date.event.valorisation ==1 %}
+          {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"amp"  } only %}
+        {% else %}
+          {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"amp"  } only %}
+        {% endif %}
+        </div>
+
+
+      {% if loop.last %}
+
+      {% endif %}
+    {% endfor %}
+  </div>
+
+</div>
+
+
+
+{% endblock %}

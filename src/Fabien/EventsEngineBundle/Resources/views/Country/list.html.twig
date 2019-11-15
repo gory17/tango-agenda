@@ -1,0 +1,85 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "Trouvez un événement tango dans votre ville" ,"description": "Découvrez tous les événements tango de votre pays ou votre ville parmis les " ~ countEvents ~" enregistrés"  } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "Find a tango event in your city" ,"description": "Discover all tango events in your city and your country. There are " ~ countEvents ~" events saved"    } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block title %}
+{{ "country_list"|trans }}
+{% endblock %}
+
+{% block body %}
+
+
+<div class="big-events-header country-list">
+
+  <div class='container'>
+      <div class="col-md-8">
+        <h1><span>{{ "milonga_and_lessons"|trans }}</span></h1>
+        <p class='slogan2'><span>{{ "milonga_and_lessons_slogan"|trans }}</span></p>
+      </div>
+      <div class="col-md-4 presentation-site round-box">
+        <div class="accueil-bigevent">
+          <div class='accueil-nb-events'>{{countEvents}}</div>
+          {{"events_worldwide"|trans}}
+        </div>
+      </div>
+  </div>
+
+</div>
+
+
+<div class="container">
+
+  <div id="listing">
+
+    <div class="filter bigsearchbox well">
+
+      <div class="input-group centered">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </span>
+        <input type="text" id="cityInputMenu" class="cityMilongaCours cityInputMenu input-lg search" name="" value="" placeholder="{{ "search_by_city"|trans}}">
+      </div>
+    </div>
+
+    <div class="list">
+      <h2>{{ "search_by_country"|trans }}</h2>
+      <dl id="gridtab" class='row'>
+      {% for country in CountryList %}
+        {% if country.title !="Inconnu" %}
+
+          <div class="col-md-2 col-xs-4 item-country">
+            <a href='{{path("fabien_events_coutry_listcities",{"slug":country.slug})}}'>
+            <img src="{{ asset('img/flags/flags_iso/48')}}/{{country.sortname|lower }}.png" alt="flag {{ country.title }} " />
+            <br />
+            <p ><span class='item-country-title'>{{ country.title }}</span>  <br/> <span class="badge">{{country.cptevt}}</span> {{ "events"|trans }}</p>
+            </a>
+          </div>
+
+
+          </dd>
+        {% endif %}
+      {% endfor %}
+      </dl>
+
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block codeJs %}
+
+
+{% endblock %}

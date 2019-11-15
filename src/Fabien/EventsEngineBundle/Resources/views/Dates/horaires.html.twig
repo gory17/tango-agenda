@@ -1,0 +1,20 @@
+
+<div class="infosResume">
+  <p>
+        {{ "a_in"|trans }}
+        {% if date.event.cityOther!="" %}
+        {{ date.event.cityOther}}
+        {% else %}
+        {{ date.event.city.title}}
+        {% endif %}
+
+        {% if date.start|date('Y-m-d')!=date.end|date('Y-m-d') %}
+          , {{ "du_from"|trans }} <span itemprop="startDate" content="{{ date.start|date("c") }}">{{ date.start|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL yyyy  HH:mm") }}</span>
+          {{ "au_to"|trans }}
+          <span itemprop="endDate" content="{{ date.end|date("c") }}">{{ date.end|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL yyyy  HH:mm") }}</span>
+        {% else %}
+          <span itemprop="startDate" content="{{ date.start|date("c") }}">, {{ date.start|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL yyyy  HH:mm") }}</span> {{ "au_to"|trans }} {{ date.end|localizeddate('none', 'none', "","Europe/Paris","HH:mm") }}
+        {% endif %}
+
+  </p>
+</div>

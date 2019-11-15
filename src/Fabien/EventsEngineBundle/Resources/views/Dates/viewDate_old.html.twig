@@ -1,0 +1,257 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{% if app.request.getLocale()=="fr" %}
+{{ date.event.typeevent.title }}
+{% else %}
+{{ date.event.typeevent.titletrad }}
+{% endif %} {{ date.event.title }}
+{% endblock %}
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':date.event.typeevent.title~" "~date.event.title ,"description": "A "~ date.event.city.title ~" le " ~ date.start|localizeddate('none', 'none', "fr","Europe/Paris","Y-LL-d à HH:mm") } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':date.event.title~" "~date.event.typeevent.title,"description": date.event.city.title ~ " " ~ date.start|localizeddate('none', 'none', "en","Europe/Paris","Y-LL-d - HH:mm")  } only %}
+{% endif %}
+{% endblock %}
+
+{% block og %}
+{% set imageOG="" %}
+{% if date.event.image.url is defined %}
+  {% set imageOG=asset(uploadImage~date.event.image.url) %}
+{% endif %}
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'titleOG': date.event.title,"descriptionOG":date.event.typeevent.title~" - "~ date.event.city.title~" ("~date.event.city.state.country.title~")"  ,"imageOG":imageOG  } only %}
+{% endblock %}
+
+{% block body %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "{{date.event.typeevent.title}} {{date.event.title}}",
+  "startDate" : "{{ date.start|date("c") }}",
+  "endDate" : "{{ date.end|date("c") }}",
+  "url" : "{{ app.request.uri }}",
+  "description" : "{{date.event.description}}",
+  {% if date.event.image.url is defined %}
+  "image":"http://www.tango-agenda.com{{ asset(uploadImage~date.event.image.url) }}",
+  {% else %}
+  "image":"http://www.tango-agenda.com/img/noimg.png",
+  {% endif %}
+  "location" : {
+    "@type" : "Place",
+    "name" : "{{date.event.adress}}",
+    "address" : "{{date.event.adress}} {{date.event.city.title}}, {{date.event.city.state.country.title}}"
+  }
+}
+</script>
+
+
+
+<article>
+<div class='page-date' itemscope itemtype="http://schema.org/DanceEvent">
+
+  {% if error_message is defined %}
+  <div class='container>
+    <div class='alert alert-warning'>
+    <h3>Oops ! Quelque chose s'est mal passé !</h3>
+    {{ error_message }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if success_message is defined %}
+  <div class='container'>
+    <div class='alert alert-success'>
+    <h3>{{ "operation_success"|trans }}</h3>
+    {{ success_message }}
+    </div>
+  </div>
+  {% endif %}
+
+<div class='bande-header-article'>
+  <div class='container'>
+    <div class='details'> </div>
+
+    {% if date.event.typeevent.slug == "tango-marathon" or date.event.typeevent.slug == "stage-tango" or date.event.typeevent.slug =="tango-encuentro" or date.event.typeevent.slug =="tango-festival" %}
+    <a href='{{path("fabien_events_engine_bigevents_list",{"slug":date.event.typeevent.slug})}}' class='detail-link'>
+    {% else %}
+    <a href='{{path("fabien_events_coutry_list")}}' class='detail-link'>
+    {% endif %}
+
+    {% if app.request.getLocale()=="fr" %}
+    <span class='details-type'>{{date.event.typeevent.title}}</span>
+    {% else %}
+    <span class='details-type'>{{date.event.typeevent.titletrad}}</span>
+    {% endif %}
+    </a>
+
+    <a href='{{path("fabien_events_city_slug",{"slug":date.event.city.slug})}}' class='detail-link'>
+    <span class='details-type'>{{date.event.city.title}}</span>
+    </a>
+
+    <h1 itemprop="name">{{ date.event.title }}</h1>
+
+
+    <div >
+      {% include 'FabienEventsEngineBundle:Dates:horaires.html.twig' with {'date': date} only %}
+      {% if date.event.organizer is not null %}
+      <div class="organizer" itemprop="organizer" >
+        {{ "organized_by"|trans }} <span>{{ date.event.organizer }}</span>
+      </div>
+      {% endif %}
+
+      {% if date.event.dateInscription !="" and date.event.dateInscription|date("Y-m-d") > "now"|date("Y-m-d") %}
+      <p class='ouverture_inscription'>
+      {{ "registration_opent_at"|trans }} {{ date.event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy 'à' HH:mm") }}
+       <span class='glyphicon glyphicon-arrow-right'></span>
+      <span class="addtocalendar atc-style-blue">
+            <var class="atc_event">
+                <var class="atc_date_start" >{{ date.start|localizeddate('none', 'none', "en","Europe/Paris","Y-LL-d HH:mm:ss") }}</var>
+                <var class="atc_date_end">{{ date.end|localizeddate('none', 'none', "en","Europe/Paris","Y-LL-d HH:mm:ss") }}</var>
+                <var class="atc_timezone">Europe/London</var>
+                <var class="atc_title">Inscription : {{date.event.title}}</var>
+                <var class="atc_location">{{date.event.adress}} {{date.event.city.title}}, {{date.event.city.state.country.title}}</var>
+            </var>
+        </span>
+      </p>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
+
+<div class='container'>
+    <div class="description-event">
+
+    {% if date.event.image %}
+      <div class='row'>
+        <div class="col-md-7">
+          <div itemprop="description">
+          {{ date.event.description|nl2br }}
+          </div>
+          <div class="shareBar">
+            <div class="fb-like" data-href="{{ app.request.uri }}" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+          </div>
+        </div>
+
+        <div class="col-md-5">
+          <aside class="">
+
+            {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image':  date.event.image,"taille":"tall","event":date.event} only %}
+
+            <div class='adress_event '>
+              <h2>{{ "Address"|trans }}</h2>
+              <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+                <p itemscope itemprop="address" itemtype="http://schema.org/PostalAddress">
+                  <span>{{date.event.adress}}<br />
+                  {{date.event.city.title}}, {{date.event.city.state.country.title}}</span>
+                </p>
+              </div>
+              <div id='map'></div>
+            </div>
+
+            <div class="more-infos">
+              <h2>{{ "more_informations"|trans }} : </h2>
+              <ul class='link_event'>
+                {% if date.event.urlWeb is not null %} <li>{{ "website"|trans }} <span><a itemprop='url'  href="{{ date.event.urlWeb }}">{{ date.event.urlWeb }}</a></span></li> {% endif %}
+                {% if date.event.urlFb is not null %} <li ><a itemprop='sameAs' href="{{ date.event.urlFB }}">Facebook</a></li> {% endif %}
+              </ul>
+            </div>
+            {% endif %}
+          </aside>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="bande-fb-comments">
+  <div class="container">
+    <h2>{{ "comments"|trans }}</h2>
+    <div class="fb-comments" data-href="{{ app.request.uri }}" data-numposts="4" data-width="100%"></div>
+  </div>
+</div>
+
+
+</article>
+
+{% include 'FabienEventsEngineBundle:General:blockAdminObjet.html.twig' with {'event':  date.event} only %}
+
+
+{% endblock %}
+
+{% block codeJs %}
+<script>
+$(".btsupprimer").click(function(){
+  var result = confirm("Voulez vous vraiment supprimer ?");
+  if (result) {
+      //Logic to delete the item
+  }else{
+    return false;
+  }
+});
+
+</script>
+
+
+
+ <script type="text/javascript">
+
+  /* Déclaration des variables  */
+  var geocoder;
+  var map;
+  var markers = new Array();
+  var i = 0;
+
+  /* Initialisation de la carte  */
+  function initialize() {
+   /* Instanciation du geocoder  */
+   geocoder = new google.maps.Geocoder();
+   var paris = new google.maps.LatLng(48.8566667, 2.3509871);
+   var myOptions = {
+    zoom: 12,
+    center: paris,
+    //mapTypeId: google.maps.MapTypeId.HYBRID
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+   }
+   codeAddress();
+   /* Chargement de la carte  */
+   map = new google.maps.Map(document.getElementById("map"), myOptions);
+  }
+
+  /* Fonction de géocodage déclenchée en cliquant surle bouton "Geocoder"  */
+  function codeAddress() {
+   /* Récupération de la valeur de l'adresse saisie */
+   var address = "{{date.event.adress}} {{date.event.city.title}}";
+   /* Appel au service de geocodage avec l'adresse en paramètre */
+   geocoder.geocode( { 'address': address}, function(results, status) {
+    /* Si l'adresse a pu être géolocalisée */
+    if (status == google.maps.GeocoderStatus.OK) {
+
+     map.setCenter(results[0].geometry.location);
+     /* Affichage du marker */
+     var marker = new google.maps.Marker({
+      map: map,
+      position: results[0].geometry.location
+     });
+     /* Permet de supprimer le marker précédemment affiché */
+     markers.push(marker);
+     if(markers.length > 1)
+      markers[(i-1)].setMap(null);
+      i++;
+     } else {
+
+      //alert("Le geocodage n\'a pu etre effectue pour la raison suivante: " + status);
+     }
+    });
+  }
+
+</script>
+
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaGgZMxyHsTiZW_Ha5UMztq0rx7jC68Ck&callback=initialize" async defer></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Administration des catégories
+{% endblock %}
+
+{% block body %}
+  <div class='container'>
+    <h1>Catégories</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ categoryPost.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ categoryPost.title }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ categoryPost.slug }}</td>
+            </tr>
+            <tr>
+                <th>Rank</th>
+                <td>{{ categoryPost.rank }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_categorypost_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('admin_categorypost_edit', { 'id': categoryPost.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+  </div>
+{% endblock %}

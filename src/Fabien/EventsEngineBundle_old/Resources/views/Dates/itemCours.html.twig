@@ -1,0 +1,19 @@
+<div class="row item-cours">
+  <div class="col-xs-5">
+    <div class="image-box">
+      <a href="{{ path("date_view",{'id':cours.id}) }}">{% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': cours.event.image,"taille": "small"} only %}</a>
+    </div>
+  </div>
+
+  <div class="col-xs-7">
+
+    <span class='item-city place'>{{ cours.event.city.title }}, {{cours.event.city.state.country.title}}</span><br />
+
+    <h4>
+      <a href="{{ path("date_view",{'id':cours.id}) }}">
+      {{cours.event.title}}
+      </a>
+    </h4>
+
+  </div>
+</div>

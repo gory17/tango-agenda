@@ -1,0 +1,264 @@
+{# template principal #}
+
+{# app/Resources/views/layout.html.twig #}
+
+<!DOCTYPE html>
+<html prefix="fb: http://www.facebook.com/2008/fbml" lang="{{app.request.getLocale()}}">
+<head>
+
+  {% block meta %}
+
+    {% if app.request.getLocale()=="fr" %}
+      {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':'Marathons de tango, Festivals de tango et milongas à travers le monde','description': "Trouvez un événement tango à coté de chez vous ou à l'autre bout du monde. Des centaines de stages, festivals, marathons et milongas y sont référencés !"  } only %}
+    {% else %}
+      {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':'Tango marathons, tango festivals and milongas arround the world','description': "Find tango events over the world : workshops, marathons, festivals, lessons or milonga."  } only %}
+    {% endif %}
+
+  {% endblock %}
+
+
+  {% if app.request.getLocale()=="fr" %}
+    {% set url_alter = app.request.pathinfo|replace({"/fr/":""}) %}
+    <link rel="alternate" hreflang="en" href="https://www.tango-agenda.com/en/{{url_alter}}"/>
+  {% else %}
+  {% set url_alter = app.request.pathinfo|replace({"/en/":""}) %}
+    <link rel="alternate" hreflang="fr" href="https://www.tango-agenda.com/fr/{{url_alter}}" />
+  {% endif %}
+
+
+
+  {% block og %}
+
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'article','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+  {% endblock %}
+
+  {% block scripttop %}
+
+  {% endblock %}
+
+  {% block stylesheets %}
+  <link rel="stylesheet"    href="{{ asset('bootstrap/css/bootstrap.min.css') }}"  />
+  <link rel="stylesheet" href="{{ asset('css/cssprincipale.css') }}?variable={{ date().timestamp }}"  />
+
+
+  <link rel="stylesheet"  href="{{ asset('js/bootstrap-select/dist/css/bootstrap-select.min.css') }}" media="none" onload="if(media!='all')media='all'" />
+  <link rel="stylesheet"   href="{{ asset('js/owl/assets/owl.carousel.min.css') }}" media="none" onload="if(media!='all')media='all'" />
+  <link rel="stylesheet"   href="{{ asset('js/owl/assets/owl.theme.default.min.css') }}" media="none" onload="if(media!='all')media='all'" />
+  <link rel="stylesheet"   href="{{ asset('js/addcal/AddCalEvent.css') }}" media="none" onload="if(media!='all')media='all'" />
+	<link rel="stylesheet"  href="{{ asset('js/jquery-ui/jquery-ui.min.css') }}" media="none" onload="if(media!='all')media='all'" />
+
+  <script type="text/javascript">
+    var jQl={q:[],dq:[],gs:[],ready:function(a){"function"==typeof a&&jQl.q.push(a);return jQl},getScript:function(a,c){jQl.gs.push([a,c])},unq:function(){for(var a=0;a<jQl.q.length;a++)jQl.q[a]();jQl.q=[]},ungs:function(){for(var a=0;a<jQl.gs.length;a++)jQuery.getScript(jQl.gs[a][0],jQl.gs[a][1]);jQl.gs=[]},bId:null,boot:function(a){"undefined"==typeof window.jQuery.fn?jQl.bId||(jQl.bId=setInterval(function(){jQl.boot(a)},25)):(jQl.bId&&clearInterval(jQl.bId),jQl.bId=0,jQl.unqjQdep(),jQl.ungs(),jQuery(jQl.unq()), "function"==typeof a&&a())},booted:function(){return 0===jQl.bId},loadjQ:function(a,c){setTimeout(function(){var b=document.createElement("script");b.src=a;document.getElementsByTagName("head")[0].appendChild(b)},1);jQl.boot(c)},loadjQdep:function(a){jQl.loadxhr(a,jQl.qdep)},qdep:function(a){a&&("undefined"!==typeof window.jQuery.fn&&!jQl.dq.length?jQl.rs(a):jQl.dq.push(a))},unqjQdep:function(){if("undefined"==typeof window.jQuery.fn)setTimeout(jQl.unqjQdep,50);else{for(var a=0;a<jQl.dq.length;a++)jQl.rs(jQl.dq[a]); jQl.dq=[]}},rs:function(a){var c=document.createElement("script");document.getElementsByTagName("head")[0].appendChild(c);c.text=a},loadxhr:function(a,c){var b;b=jQl.getxo();b.onreadystatechange=function(){4!=b.readyState||200!=b.status||c(b.responseText,a)};try{b.open("GET",a,!0),b.send("")}catch(d){}},getxo:function(){var a=!1;try{a=new XMLHttpRequest}catch(c){for(var b=["MSXML2.XMLHTTP.5.0","MSXML2.XMLHTTP.4.0","MSXML2.XMLHTTP.3.0","MSXML2.XMLHTTP","Microsoft.XMLHTTP"],d=0;d<b.length;++d){try{a= new ActiveXObject(b[d])}catch(e){continue}break}}finally{return a}}};if("undefined"==typeof window.jQuery){var $=jQl.ready,jQuery=$;$.getScript=jQl.getScript};
+  </script>
+
+
+  <script type="text/javascript">
+    jQl.loadjQ('{{ asset('js/jquery.min.js') }}');
+    jQl.loadjQdep('{{ asset('js/jquery-ui/jquery-ui.min.js') }}');
+    jQl.loadjQdep('{{ asset('js/jquery.autocomplete.min.js') }}');
+    jQl.loadjQdep('{{ asset('js/jquery.lazyload.min.js') }}');
+    jQl.loadjQdep('{{ asset('js/owl/owl.carousel.min.js') }}');
+    jQl.loadjQdep('{{ asset('bootstrap/js/bootstrap.min.js') }}');
+    jQl.loadjQdep('{{ asset('js/bootstrap-select/dist/js/bootstrap-select.min.js') }}');
+    jQl.loadjQdep('{{ asset('js/addcal/AddCalEventZones.js') }}');
+    jQl.loadjQdep('{{ asset('js/addcal/AddCalEvent.js') }}');
+    jQl.loadjQdep('{{ asset('js/spidermap.js') }}');
+  </script>
+
+
+
+
+  <!-- Matomo -->
+
+    <script type="text/javascript">
+
+      var _paq = _paq || [];
+
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+
+      _paq.push(['trackPageView']);
+
+      _paq.push(['enableLinkTracking']);
+
+      (function() {
+
+        var u="//www.tango-agenda.com/ta/";
+
+        _paq.push(['setTrackerUrl', u+'fg.php']);
+
+
+        _paq.push(['setSiteId', '1']);
+
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'p.js'; s.parentNode.insertBefore(g,s);
+
+      })();
+
+    </script>
+
+    <!-- End Matomo Code -->
+
+
+  {% endblock %}
+
+
+  {% block amp %}
+  {% endblock %}
+
+
+
+
+</head>
+
+<body>
+
+
+    <div id="topnav">
+      {% block main_navigation %}
+      {% endblock %}
+    </div>
+
+    <div id='head'>
+      {% block header %}
+      {% endblock %}
+    </div>
+
+
+      <div id="content">
+        {% block body %}
+        {% endblock %}
+
+      </div>
+
+    <footer>
+      <div class='footer' >
+        {% block footer %}
+        {% endblock %}
+      </div>
+    </footer>
+
+
+  {% block javascripts %}
+    {# Ajoutez ces lignes JavaScript si vous comptez vous servir des fonctionnalités du bootstrap Twitter #}
+
+
+    <script >
+	$(document).ready(function(){
+		$( ".datepicker input" ).datepicker({ dateFormat: 'dd/mm/yy', firstDay: 1   } );
+	});
+
+
+
+    </script>
+
+
+
+
+     <script >
+
+
+
+      //Moteur de recherche
+       $(function () {
+
+         jQuery(document).ready(function() {
+             console.log("jQuery est prêt !");
+
+
+
+
+             $('.cityInputMenu').devbridgeAutocomplete({
+                 serviceUrl: '{{ path("ajax_find_city_menu") }}',
+                 //minChars : 1,
+                 type:"POST",
+                 onSelect: function (suggestion) {
+                     window.location.href=suggestion.data;
+                 }
+
+             });
+
+
+      			$(".lazyload").lazyload({
+      				effect: "fadeIn"
+      			});
+
+
+
+
+             $(".toggle-search").click(function(){
+                $("#search_menu").slideToggle("slow");
+                return false;
+             });
+
+             $("#btn-launch-search").click(function(){
+
+                $link=$(this).attr("href")+"?mode=search";
+                $searchtype=$("#searchType").val();
+                $end=$("#end").val();
+                $start=$("#start").val();
+                $city=$("#city").val();
+                $country=$("#country").val();
+
+                if($searchtype!="")$link=$link+"&type="+$searchtype;
+                if($end!="")$link=$link+"&end="+$end;
+                if($start!="")$link=$link+"&start="+$start;
+                if($city!="")$link=$link+"&city="+$city;
+                if($country!="")$link=$link+"&country="+$country;
+
+                window.location.href=$link;
+                return false;
+             });
+
+
+             {% if app.request.getLocale()=="en" %}
+              $("input.datepicker").datepicker({ dateFormat: 'yy/mm/dd', firstDay: 1   });
+             {% else %}
+              $("input.datepicker").datepicker({ dateFormat: 'dd/mm/yy', firstDay: 1   });
+             {% endif %}
+
+             $(".countryfieldSearch").change(function() {
+                 mafonctionchangeSearch($(this).val());
+             }).trigger('change');
+
+               function mafonctionchangeSearch(idpays)
+               {
+                 $.ajax({
+                     url: '{{ path("ajax_list_city") }}',
+                     type: 'POST',
+                     data:
+                     {
+                         id : idpays,
+                         mode :"active"
+                     },
+                     dataType: 'json',
+                     success: function(reponse) {
+
+                         $(".cityfieldSearch").empty();
+                         $(".cityfieldSearch").append('<option value="" selected></option>');
+                         $.each(reponse, function(index, element) {
+
+                             $(".cityfieldSearch").append('<option value="'+ element.id +'"> '+ element.title +' </option>');
+                         });
+
+                     }
+                   });
+                 }
+           });
+       });
+     </script>
+
+
+  {% endblock %}
+
+
+	<script src="{{asset('js/listjs.js')}}"></script>
+
+{% block codeJs %}
+
+  {% endblock %}
+
+
+</body>
+</html>

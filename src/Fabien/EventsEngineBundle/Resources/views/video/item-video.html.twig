@@ -1,0 +1,36 @@
+{% if lazyload is not defined %}
+{% set lazyload = false %}
+{% endif %}
+
+<div class="item-video {% if mode == "list" %}col-xs-12 col-md-4{% endif %}">
+  <div class="image-block">
+    <a href='https://www.youtube.com/embed/{{ video.youtubeId   }}?autoplay=1' data-type='{{video.type}}' data-id="{{video.id}}" data-title="{{ video.title   }}" class='open-video '>
+      <div class="video-link"></div>
+      <img {% if lazyload == true %}data-src="{{ video.urlImage }}" data-original="{% else %} src="{% endif %}{{ video.urlImage }}" class='img-responsive {% if lazyload == true %}lazyload{% endif %}' alt="thumbnail de l'image">
+    </a>
+
+  </div>
+
+
+
+
+  {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+  <a href='{{path("video_delete",{"id":video.id})}}' class='btn btn-warning'>Supprimer</a>
+  {% endif %}
+  <h3 class='titre-video'>{{ video.title }}</h3>
+  <p class='date-video'>{{ video.datePublication|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL YYYY") }}</p>
+
+  {% for person in video.persons %}
+    {% if loop.first !=true %}
+    <div class="col-md-3 col-xs-2">
+      <span class='and_liasion'>&</span>
+    </div>
+    {% endif %}
+
+    {% if person.slug!="" %}
+      {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person': person,"mode":"mini","video":true  } only %}
+    {% endif %}
+
+  {% endfor %}
+
+</div>

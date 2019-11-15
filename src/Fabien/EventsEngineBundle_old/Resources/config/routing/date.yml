@@ -1,0 +1,28 @@
+date_index:
+    path:     /
+    defaults: { _controller: "FabienEventsEngineBundle:Date:index" }
+    methods:  GET
+
+date_show:
+    path:     /{id}/show
+    defaults: { _controller: "FabienEventsEngineBundle:Date:show" }
+    methods:  GET
+
+date_new:
+    path:     /new
+    defaults: { _controller: "FabienEventsEngineBundle:Date:new" }
+    methods:  [GET, POST]
+
+date_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "FabienEventsEngineBundle:Date:edit" }
+    methods:  [GET, POST]
+
+date_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "FabienEventsEngineBundle:Date:delete" }
+    methods:  DELETE
+
+date_view:
+  path: /{id}
+  defaults: { _controller:"FabienEventsEngineBundle:Date:view"}

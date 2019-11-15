@@ -1,0 +1,37 @@
+{% if lazyload is not defined %}
+{% set lazyload = false %}
+{% endif %}
+
+
+{% if image.url is defined %}
+  {% if taille == "amp" %}
+    <amp-img src="{{ asset(uploadImage~"thumb/medium/"~image.url) }}" layout="responsive" width="266" height="150"></amp-img>
+  {% else %}
+    <img class="img-responsive
+     {% if lazyload is same as("full") %}lazyload{% endif %}  {% if lazyload is same as(true) %}owl-lazy{% endif %}"
+     "itemprop="image"
+      {% if lazyload != false  %} data-src="{{ asset(uploadImage~"thumb/small/"~image.url) }}"{% endif %}
+      {% if lazyload is same as("full") %}data-original='
+		  {% if taille =="small" %}
+            {{ asset(uploadImage~"thumb/small/"~image.url) }}
+        {% elseif taille =="medium" %}
+              {{ asset(uploadImage~"thumb/medium/"~image.url) }}
+        {% else %}
+            {{ asset(uploadImage~image.url) }}
+          {% endif %}
+
+	  '{% endif %}
+      {% if lazyload == false %} src='
+          {% if taille =="small" %}
+            {{ asset(uploadImage~"thumb/small/"~image.url) }}
+          {% elseif taille =="medium" %}
+            {{ asset(uploadImage~"thumb/medium/"~image.url) }}
+          {% else %}
+            {{ asset(uploadImage~"thumb/medium/"~image.url) }}
+          {% endif %}
+        ' alt='{% if event is defined %}Flyer {{event.typeEvent.title}} tango {{event.title}} {% endif %}'/>
+      {% endif %}
+    {% endif %}
+{% else %}
+  <img  itemprop="image" class="img-responsive" itemprop="image" src='{{ asset("img/noimg.png") }}' alt=''/>
+{% endif %}

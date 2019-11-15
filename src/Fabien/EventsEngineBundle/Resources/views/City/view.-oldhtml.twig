@@ -1,0 +1,263 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Tango à "~ city.title ~ " : l'agenda des milongas, stages et cours",'description':"Trouvez une milonga à "~ city.title ~ ", un cours de tango, un stage ou tout autre évenement !" } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Tango in "~ city.title ~ " : find milongas, workshops, lessons and more",'description':"Find a milonga in "~ city.title ~ ", a tango lesson, a workshop or other great event !" } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block og %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Tango à "~ city.title ~ " : l'agenda des milongas, stages et cours","descriptionOG":"Trouvez une milonga à "~ city.title ~ ", un cours de tango, un stage ou tout autre évenement !","imageOG":""  } only %}
+
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Tango in "~ city.title ~ " : find milongas, workshops, lessons and more","descriptionOG":"Find a milonga in "~ city.title ~ ", a tango lesson, a workshop or other great event !","imageOG":"" } only %}
+
+{% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+<article>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=194083261040351";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+  <div class="bande-resume-city ">
+    <div class='container image-city'>
+      <div class="row">
+        <div class="box-image">
+          <img src='{{ urlImageCity }}' alt='' />
+        </div>
+
+        <header>
+        <section>
+
+
+        <div class="texte-resume-city">
+            <div class="col-xs-12 col-md-6 title-city ">
+              {% set sortname = " " ~ city.state.country.sortname %}
+
+              <h1 itemprop="name" class='title-city-h1'><span class='mini-titre'>{{"tango_events_in_city"|trans}} </span><br/>  {{ city.title|replace({ (sortname):"" }) }}</h1>
+
+              <div class="shareBar">
+                <div class="fb-like city-link-head" data-href="{{ app.request.uri }}" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+                  <p class='city-link-head'>
+                  <a href='{{path("fabien_events_coutry_listcities",{"slug":city.state.country.slug})}}' class='detail-link'>
+
+                    {% if city.state.country.sortname!="inconnu" %}
+                    <img class='flagi' src="{{ asset('img/flags/flags_iso/32')}}/{{ city.state.country.sortname|lower }}.png" class='flag' alt="flag {{ city.state.country.title }} ">
+                    {% endif %}
+                    {{ "all_events_in"|trans}} {{ city.state.country.title}}
+                  </a>
+                  </p>
+                  <p><a class='rss-city city-link-head' href="{{ path('fabien_events_city_slug_rss',{"slug":city.slug}) }}"><img src='{{ asset('img/rss.png')}}' alt='fil rss de {{city.title}}' title="{{city.title}} RSS" /> RSS tango {{ city.title|replace({ (sortname):"" }) }}</a></p>
+
+              </div>
+
+
+
+            </div>
+            <div class="col-xs-6 col-md-6 count-event hidden-xs" itemprop='description'>
+
+                <span class='nb_event'>{{ nbEvtMonth }}</span>
+                <span class='text-nb_event'>
+                  {{"tango_events_found"|trans}}.<br />
+                  {{"find_out_events"|trans}} {{city.title}}
+                </span>
+
+
+            </div>
+
+
+
+
+
+
+<!--
+            <div class="col-xs-6 col-md-3 count-cours">
+              {% if coursCity|length >0 %}
+              <a class="btn btn-info btn-md" href="{{ path("fabien_events_engine_cours",{"slug":city.slug}) }}"> {{ "see_the"|trans }} {{ coursCity|length }}<br /> {{ "tango_lessons"|trans }} <br /> à {{ city.title|replace({ (sortname):"" }) }}</a>
+              {% else %}
+              <a class="btn btn-info btn-md" href="{{ path("events_add_form") }}"> {{ "no_lessons_found"|trans }} <br /> à {{ city.title|replace({ (sortname):"" }) }}<br /><span class="glyphicon glyphicon-hand-right"></span> Ajoutez en un !</a>
+
+              {% endif %}
+
+            </div>
+-->
+
+          </div>
+          </section>
+        </header>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--
+{{start_date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy")}}
+
+{{end_date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy")}}
+-->
+
+
+  <div class='resultDates'>
+
+
+
+
+    {% if nbEvtMonth >0 %}
+
+      {% if datesListImportant|length >0 %}
+      <section>
+      <div class="top-events-color">
+
+        <div class='container' itemscope itemtype="http://schema.org/ItemList">
+          <h2><span class="glyphicon glyphicon-bullhorn"></span>  {{ "marathons_festivals_encuentros_city"|trans }} {{ city.title|replace({ (sortname):"" }) }}</h2>
+        {% if datesListImportant|length == 1 %}
+          {% for date in datesListImportant %}
+              {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"tall"  } only %}
+          {% endfor %}
+
+        {% elseif datesListImportant|length == 2 %}
+          {% for date in datesListImportant %}
+              {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo"  } only %}
+          {% endfor %}
+
+        {% else %}
+          <p class='loadingMsg'>Loading ...</p>
+          <div class="owl-carousel owl-theme">
+            {% for date in datesListImportant %}
+                {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"card"  } only %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        </div>
+      </div>
+      </section>
+      {% endif %}
+
+
+      {% include 'FabienEventsEngineBundle:Dates:List.html.twig' with {'dates': datesListChrono,'startCounter':0,'start_date':start_date,'end_date':end_date,"coursCity":coursCity,"city":city } only %}
+
+
+      </div>
+
+      <div class=' bouton-display-more'>
+        <a href='{{ path("ajax_more_dates") }}' class='nextPagination btn btn-lg  btn-primary' start="{{period}}">{{ "see_next_2_weeks"|trans }} <br /><span class='glyphicon glyphicon-triangle-bottom'></span></a>
+      </div>
+
+    {% else %}
+      <div class="container ">
+        <h2 class='center'>{{ "no_events_ins"|trans }} {{ city.title|replace({ (sortname):"" }) }}</h2>
+
+        <p class='center gros'>
+
+          <img src="{{ asset(
+          'img/gif/sad'~random(6)~'.gif'
+          )}}" alt="quelle tristesse !">
+        </p>
+
+        <p class='center gros'>{{ "what_a_shame_please_add_an_event"|trans }}
+          <br /><br/>
+          <a class='btn btn-lg btn-primary' href="{{ path("events_add") }}"><span class="glyphicon glyphicon-plus"></span> {{ "add"|trans }}</a>
+        </p>
+      </div>
+
+    {% endif %}
+</div>
+
+</article>
+{% endblock %}
+
+
+{% block codeJs %}
+<script>
+//mise a jour des coordonnées des villes
+$.getJSON( "https://maps.google.com/maps/api/geocode/json?address={{city.title}}%20{{city.state.country.title}}&key=AIzaSyDaGgZMxyHsTiZW_Ha5UMztq0rx7jC68Ck", function( data ) {
+  $lat=data.results[0].geometry.location.lat;
+  $lng=data.results[0].geometry.location.lng;
+  $id={{city.id}}
+
+
+  $.ajax({
+  method: "POST",
+  url: "{{path('ajax_city_coord')}}",
+  data: { id: $id, lng: $lng, lat: $lat }
+  })
+    .done(function( msg ) {
+      console.log( msg );
+    });
+});
+
+</script>
+
+
+
+<script type="text/javascript">
+  $(".nextPagination").click(function(){
+    urlCible=$(this).attr("href");
+    period=$(this).attr("start");
+    $(this).attr("start",parseInt(period)+{{ period }});
+    $.ajax({
+      url: urlCible,
+      type: 'POST',
+      data:
+      {
+          startDays : period,
+          cityId:{{ city.id }}
+      },
+      success: function(response) {
+        $(".resultDates").append(response);
+      }
+    });
+
+
+    return false;
+  });
+
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        loop:false,
+		nav:true,
+        margin:20,
+		items:2,
+        onInitialize:callback,
+		responsive:{
+			0:{
+				items:2
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+
+    });
+  });
+
+  function callback(){
+    $(".loadingMsg").hide();
+  }
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Organizers list</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Urlweb</th>
+                <th>Urlfb</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for organizer in organizers %}
+            <tr>
+                <td><a href="{{ path('organizer_show', { 'id': organizer.id }) }}">{{ organizer.id }}</a></td>
+                <td>{{ organizer.title }}</td>
+                <td>{{ organizer.description }}</td>
+                <td>{{ organizer.urlWeb }}</td>
+                <td>{{ organizer.urlFb }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('organizer_show', { 'id': organizer.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('organizer_edit', { 'id': organizer.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('organizer_new') }}">Create a new organizer</a>
+        </li>
+    </ul>
+{% endblock %}

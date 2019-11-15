@@ -1,0 +1,23 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Administration des Pays
+{% endblock %}
+
+{% block body %}
+  <div class='container'>
+    <h1>Pays</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_country_index') }}">Back to the list</a>
+        </li>
+    </ul>
+  </div>
+{% endblock %}

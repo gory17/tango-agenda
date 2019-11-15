@@ -1,0 +1,4 @@
+services:
+#    fabien_user.example:
+#        class: Fabien\UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]

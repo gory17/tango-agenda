@@ -1,0 +1,12 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: tangoageplfabien.mysql.db
+    database_port: null
+    database_name: tangoageplfabien
+    database_user: tangoageplfabien
+    database_password: Tang0AgendA
+    mailer_transport: mail
+    mailer_host: 
+    mailer_user: 
+    mailer_password: 
+    secret: 68640c81216faf553a25eff8211b3e2746936ea8

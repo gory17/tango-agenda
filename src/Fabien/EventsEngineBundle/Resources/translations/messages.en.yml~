@@ -1,0 +1,95 @@
+home: Home
+last_posts: 'Last posts'
+events_saved: 'Saved events'
+about_tango_agenda: __about_tango_agenda
+terms_of_us: __terms_of_us
+follow_us: __follow_us
+on_facebook: __on_facebook
+country_list: __country_list
+milonga_and_lessons: __milonga_and_lessons
+search_by_country: __search_by_country
+events: __events
+cities_of: __cities_of
+all_cities: __all_cities
+by: __by
+le_date: __le_date
+comments: __comments
+post_list: __post_list
+tang_blog: __tang_blog
+lessons_in: __lessons_in
+no_lesson_on: __no_lesson_on
+events_in: __events_in
+see_the: __see_the
+tango_lessons: __tango_lessons
+no_lessons_found: __no_lessons_found
+see_next_2_weeks: __see_next_2_weeks
+no_events_ins: __no_events_ins
+what_a_shame_please_add_an_event: __what_a_shame_please_add_an_event
+add: __add
+the: __the
+see_all_posts: __see_all_posts
+choose_a_city: __choose_a_city
+or: __or
+choose_a_country: __choose_a_country
+close: __close
+featured_articles: __featured_articles
+inscriptions_starts: __inscriptions_starts
+for_big_events: __for_big_events
+opening: __opening
+last_events: __last_events
+tango_worshops_in: __tango_worshops_in
+something_whent_wrong: __something_whent_wrong
+operation_success: __operation_success
+a_la_une: __a_la_une
+list_of: __list_of
+operation_succes: __operation_succes
+lesxxxxstype: __lesxxxxstype
+registration_opening: __registration_opening
+open_on: __open_on
+du_from: __du_from
+au_to: __au_to
+events_added_these: __events_added_these
+last_days: __last_days
+no_event_found: __no_event_found
+add_form: __add_form
+validation_needed: __validation_needed
+add_an_event_or_lesson: __add_an_event_or_lesson
+'Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes.': '__Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes.'
+'Méthode 1 : Importer de Facebook': '__Méthode 1 : Importer de Facebook'
+'Votre événement doit respecter quelques critères': '__Votre événement doit respecter quelques critères'
+'il doit s''agir d''un événement et non d''une page': '__il doit s''agir d''un événement et non d''une page'
+'votre événement doit avoir un statut public': '__votre événement doit avoir un statut public'
+'il doit contenir une photo d''illustration': '__il doit contenir une photo d''illustration'
+'le lieu doit être renseigné': '__le lieu doit être renseigné'
+'Saisissez ci-dessous l''adresse de l''événement Facebook à ajouter.': '__Saisissez ci-dessous l''adresse de l''événement Facebook à ajouter.'
+'Méthode 2 : Utiliser le formulaire d''ajout d''événement': '__Méthode 2 : Utiliser le formulaire d''ajout d''événement'
+'Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet': '__Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet'
+'Formulaire d''ajout': '__Formulaire d''ajout'
+'Les événements doivent concerner uniquement le tango argentin. Si ce n''est pas le cas, ils seront supprimés sans préavis.': '__Les événements doivent concerner uniquement le tango argentin. Si ce n''est pas le cas, ils seront supprimés sans préavis.'
+events_list: __events_list
+add_an_event: __add_an_event
+Something_whent_wrong: __Something_whent_wrong
+Operation_success: __Operation_success
+event_form: __event_form
+event_type: __event_type
+event_title: __event_title
+Address: __Address
+Country: __Country
+closest_city: __closest_city
+Other_city: __Other_city
+website: __website
+fb_page: __fb_page
+Organizer: __Organizer
+gender_balanced: __gender_balanced
+registration: __registration
+actual_picture: __actual_picture
+no_picture: __no_picture
+send_an_image: __send_an_image
+add_a_date: __add_a_date
+a_in: __a_in
+du_form: __du_form
+organized_by: __organized_by
+address: __address
+registration_opent_at: __registration_opent_at
+more_informations: __more_informations
+tango_worshop: __tango_worshop

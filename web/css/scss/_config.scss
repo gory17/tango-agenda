@@ -1,0 +1,93 @@
+$background-general:#ededed;
+$background-item:#fff;
+$background-item2:#e8e8e8;
+$background-navbar:#444444;
+$background-resume-city:black;
+$background-bande-top-events:#161616;
+$background-bande-top-inscriptions:#161616;
+$background-bande-accueil-ajout-event:#429678;
+$background-bande-top-events-color:#429678;
+$background-bande-even:#302d2b;
+$background-bande-odd:#4c4c4c;
+$background-address:#4c4c4c;
+$background-bande-light:#e8e8e8;
+$background-bande-video:#e8e8e8;
+$background-footer:black;
+$background-label:#4c4c4c;
+$background-bande-stats:#429678;
+$background-infos-dates:#e8e8e8;
+$background-sub-button:#302d2b;
+$background-accueil-blog:#cFcFcF;
+$background-totalevents:#161616;
+$background-topevents:#cFcFcF;
+$background-inscriptions:#161616;
+$background-lastadded:#cFcFcF;
+$background-mostactive:#cFcFcF;
+$background-searchmenu:#4c4c4c;
+$background-label:#4c4c4c;
+$background-map:#494c4a;
+$background-raccourci-date:#161616;
+$background-other-date:#161616;
+$background-item-country:#e8e8e8;
+$background-item-country-hover:#52b290;
+$background-header-maestro:#161616;
+$background-event-maestro:#302d2b;
+$background-videos-maestro:#161616;
+$background-maestro-list:#161616;
+$background-maestro-video-list:#4c4c4c;
+$background-menu-xs-items:#494c4a;
+$background-menu-xs-item:#212020;
+$background-pub-dark:#212020;
+
+$color-trait:#d4d4d4;
+
+$border-other-date:#52b290;
+$border-infos-dates:#cFcFcF;
+$border-item-country:#cFcFcF;
+
+$font-color-light:white;
+$font-color-dark:#3a3a3a;
+$font-color-link:#409979;
+$font-color-link-hover:#46896c;
+$font-color-label:#4c4c4c;
+$font-color-searchmenu:white;
+
+$adminToday:#e8faff;
+$adminDirect:#f9ddd9;
+$adminLong:#ffedff;
+$adminMultiple:#d3ffce;
+
+$bouton-sombre:black;
+
+$couleur-secondaire : #52b290;
+
+@font-face {
+    font-family:"Elsie Swash Caps";
+    src: url("../fonts/Elsie_Swash_Caps/ElsieSwashCaps-Regular.ttf") /* TTF file for CSS3 browsers */
+}
+
+@font-face {
+    font-family:"Roboto";
+    src: url("../fonts/Roboto/Roboto-Regular.ttf"); /* TTF file for CSS3 browsers */
+}
+
+
+@font-face {
+    font-family:"Lato";
+    src: url("../fonts/Lato/Lato-Regular.ttf") /* TTF file for CSS3 browsers */
+}
+
+@font-face {
+    font-family:"Poiret One";
+    src: url("../fonts/Poiret_One/PoiretOne-Regular.ttf") /* TTF file for CSS3 browsers */
+}
+
+
+$fontTitreSite:'Elsie Swash Caps', sans-serif;
+$defaultFont: 'Roboto', sans-serif;
+$titleFont: 'Lato', sans-serif;
+$titleFont2: 'Lato', sans-serif;
+$menuFont:'Poiret One', cursive;
+
+
+$background-primary-btn:#52b290;

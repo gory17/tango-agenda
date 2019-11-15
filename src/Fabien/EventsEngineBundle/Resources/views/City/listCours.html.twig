@@ -1,0 +1,44 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Cours à {{ city.title }}
+{% endblock %}
+
+{% block body %}
+
+
+
+<div class="container">
+  <h1>{{ "lessons_in"|trans }} {{ city.title }}</h1>
+</div>
+
+  {% for i in 1..7 %}
+  {% if app.request.getLocale()!="fr" %}
+  {% set jour=["","monday","tuesday","wednesday","thursday","friday","saturday","sunday"] %}
+  {% else %}
+  {% set jour=["","lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"] %}
+  {% endif %}
+  <div class="bande-{{ cycle(['even', 'odd'], loop.index0 ) }}">
+    <div class="container">
+      <h2>
+        {{ jour[i] }}
+      </h2>
+      <div class='row'>
+        {% set counter = 0 %}
+        {% for cours in coursCity %}
+          {% if cours.event.day == i%}
+          {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': cours,"taille":"small"  } only %}
+          {% set counter = counter +1 %}
+          {% endif %}
+        {% endfor %}
+      </div>
+      {% if counter == 0 %}
+        <p>{{ "no_lesson_on"|trans }} {{ jour[i] }} !</p>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+
+</div>
+{% endblock %}

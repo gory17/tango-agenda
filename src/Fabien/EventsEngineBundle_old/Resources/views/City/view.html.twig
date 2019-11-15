@@ -1,0 +1,158 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Agenda tango à "~ city.title,'description':"Trouvez toutes les milongas, cours, festivals et marathons à "~ city.title  } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Tango calendar in "~ city.title,'description':"Find all events in "~ city.title } only %}
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+
+
+
+
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=194083261040351";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+  <div class="bande-resume-city ">
+    <div class='container image-city'>
+      <div class="row">
+        <div class="box-image">
+          <img src='{{ urlImageCity }}' alt='' />
+        </div>
+
+        <div class="texte-resume-city">
+            <div class="col-xs-12 col-md-6 title-city ">
+              {% set sortname = " " ~ city.state.country.sortname %}
+
+
+
+              <h1>{{ city.title|replace({ (sortname):"" }) }}</h1>
+              <div class="shareBar">
+                <div class="fb-like" data-href="{{ app.request.uri }}" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+                <p><a class='rss-city' href="{{ path('fabien_events_city_slug_rss',{"slug":city.slug}) }}"><img src='{{ asset('img/rss.png')}}' alt='fil rss de {{city.title}}' title="{{city.title}} RSS" /> RSS {{ city.title|replace({ (sortname):"" }) }}</a></p>
+              </div>
+
+
+
+            </div>
+            <div class="col-xs-6 col-md-3 count-event">
+              <span class='nb_event'>{{ nbEvtMonth }}</span><br />
+              {{ "events"|trans }}
+
+            </div>
+
+<!--
+            <div class="col-xs-6 col-md-3 count-cours">
+              {% if coursCity|length >0 %}
+              <a class="btn btn-info btn-md" href="{{ path("fabien_events_engine_cours",{"slug":city.slug}) }}"> {{ "see_the"|trans }} {{ coursCity|length }}<br /> {{ "tango_lessons"|trans }} <br /> à {{ city.title|replace({ (sortname):"" }) }}</a>
+              {% else %}
+              <a class="btn btn-info btn-md" href="{{ path("events_add_form") }}"> {{ "no_lessons_found"|trans }} <br /> à {{ city.title|replace({ (sortname):"" }) }}<br /><span class="glyphicon glyphicon-hand-right"></span> Ajoutez en un !</a>
+
+              {% endif %}
+
+            </div>
+-->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!--
+{{start_date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy")}}
+
+{{end_date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy")}}
+-->
+
+
+  <div class='resultDates'>
+
+
+
+
+    {% if nbEvtMonth >0 %}
+
+      {% if datesListImportant|length >0 %}
+      <div class="bande-top-events">
+        <div class='container'>
+        {% for date in datesListImportant %}
+            {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"tall"  } only %}
+        {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      {% include 'FabienEventsEngineBundle:Dates:List.html.twig' with {'dates': datesListChrono,'startCounter':0,'start_date':start_date,'end_date':end_date,"coursCity":coursCity } only %}
+
+
+      </div>
+
+      <div class=' bouton-display-more'>
+        <a href='{{ path("ajax_more_dates") }}' class='nextPagination btn btn-lg  btn-primary' start="{{period}}">{{ "see_next_2_weeks"|trans }} <br /><span class='glyphicon glyphicon-triangle-bottom'></span></a>
+      </div>
+
+    {% else %}
+      <div class="container ">
+        <h2 class='center'>{{ "no_events_ins"|trans }} {{ city.title|replace({ (sortname):"" }) }}</h2>
+
+        <p class='center gros'>
+
+          <img src="{{ asset(
+          'img/gif/sad'~random(6)~'.gif'
+          )}}" alt="quelle tristesse !">
+        </p>
+
+        <p class='center gros'>{{ "what_a_shame_please_add_an_event"|trans }}
+          <br /><br/>
+          <a class='btn btn-lg btn-primary' href="{{ path("events_add") }}"><span class="glyphicon glyphicon-plus"></span> {{ "add"|trans }}</a>
+        </p>
+      </div>
+
+    {% endif %}
+</div>
+
+
+{% endblock %}
+
+
+{% block codeJs %}
+<script type="text/javascript">
+  $(".nextPagination").click(function(){
+    urlCible=$(this).attr("href");
+    period=$(this).attr("start");
+    $(this).attr("start",parseInt(period)+{{ period }});
+    $.ajax({
+      url: urlCible,
+      type: 'POST',
+      data:
+      {
+          startDays : period,
+          cityId:{{ city.id }}
+      },
+      success: function(response) {
+        $(".resultDates").append(response);
+      }
+    });
+
+
+    return false;
+  });
+</script>
+
+
+{% endblock %}

@@ -1,0 +1,124 @@
+home: Accueil
+last_posts: Derniers articles
+events_saved: Evénements sauvegardés
+about_tango_agenda: A propos de Tango-Agenda.com
+terms_of_us: Conditions d'utilisation
+follow_us: Suivez nous
+on_facebook: sur Facebook
+country_list: Liste des villes
+milonga_and_lessons: Milongas & cours
+search_by_country: recherche par ville
+events: événements
+cities_of: Villes de %cityName%
+tango_events_in : Evenements tango en %countryName%
+all_cities: Toutes les villes
+by: par
+le_date: le
+comments: commentaires
+post_list: liste des articles
+Delete : Supprimer
+Help : Aide
+help_choose_day : Choisissez le jour de la semaine durant lequel se déroule votre cours.
+help_choose_period : Saisissez ensuite la date de début de vos cours et sa date de fin (exemple du 01/01/2017 ou 20/06/2018)
+tang_blog: Blog Tango
+lessons_in: cours à
+no_lesson_on: Pas de cours à
+events_in: événements à
+see_the: voir les
+tango_lessons: Cours de tango
+no_lessons_found: aucun cours trouvé
+see_next_2_weeks: voir les 30 prochains jours
+no_events_ins: Aucun événement à
+what_a_shame_please_add_an_event: Quelle tristesse ! Aujoutez un événement !
+add: ajouter
+the: le
+see_all_posts: Voir tous les articles
+choose_a_city: Choisir une ville
+or: ou
+choose_a_country: Choisir un pays
+close: Fermer
+featured_articles: A la une
+inscriptions_starts: Début des inscriptions
+for_big_events: Pour les festivals, marathons, encuentros et week-ends tango
+opening: ouverture
+last_events: Derniers événements
+tango_worshops_in: Stages de tango à
+something_whent_wrong: Quelque chose s'est mal passé :(
+operation_success: Opération réalisée avec succès
+a_la_une: A la une
+list_of: Liste des %typeTitle%
+lesxxxxstype: Les %typeTitle%s tango
+registration_opening: Ouverture des inscriptions
+open_on: ouverture le
+du_from: du
+au_to: au
+events_added_these: événements ajoutés ces
+last_days: derniers jours
+no_event_found: Aucun événement trouvé
+add_form: Formulaire d'ajout
+validation_needed: Votre événement sera visible après validation. Merci ! :) .
+add_an_event_or_lesson: Ajouter un événement ou un cours
+'Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes.': 'Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes.'
+'Méthode 1 : Importer de Facebook': 'Méthode 1 : Importer de Facebook'
+'Votre événement doit respecter quelques critères': 'Votre événement doit respecter quelques critères'
+'il doit s''agir d''un événement et non d''une page': 'il doit s''agir d''un événement et non d''une page'
+'votre événement doit avoir un statut public': 'votre événement doit avoir un statut public'
+'il doit contenir une photo d''illustration': 'il doit contenir une photo d''illustration'
+'le lieu doit être renseigné': 'le lieu doit être renseigné'
+'Saisissez ci-dessous l''adresse de l''événement Facebook à ajouter.': 'Saisissez ci-dessous l''adresse de l''événement Facebook à ajouter.'
+'Méthode 2 : Utiliser le formulaire d''ajout d''événement': 'Méthode 2 : Utiliser le formulaire d''ajout d''événement'
+'Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet': 'Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet'
+'Formulaire d''ajout': 'Formulaire d''ajout'
+'Les événements doivent concerner uniquement le tango argentin. Si ce n''est pas le cas, ils seront supprimés sans préavis.': 'Les événements doivent concerner uniquement le tango argentin. Si ce n''est pas le cas, ils seront supprimés sans préavis.'
+events_list: Liste des événements
+facebook_event : évenement Facebook
+add_an_event: ajouter un événement
+Something_whent_wrong: Quelque chose s'est mal passé :(
+Ajouter : Ajouter
+Add_tango_Agenda : Ajouter un évement sur Tango-Agenda
+Text_Add_tango_Agenda : Il manque quelque chose ? Enregistrer un événement c'est simple et gratuit !
+Event_on_fb_Add : Votre événement est déjà sur Facebook ?
+click_here : Cliquez-ici
+sinon : sinon
+Event_type_Add : Quel est le type d'événement que vous souhaitez ajouter ?
+Event_add_copy_paste : Copiez / coller l'adresse de votre évenement Facebook
+Operation_success: Opération réalisée avec succès
+event_form: Formulaire d'événement
+form_ajout_evt : Formulaire d'ajout d'événement
+Adresse_fb_manquante: Adresse Facebook non renseignée
+event_type: Type d'événement
+please_choose_type : Veuillez choisir un type d'événement
+event_title: Titre
+Address: Adresse
+Country: Pays
+closest_city: Ville ou ville la plus proche
+Other_city: Autre ville (si non trouvée dans la liste ci-dessus)
+website: Site web
+fb_page: Page Facebook
+Organizer: Organisateur
+gender_balanced: parité guideur / guidé ?
+registration: inscriptions
+actual_picture: image actuelle
+no_picture: pas d'image
+send_an_image: envoyer une image
+add_a_date: ajouter une date
+a_in: A
+du_form: du
+organized_by: organisé par
+address: Adresse
+registration_opent_at: Ouverture des inscriptions
+more_informations: plus d'infos
+tango_worshop: stage de tango
+every_events : tous les événements
+added_this_last_7_days : ajoutés ces 7 derniers jours
+milonga_and_classes : Milongas & cours
+these_last_7_days : ces 7 derniers jours
+added : ajoutés
+most_active_cities : Villes tango les plus actives
+save : Sauvegarder
+date_start : Date et heure de début
+date_end : Date et heure de fin
+date_informations : Infos supplémentaires
+delete : Supprimer
+other_countries: Autres pays
+search_by_city : Rechercher une ville

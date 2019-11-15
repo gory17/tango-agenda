@@ -1,0 +1,10 @@
+{% if typeOG is defined %}
+<meta property="og:type" content="{{ typeOG }}" />
+{% else %}
+<meta property="og:type" content="article" />
+{% endif %}
+<meta property="og:title" content="{{ titleOG }}" />
+<meta property="og:url" content="{{ app.request.getUri }}" />
+<meta property="og:image" content="{{ siteUrl }}/{{ imageOG }}" />
+<meta property="og:description" content="{{ descriptionOG }}" />
+<meta property="fb:app_id" content="194083261040351" />

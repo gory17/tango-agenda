@@ -1,0 +1,177 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Consulter toutes les vidéos de tango","description":"Consulter les vidéos des maestros de tango argentin" } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"All tango videos","description":"Find tango videos" } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block og %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Consulter toutes les vidéos de tango","descriptionOG":"Consulter les vidéos des maestros de tango argentin","imageOG":"web/img/fond-listvideos.jpg"  } only %}
+
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "All tango videos","descriptionOG":"Find tango videos","imageOG":"web/img/fond-listvideos.jpg" } only %}
+
+{% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+<article>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=194083261040351";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<header>
+<div class="bande-listvideo bande-general header-listvideo ">
+  <div class="container">
+    <div class="col-md-8 ">
+      <h1 class=''>
+        <span>
+          {{"list_videos"|trans}}
+        </span>
+      </h1>
+      <p class='slogan2'><span> {{"slogan_video"|trans}}</span></p>
+      <p><a href='{{path('fabien_videos_rss') }}'><img src='{{ asset('img/rss.png')}}' alt='videos rss feed'  /> {{"rss_video"|trans}}</a></p>
+    </div>
+
+    <div class="col-md-4 presentation-site round-box ">
+      <div class="accueil-bigevent">
+          <div class="accueil-nb-events">{{countVideos}}</div>
+          <p class="accueil-nb-slogan">{{"videos"|trans}}</p>
+      </div>
+    </div>
+
+</div>
+</header>
+
+<section>
+  <div class="maestro-list-videos reveal-closed">
+    <div class="container ">
+      <h2><span class='glyphicon glyphicon glyphicon-search'></span> {{"filter_by_maestro"|trans}}</h2>
+      {% set listMaestro =[] %}
+
+      {% for maestro in listMaestros %}
+
+        {% if maestro.0.image.url is defined  and maestro.0.slug !="" %}
+          {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.0,"video":true, "mode":"video"} only %}
+            {% set listMaestro =listMaestro|merge([maestro.0.id])  %}
+
+          {% if maestro.0.partner is defined and maestro.0.id not in listMaestro %}
+
+            {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.0.partner,"video":true,"mode":"video"} only %}
+          {% endif %}
+
+        {% endif %}
+      {% endfor %}
+
+      {% for maestro in listMaestrosNotActive %}
+        {% if maestro.0.id not in listMaestro  %}
+          {% if maestro.0.image.url is defined  and maestro.0.slug !="" %}
+            {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.0,"video":true, "mode":"video"} only %}
+              {% set listMaestro =listMaestro|merge([maestro.0.id])  %}
+
+            {% if maestro.0.partner is defined and maestro.0.id not in listMaestro %}
+
+              {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.0.partner,"video":true,"mode":"video"} only %}
+            {% endif %}
+
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  <div class="seeMoreMaestros"><div class='container centered clikMoreMaestro'>{{"see_more_maestros"|trans}}<br/><span class='glyphicon glyphicon-triangle-bottom'></span></div></div>
+</section>
+
+
+<section>
+<div class="maestro-videos">
+  <div class="container">
+    <h2><span class='glyphicon glyphicon glyphicon-facetime-video'></span> {{"all_videos"|trans}}</h2>
+      <div class='resultVideos'>
+        {% for video in listvideos %}
+          {% include 'FabienEventsEngineBundle:video:item-video.html.twig' with {'video': video,"mode":"list","lazyload":true  } only %}
+        {% endfor %}
+      </div>
+      <div class='bouton-display-more more-videos'>
+        <a href='{{ path("ajax_more_videos") }}' class='nextPagination btn btn-lg  btn-primary' offset="12">{{ "more_videos"|trans }} <br /><span class='glyphicon glyphicon-triangle-bottom'></span></a>
+      </div>
+  </div>
+</div>
+</section>
+
+
+
+{% include 'FabienEventsEngineBundle:video:modalvideo.html.twig' %}
+
+
+</article>
+{% endblock %}
+
+
+{% block codeJs %}
+<script>
+
+$(document).ready(function(){
+  var close=false;
+  $(".seeMoreMaestros").click(function() {
+    $(".maestro-list-videos").toggleClass("reveal-closed").toggleClass("reveal-open");
+    $(".clikMoreMaestro").html("<span class='glyphicon glyphicon glyphicon-less'></span> {{"see_less_maestros"|trans}}");
+
+    if(close==true){
+      close=false;
+      $(".clikMoreMaestro").html("{{"see_more_maestros"|trans}} <br/> <span class='glyphicon glyphicon-triangle-bottom'></span>");
+    }else{
+      close=true;
+      $(".clikMoreMaestro").html("{{"see_less_maestros"|trans}} <br /><span class='glyphicon glyphicon-triangle-top'></span>");
+    }
+
+  });
+
+  $(".nextPagination").click(function(){
+    urlCible=$(this).attr("href");
+    offset=$(this).attr("offset");
+    $(this).attr("offset",parseInt(offset)+ parseInt(offset) );
+    $.ajax({
+      url: urlCible,
+      type: 'POST',
+      data:
+      {
+          offset : offset,
+          personId:null
+      },
+      success: function(response) {
+        $(".resultVideos").append(response);
+      }
+    });
+
+
+    return false;
+  });
+});
+
+
+
+
+</script>
+
+
+{% endblock %}

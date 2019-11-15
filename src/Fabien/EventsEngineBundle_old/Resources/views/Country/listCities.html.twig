@@ -1,0 +1,44 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+List des pays
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+  <h1>{{ pays }}</h1>
+
+
+
+  <div class="row " id="listing">
+    <div class="col-md-4">
+      <h2>Villes les plus actives</h2>
+      <ul class='listCity'>
+      {% for city in mostActiveCityList %}
+          <li ><a class='place' href='{{ path("fabien_events_city_slug",{"slug":city.slug}) }}'>{{ city.title }} </a> <span class="badge">{{ city.cptevt }}</span> </li>
+      {% endfor %}
+      </ul>
+
+      <h2>Toutes les villes</h2>
+
+        <ul class='listCity'>
+          {% for city in cityList %}
+          <li  ><a  class='place' href='{{ path("fabien_events_city_slug",{"slug":city.slug}) }}'>{{ city.title }} </a> <span class="badge">{{ city.cptevt }}</span></li>
+          {% endfor %}
+        </ul>
+      </div>
+
+
+    <div class="col-md-8">
+      <h2>Evénements majeurs</h2>
+      {% for date in lastEvents %}
+      {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"medium"  } only %}
+      {% endfor %}
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+{{ "events_list"|trans }}
+{% endblock %}
+
+
+{% block body %}
+
+{% if error_message is defined %}
+<div class='container'>
+  <div class='alert alert-warning'>
+  <h3>{{ "Something_whent_wrong"|trans }}</h3>
+  {{ error_message }}
+  </div>
+</div>
+{% endif %}
+
+{% if success_message is defined %}
+<div class='container'>
+  <div class='alert alert-success'>
+  <h3>{{ "Operation_success"|trans }}</h3>
+  {{ success_message }}
+  </div>
+</div>
+{% endif %}
+
+
+<h1>{{ "events_list"|trans }}</h1>
+
+<ul>
+  {% for event in listEvents %}
+
+  {% else %}
+  <li>{{ "no_event_found"|trans }}</li>
+  {% endfor %}
+</ul>
+
+<p><a class='button' href="{{ path('events_add') }}">{{ "add_an_event"|trans }}</a></p>
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+liste
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Liste des groupes</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Url</th>
+                <th>FbID</th>
+                <th>Count</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for groupFb in groupFbs %}
+            <tr>
+                <td><a href="{{ path('groupfb_show', { 'id': groupFb.id }) }}">{{ groupFb.id }}</a></td>
+                <td>{{ groupFb.title }}</td>
+                <td>{{ groupFb.url }}</td>
+                <td>{{ groupFb.fbid }}</td>
+                <td>{{ groupFb.count }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('groupfb_show', { 'id': groupFb.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('groupfb_edit', { 'id': groupFb.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('groupfb_new') }}">Create a new groupFb</a>
+        </li>
+    </ul>
+  </div>
+  {% endblock %}

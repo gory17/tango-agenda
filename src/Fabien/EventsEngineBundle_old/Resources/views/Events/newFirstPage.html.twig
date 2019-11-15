@@ -1,0 +1,121 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{{ "add_form"|trans }}
+{% endblock %}
+
+
+{% block body %}
+
+<div class='container'>
+
+{% if error_message is defined %}
+  <div class='alert alert-warning'>
+  <h3>{{ "something_whent_wrong"|trans }}</h3>
+  {{ error_message }}
+  </div>
+{% endif %}
+
+{% if success_message is defined %}
+
+  <div class='alert alert-success'>
+  <h3>{{ "operation_success"|trans }}</h3>
+  <p>{{ "validation_needed"|trans }}</p>
+  {{ success_message }}
+  <img src="{{ asset(
+  'img/gif/yes'~random(6)~'.gif'
+  )}}" alt="quel succès !">
+  </div>
+{% endif %}
+
+<div class="col-md-8 col-md-offset-2">
+  <h1>{{ "add_an_event_or_lesson"|trans }}</h1>
+
+  <div class="well">
+    <p><span class="glyphicon glyphicon-info-sign"></span>{{ "Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes."|trans }}</p>
+  </div>
+
+
+
+  <div class="well">
+    <h2><span class="glyphicon glyphicon-hand-right"></span> {{ "Méthode 1 : Importer de Facebook"|trans }}</h2>
+    <p>
+      {{ "Votre événement doit respecter quelques critères"|trans }} :
+      <ul>
+        <li>{{ "il doit s'agir d'un événement et non d'une page"|trans }}</li>
+        <li>{{ "votre événement doit avoir un statut public"|trans }}</li>
+        <li>{{ "il doit contenir une photo d'illustration"|trans }}</li>
+        <li>{{ "le lieu doit être renseigné"|trans }}</li>
+      </ul>
+    </p>
+    <p><strong>{{ "Saisissez ci-dessous l'adresse de l'événement Facebook à ajouter."|trans }}</strong></p>
+
+    <div class="form-group ">
+
+      <p>
+      <input type="text" name="facebookevt" value="" id="fblink" class="form-control" placeholder="https://www.facebook.com/events/333040897051350/">
+      </p>
+
+      <p>
+      {{"event_type"|trans}}
+      <select id='add_fb_type_select' class="selectpicker" title="Choisir un type">
+        <option value='#'></option>
+        {% for TypeEvt in listTypeEvt %}
+          <option value='{{ TypeEvt.id }}'>{{ TypeEvt.title }}</a></option>
+        {% endfor %}
+      </select>
+      </p>
+
+      <p>
+      <div id='alert_type'></div>
+      <a href="{{ path("events_add") }}/fb" id='addfb' class='btn btn-primary'>{{ "add"|trans }}</a>
+      </p>
+
+
+    </div>
+  </div>
+
+  <div class="well">
+    <h2><span class="glyphicon glyphicon-hand-right"></span> {{ "Méthode 2 : Utiliser le formulaire d'ajout d'événement"|trans }}</h2>
+    <p>{{ "Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet"|trans }}</p>
+    <p><a class='btn btn-primary' href="{{ path("events_add_form")}}">{{ "Formulaire d'ajout"|trans }}</a></p>
+  </div>
+
+  <div class="alert alert-warning" role="alert">
+    <p><span class="glyphicon glyphicon-alert"></span> {{ "Les événements doivent concerner uniquement le tango argentin. Si ce n'est pas le cas, ils seront supprimés sans préavis."|trans }}</p>
+  </div>
+
+</div>
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block codeJs %}
+<script>
+$(document).ready(function(){
+  $("#addfb").click(function(){
+    typeFb=$("#add_fb_type_select").val();
+    idFb=$("#fblink").val();
+    if(idFb!=""){
+      if(typeFb!=""){
+        idFb=idFb.replace("https://www.facebook.com/events/","");
+        idFb=idFb.replace('/',"");
+        cible=$(this).attr("href")+"/"+idFb+"/"+typeFb;
+        window.location.href=cible;
+      }else{
+        $("#alert_type").html("<div class='alert alert-danger' role='alert'>{{"please_choose_type"|trans}} </div>");
+      }
+    }else{
+      $("#alert_type").html("<div class='alert alert-danger' role='alert'>{{"Adresse_fb_manquante"|trans}} </div>");
+
+    }
+    return false;
+  });
+})
+</script>
+{% endblock %}

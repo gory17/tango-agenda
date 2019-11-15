@@ -1,0 +1,53 @@
+{% if person. image.url is defined %}
+
+{% if mode is not defined  %}
+  {% set mode="normal" %}
+{% endif %}
+
+{% if video is not defined  %}
+  {% set video = false %}
+{% endif %}
+
+{% if style is not defined  %}
+  {% set style = "avec" %}
+{% endif %}
+
+{% if fullInfos is not defined %}
+    {% set fullInfos = false %}
+{% endif %}
+
+
+
+{% set imageUrl = asset(uploadImage~ "thumb/"~ person.image.url) %}
+
+
+<div class="item-mini-person {% if style == "avec" %} xs-hidden col-md-3 col-xs-5  {% endif %} {% if fullInfos == true %}fullInfosPerson {% endif %} {% if video == true%}forvideo {% endif %} {% if mode == "mini"  %} display-mini
+ {% else %} display-normal {% endif %}">
+    <a href='{{path("fabien_maestro_show",{"slug": person.slug})}}{% if video == true%}#maestro-videos{% endif %}'>
+    <img src="{{ imageUrl }}" alt="portrait du maestro de tango {{person.prenom}} {{person.nom}}" class='' />
+  <p class='maestro-nom center centered'>
+  {{person.prenom}}
+    {% if person.surnom !="" %} "{{person.surnom}}" {% endif %}
+  {{person.nom}}
+
+  {% if fullInfos == true %}
+    <br /><span class='badge video_recent_badge'>{{ person.events|length }}</span>  {{"events_maestros"|trans}}
+  {% endif %}
+
+
+  {% if person.videos is defined and mode =="video" or fullInfos == true %}
+    {% set CptVideo =0 %}
+    {% for video in person.videos %}
+      {% if video.datePublication > "now"|date_modify("-7 days") %}
+        {% set CptVideo = CptVideo +1 %}
+      {% endif %}
+    {% endfor %}
+    {% if CptVideo >0 %}
+      <br /><span class='badge video_recent_badge'>+ {{CptVideo}}</span> {{"videos_this_week"|trans}}
+    {% endif %}
+      <br /><span class='badge'>{{ person.videos|length }}</span>  {{"videos_total"|trans}}
+  {% endif %}
+  </p>
+  </a>
+</div>
+{% endif %}

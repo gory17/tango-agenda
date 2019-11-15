@@ -1,0 +1,123 @@
+{% if date.event.cityother %}
+  {% set cityDisplay = date.event.cityother %}
+{% else %}
+  {% set cityDisplay = date.event.city.title %}
+{% endif %}
+{% if lazyload is not defined %}
+{% set lazyload = false %}
+{% endif %}
+
+{% if taille!="amp"%}
+<div class="item_event " itemprop="itemListElement" itemscope itemtype="http://schema.org/Event">
+
+
+  {% if taille == "tall" %}
+  <div class="item_event_{{ taille }} row">
+  {% elseif taille == "valo" %}
+  <div class="item_event_{{ taille }} col-xs-12 col-md-6 form-group">
+  {% elseif taille == "medium" %}
+  <div class="item_event_{{ taille }} col-xs-12 col-md-6 form-group">
+  {% elseif taille =="topPage" or taille =="topPageBig" %}
+  <div class="item_event_{{ taille }}">
+  {% elseif taille =="card" %}
+  <div class="item_event_{{ taille }} card">
+    {% if taille == "card" %} {% set taille = "small" %}{% endif %}
+  {% else %}
+  <div class="item_event_{{ taille }} col-xs-12 col-md-4 col-lg-3 form-group">
+  {% endif %}
+    <div class='content-item'>
+
+      {% if taille == "tall" %}
+      <div class="col-md-8 col-xs-12">
+      {% endif %}
+
+        <div class="image-box">
+          <a itemprop='sameAs' content="{{ date.event.urlFB }}" href="{{ path("date_view",{'id':date.id}) }}" itemprop="url" >{% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': date.event.image,"taille": taille,"event":date.event,"lazyload":lazyload} only %}</a>
+        </div>
+
+      {% if taille == "tall" %}
+      </div>
+      <div class="col-md-4 col-xs-12">
+      {% endif %}
+
+      <div class='item-text'>
+        <p class='item-infos-location'>
+          <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+            <div itemscope itemprop="address" itemtype="http://schema.org/PostalAddress" content="{{date.event.adress}}{{cityDisplay}}, {{date.event.city.state.country.title}}">
+            {% if date.event.city.state.country.sortname!="inconnu" %}
+            <img class='flag' src="{{ asset('img/flags/flags_iso/32')}}/{{ date.event.city.state.country.sortname|lower }}.png" class='flag' alt="flag {{ date.event.city.state.country.title }} ">
+            {% endif %}
+            <span class='item-city place' itemscope itemtype="http://schema.org/PostalAddress" content="{{date.event.adress}} {{cityDisplay}}, {{date.event.city.state.country.title}}"  >{{ cityDisplay }}, {{date.event.city.state.country.title}}</span><br />
+            </div>
+          </div>
+
+          {% if app.request.getLocale()=="fr" %}
+          <span class='item-type' itemprop="name">{{ date.event.typeevent.title }}</span><br />
+          {% else %}
+          <span class='item-type'>{{ date.event.typeevent.titletrad }}</span><br />
+          {% endif %}
+
+          {% if date.event.typeevent.id == 8 %}
+          {% if app.request.getLocale()=="fr" %}
+            {% set jour=["","lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"] %}
+          {% else %}
+            {% set jour=["","monday","thuesday","wednesday","thursday","friday","saturday","sunday"] %}
+          {% endif %}
+			{% if date.event.day !='' %}
+            <span class='item-date '>Le {{ jour[date.event.day] }}</span>
+			{% endif %}
+          {% else %}
+            <span class="glyphicon glyphicon-calendar"></span> <span class='item-date ' itemprop="startDate" content="{{ date.start|date("c") }}">{{ date.start|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL") }}</span>
+          {% endif %}
+        </p>
+        <h3><a href="{{ path("date_view",{'id':date.id}) }}" itemprop="url"><span itemprop="name">{{ date.event.title }}</span></a></h3>
+      </div>
+      {% if taille == "tall" %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% else %}
+<div class='item-amp'>
+<div class="image-box">
+  <a itemprop='sameAs' content="{{ date.event.urlFB }}" href="{{ path("date_view",{'id':date.id}) }}" itemprop="url" >{% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': date.event.image,"taille": "amp","event":date.event,"lazyload":lazyload} only %}</a>
+</div>
+{% set jour=["","monday","thuesday","wednesday","thursday","friday","saturday","sunday"] %}
+<div class='item-text'>
+  <p class='item-infos-location'>
+    <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+      <div itemscope itemprop="address" itemtype="http://schema.org/PostalAddress" content="{{date.event.adress}}{{ cityDisplay }}, {{date.event.city.state.country.title}}">
+      {% if date.event.city.state.country.sortname!="inconnu" %}
+
+      <amp-img src="{{ asset('img/flags/flags_iso/32')}}/{{ date.event.city.state.country.sortname|lower }}.png"
+      width="32"
+      height="32"
+      ></amp-img>
+
+      {% endif %}
+      <span class='item-city place' itemscope itemtype="http://schema.org/PostalAddress" content="{{date.event.adress}} {{ cityDisplay }}, {{date.event.city.state.country.title}}"  >{{ cityDisplay }}, {{date.event.city.state.country.title}}</span><br />
+      </div>
+    </div>
+
+    {% if app.request.getLocale()=="fr" %}
+    <span class='item-type' itemprop="name">{{ date.event.typeevent.title }}</span><br />
+    {% else %}
+    <span class='item-type'>{{ date.event.typeevent.titletrad }}</span><br />
+    {% endif %}
+
+    {% if date.event.typeevent.id == 8 %}
+    {% if app.request.getLocale()=="fr" %}
+      {% set jour=["","lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"] %}
+    {% else %}
+      {% set jour=["","monday","thuesday","wednesday","thursday","friday","saturday","sunday"] %}
+    {% endif %}
+      <span class='item-date '>Le {{ jour[date.event.day] }}</span>
+    {% else %}
+      <span class="glyphicon glyphicon-calendar"></span> <span class='item-date ' itemprop="startDate" content="{{ date.start|date("c") }}">{{ date.start|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL") }}</span>
+    {% endif %}
+  </p>
+  <h3><a href="{{ path("date_view",{'id':date.id}) }}" itemprop="url"><span itemprop="name">{{ date.event.title }}</span></a></h3>
+</div>
+</div>
+{% endif %}

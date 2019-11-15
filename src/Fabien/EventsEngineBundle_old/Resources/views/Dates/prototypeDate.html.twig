@@ -1,0 +1,19 @@
+<div class="panel panel-default">
+  <div class="row panel-body">
+    <div class="col-md-6">
+      <p>
+      {{ form_label(form.start, "date_start"|trans ) }}
+      {{ form_widget(form.start,{ 'attr': {'class': 'datepicker dateStartField'} }) }}
+    </p>
+    <p>
+    {{ form_label(form.end,"date_end"|trans ) }}
+    {{ form_widget(form.end,{ 'attr': {'class': 'datepicker dateEndField'} }) }}
+  </p>
+    </div>
+
+    <div class="col-md-6">
+      {{ form_label(form.description,"date_informations"|trans ) }}
+      {{ form_widget(form.description) }}
+    </div>
+  </div>
+</div>

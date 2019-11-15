@@ -1,0 +1,115 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "Evenements tango en " ~ country.title ,"description": "Retrouvez tous les événements tango en " ~ country.title ~", stages, milongas, festivals, marathons et autres"  } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "Tango events in " ~ country.title ,"description": "Find all tango events in " ~ country.title ~", stages, milongas, festivals, marathons and many others"    } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block title %}
+{{ "tango_events_in"|trans({"%countryName%":country.title}) }}
+{% endblock %}
+
+{% block body %}
+<div class="bande-top-events hide-xs">
+  <div class="container">
+    <h1>
+      {% if country.sortname!="inconnu" %}
+          <img src="{{ asset('img/flags/flags_iso/48')}}/{{ country.sortname|lower }}.png" class='flag-big' alt="Drapeau {{ country.title }} ">
+       {% endif %}
+    {{ "tango_events_in"|trans({"%countryName%":country.title}) }}
+          </h1>
+
+    <h2>{{ "most_active_cities_in"|trans }} {{country.title}}
+     </h2>
+    <section>
+      <div class="row citiesCountry">
+        <div class="col-sm-12 col-md-8 mostActiveCities">
+
+          <ul class='listCity'>
+          {% for city in mostActiveCityList %}
+            {% if city.slug %}
+              <li ><a class='place' href='{{ path("fabien_events_city_slug",{"slug":city.slug}) }}'>{{ city.title }} </a><span class="badge">{{ city.cptevt }}</span> </li>
+            {% endif %}
+          {% endfor %}
+          </ul>
+        </div>
+        <div class="col-sm-12 col-md-4 allCities center">
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownCity" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+              {{ "all_cities"|trans }}
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownCity">
+            {% for city in cityList %}
+              {% if city.slug %}
+              <li  ><a  class='place' href='{{ path("fabien_events_city_slug",{"slug":city.slug}) }}'>{{ city.title }} <span class="badge">{{ city.cptevt }}</span> </a></li>
+              {% endif %}
+            {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+
+<div class='bande-even'>
+	<div class='container'>
+		<div class='pub-mobile'>
+			<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+			<!-- annonce carrée -->
+			<ins class="adsbygoogle"
+				 style="display:block"
+				 data-ad-client="ca-pub-7075025232332457"
+				 data-ad-slot="6039767468"
+				 data-ad-format="auto"></ins>
+			<script>
+			window.onload = function() {
+				(adsbygoogle = window.adsbygoogle || []).push({});
+			}
+			</script>
+		</div>
+	</div>
+</div>
+
+{% include 'FabienEventsEngineBundle:Dates:ListByMonth.html.twig' with {'dates': lastEvents,'start_date':start_date,'end_date':end_date } only %}
+
+
+
+{% endblock %}
+
+{% block codeJs %}
+  <script>
+
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        loop:false,
+		      nav:true,
+        margin:20,
+		items:2,
+        onInitialize:callback,
+		responsive:{
+			0:{
+				items:2
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+
+    });
+  });
+
+  function callback(){
+    $(".loadingMsg").hide();
+  }
+
+  </script>
+{% endblock %}

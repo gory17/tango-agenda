@@ -1,0 +1,98 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{{event.typeevent.title}} {{ event.title }}
+{% endblock %}
+
+{% block body %}
+<article>
+<div class='container' itemscope itemtype="http://schema.org/Event">
+
+  {% if error_message is defined %}
+  <div class='container'>
+    <div class='alert alert-warning'>
+    <h3>Oops ! Quelque chose s'est mal passé !</h3>
+    {{ error_message }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if success_message is defined %}
+  <div class='container'>
+    <div class='alert alert-success'>
+    <h3>Opération réalisée avec succès</h3>
+    {{ success_message }}
+    </div>
+  </div>
+  {% endif %}
+
+  <h2 itemprop="name">{{ event.title }}</h2>
+
+  <div itemprop="description">
+    <p class='details'>{{event.typeevent.title}} {% if event.organizer is not null %}organisé par <span itemprop="organizer">{{ event.organizer }}</span> {% endif %}</p>
+    {% include 'FabienEventsEngineBundle:Events:horaires.html.twig' with {'event': event} only %}
+
+
+    {% if event.image %}
+      {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image':  event.image,"taille":"tall"} only %}
+    {% endif %}
+
+
+    <p>{{ event.description|nl2br }}</p>
+
+    <p class='ouverture_inscription'>
+    {{ event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy 'à' HH:mm") }}
+    </p>
+
+    {% if event.city!="" %}
+    <p>
+    <strong>Adresse</strong><br />
+    <span itemprop="location">
+      {{event.adress}}<br />
+      {{event.city.title}}
+    </span>
+    </p>
+    {% endif %}
+
+    <ul>
+      {% if event.urlWeb is not null %} <li>Site internet <span itemprop="url"><a href="{{ event.urlWeb }}">{{ event.urlWeb }}</a></span></li> {% endif %}
+      {% if event.urlFb is not null %} <li><a href="{{ event.urlFB }}">Facebook</a></li> {% endif %}
+    </ul>
+  </div>
+
+</div>
+</article>
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<div class="container blockadmin">
+  <h2>Administration</h2>
+  <p>Connecté en tant que {{ app.user.username }}</p>
+  <p>
+  {% if event.publish == 0 %}
+  <a href="{{ path('events_publish',{"id" : event.id,"mode":"publier"}) }}" class='btn btn-success'>Publier</a>
+  {% else %}
+  <a href="{{ path('events_publish',{"id" : event.id,"mode":"depublier"}) }}" class='btn btn-warning'>Dépublier</a>
+  {% endif %}
+  <a href="{{ path('events_edit',{"id" : event.id}) }}" class='btn btn-primary'>Editer</a>
+  <a href="{{ path('events_delete',{"id" : event.id}) }}" class='btn btn-danger btsupprimer'>Supprimer</a>
+</p>
+</div>
+{% endif %}
+
+
+{% endblock %}
+
+{% block codeJs %}
+<script>
+$(".btsupprimer").click(function(){
+  var result = confirm("Voulez vous vraiment supprimer ?");
+  if (result) {
+      //Logic to delete the item
+  }else{
+    return false;
+  }
+});
+
+</script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaGgZMxyHsTiZW_Ha5UMztq0rx7jC68Ck&callback=initMap" async defer></script>
+{% endblock %}

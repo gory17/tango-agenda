@@ -1,0 +1,84 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+{{ "country_list"|trans }}
+{% endblock %}
+
+{% block body %}
+
+<div class="container">
+
+  <div id="listing">
+
+    <h1>{{ "milonga_and_lessons"|trans }}</h1>
+
+    <div class="filter bigsearchbox well">
+
+      <div class="input-group centered">
+        <span class="input-group-addon">
+          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+        </span>
+        <input type="text" id="cityInputMenu" class="cityMilongaCours cityInputMenu input-lg search" name="" value="" placeholder="{{ "search_by_city"|trans}}">
+      </div>
+    </div>
+
+    <div class="list">
+      <h2>{{ "search_by_country"|trans }}</h2>
+      <dl id="gridtab">
+      {% for country in CountryList %}
+        {% if country.title !="Inconnu" %}
+
+          <dt>
+            <img src="{{ asset('img/flags/flags_iso/48')}}/{{country.sortname|lower }}.png" alt="flag {{ country.title }} " />
+            <br />
+            <p class='item-country-title'>{{ country.title }}  <br/> <span class="badge">{{country.cptevt}}</span> {{ "events"|trans }}</p>
+          </dt>
+
+          <dd class="invisible">
+          {% for city in country['cities'] %}
+          {% if city.slug !="" %}
+          <div class="col-xs-6 col-md-3">
+            <a href="{{ path("fabien_events_city_slug",{"slug":city.slug}) }}">{{ city.title|replace({ (country.sortname):"" }) }}</a>
+          </div>
+          {% endif %}
+          {% endfor %}
+          </dd>
+        {% endif %}
+      {% endfor %}
+      </dl>
+
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block codeJs %}
+
+<script>
+    $(document).ready(function() {
+        $("#gridtab dd").removeClass("invisible");
+        $('#gridtab').gridtab({
+            grid:4,
+            borderWidth: 1,
+            tabPadding:10,
+            contentPadding: 40,
+        });
+    });
+</script>
+
+<script src="{{ asset('js/listjs.js') }}"></script>
+
+<script type="text/javascript">
+var options = {
+  valueNames: [ 'place']
+};
+
+var userList = new List('listing', options);
+</script>
+{% endblock %}

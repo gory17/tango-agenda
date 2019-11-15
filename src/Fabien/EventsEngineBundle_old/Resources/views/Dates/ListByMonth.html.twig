@@ -1,0 +1,75 @@
+{% set counter = 0 %}
+{% set moisstage ="" %}
+{% set cptstage = 0 %}
+{% for x in range(start_date|date('U'), end_date|date('U'), 86400*30 ) %}
+  {% set cpt = 0 %}
+  {% for date in dates %}
+    {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") == x|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") %}
+      {% set cpt = cpt + 1 %}
+    {% endif %}
+  {% endfor %}
+
+  {% if not loop.first %}
+  </div>
+  </div>
+  {% endif %}
+
+
+  <div class="bande-{{ cycle(['odd', 'even'], counter ) }}">
+  <div class='container row"'>
+
+  {% if cpt >0 %}
+
+   <h2>{{ x|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") }} </h2>
+   <div class="row">
+    {% set counter = counter +1 %}
+  {% endif %}
+
+
+
+   {% for date in dates %}
+     {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") == x|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") %}
+      {% if date.event.TypeEvent.id!=2 %}
+       {% if date.event.valorisation ==1 %}
+         {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo"  } only %}
+       {% else %}
+         {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"medium"  } only %}
+       {% endif %}
+      {% else %}
+        {% set cptstage = cptstage +1 %}
+        {% set moisstage = date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") %}
+      {% endif %}
+    {% endif %}
+   {% endfor %}
+
+   {% if cpt >0 %}
+   </div>
+      {% if cptstage >0 %}
+      <div class='row'>
+        <div class="col-md-12">
+          <h3>{{ "tango_worshop"|trans }} {{moisstage }}</h3>
+        </div>
+
+        {% for date in dates %}
+          {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") == x|localizeddate('none', 'none', "fr","Europe/Paris","LLLL yyyy") %}
+           {% if date.event.TypeEvent.id==2 %}
+            {% if date.event.valorisation ==1 %}
+              {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo"  } only %}
+            {% else %}
+              {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small"  } only %}
+            {% endif %}
+           {% else %}
+
+           {% endif %}
+         {% endif %}
+        {% endfor %}
+      </div>
+      {% set cptstage = 0 %}
+      {% endif %}
+  {% endif %}
+
+  {% if loop.last %}
+  </div>
+  </div>
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,63 @@
+ajax_list_city:
+  path:      /listcity
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:listCityFromCountry
+  requirements:
+    id: \d+
+
+
+ajax_find_city:
+  path: /findCity
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:findCity
+
+
+ajax_change_type:
+    path: /changeType
+    defaults:
+      _controller: FabienEventsEngineBundle:Ajax:ChangeType
+
+ajax_find_city_menu:
+  path: /findCityMenu
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:findCityMenu
+
+
+ajax_more_dates:
+  path: /moreDates
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:moreDates
+
+ajax_more_videos:
+  path: /moreVideos
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:moreVideos
+
+
+ajax_set_type_video:
+  path: /settypevideo
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:setTypeVideo
+
+ajax_find_group:
+    path: /axfindgroup
+    defaults:
+      _controller: FabienEventsEngineBundle:Ajax:findGroups
+
+
+ajax_add_group:
+    path: /axaddgroup
+    defaults:
+      _controller: FabienEventsEngineBundle:Ajax:addGroup
+
+
+ajax_city_coord:
+    path: /axcoordcity
+    defaults :
+      _controller : FabienEventsEngineBundle:Ajax:cityUpdateCoord
+
+
+ajax_json:
+    path : /axjson
+    defaults :
+      _controller: FabienEventsEngineBundle:Home:json

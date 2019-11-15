@@ -1,0 +1,26 @@
+{% form_theme form _self %}
+
+{% block _dates_widget %}
+<div class="panel panel-default">
+  <div class="row panel-body">
+
+  <div class="col-md-6">
+    <p>
+    {{ form_label(form.start) }}
+    {{ form_widget(form.start, {value: "2016-03-03 20:00" } ) }}
+  </p>
+  <p>
+  {{ form_label(form.end) }}
+  {{ form_widget(form.end) }}
+</p>
+  </div>
+
+  <div class="col-md-6">
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description) }}
+  </div>
+</div>
+</div>
+{% endblock %}
+
+{{ form_widget(form.name) }}

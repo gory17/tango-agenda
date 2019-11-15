@@ -1,0 +1,18 @@
+{% if person. image.url is defined %}
+
+{% if mode is not defined  %}
+  {% set mode="normal" %}
+{% endif %}
+
+<div class="item-mini-person xs-hidden col-xs-6 col-md-3 {% if mode == "mini"  %} display-mini
+ {% else %} display-normal {% endif %}">
+  <a href='{{path("fabien_maestro_show",{"slug": person.slug})}}'>
+  <img src="{{ asset(uploadImage ~ person.image.url) }}" alt="portrait du maestro de tango {{person.prenom}} {{person.nom}}" class='' />
+  <p class='maestro-nom center centered'>
+  {{person.prenom}}
+    {% if person.surnom !="" %} "{{person.surnom}}" {% endif %}
+  {{person.nom}}
+  </p>
+  </a>
+</div>
+{% endif %}

@@ -1,0 +1,761 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block og %}
+
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'website','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+{% endblock %}
+
+{% block title %}
+{{ "home"|trans }} {{appTitle}}
+{% endblock %}
+
+{% block body %}
+
+<div class='accueil'>
+
+
+<h1>{{ "home"|trans }} {{appTitle}} </h1>
+
+
+<div class="bande-welcome">
+  <div class="container ">
+    <div class="col-md-8 col-xs-12 presentation-site animated slideInLeft">
+      <p class='slogan1'><a class='find-next-event' href='{{ path("fabien_events_coutry_list")}}'><span>{{"slogan1"|trans}}</span></a></p>
+
+      <p class="slogan2"><span>{{"slogan2"|trans}}</span></p>
+    </div>
+
+    <div class='visible-xs browse-events'>
+      <a href='{{ path("fabien_events_coutry_list")}}' class='btn btn-primary'><span class='glyphicon glyphicon-hand-right'></span> {{"browse"|trans}}</a>
+    </div>
+
+  </div>
+</div>
+
+<div class="bande-accueil accueil-stats">
+  <div class="container">
+
+    <div class="col-md-3 col-xs-6 bloc-stat-accueil">
+      <div class='stat-accueil'><span class='glyphicon glyphicon-globe'></span><br/>{{countEvents}}</div>
+      {{"stats-total-events"|trans}}
+    </div>
+
+    <div class="col-md-3 col-xs-6 bloc-stat-accueil hidden-xs">
+      <div class='stat-accueil'><span class='glyphicon glyphicon-plus'></span><br/> {{countAddedToday}}</div>
+      {{"stats-events-added-today"|trans}}
+    </div>
+
+    <div class="col-md-3 col-xs-6 bloc-stat-accueil">
+      <div class='stat-accueil'><span class='glyphicon glyphicon-calendar'></span><br/> {{countEventsToday}}</div>
+      {{"stats-events-today"|trans}}
+    </div>
+
+    <div class="col-md-3 col-xs-6 bloc-stat-accueil hidden-xs">
+      <div class='stat-accueil'><span class='glyphicon glyphicon-king'></span><br/> {{countBigEvents}}</div>
+      {{"stats-big-events"|trans}}
+    </div>
+
+  </div>
+
+</div>
+
+{#
+{% set countPost = 0 %}
+{% for post in posts %}
+  {% if post.titletrad !="" %}
+    {% set countPost = countPost+1 %}
+  {% endif %}
+{% endfor %}
+#}
+
+
+
+
+
+<div class="bande-accueil-small  bande-accueil-menu-items">
+    <div class="col-xs-6 col-md-4 item-xs-accueil-menu item-xs-accueil-milonga">
+      <div class="conteneur-item-menu">
+        <a class='btn btn-transparent' href="{{ path("fabien_events_coutry_list")}}">{{"local_milongas"|trans}}</a>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-md-4 item-xs-accueil-menu item-xs-accueil-menu-marathons">
+      <div class="conteneur-item-menu">
+        <a class='btn btn-transparent' href="{{ path('fabien_events_engine_bigevents_list',{"slug":"tango-marathon"}) }}">{{"tango-marathons"|trans}}</a>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-md-4 item-xs-accueil-menu item-xs-accueil-festivals">
+      <div class="conteneur-item-menu">
+        <a class='btn btn-transparent' href="{{ path('fabien_events_engine_bigevents_list',{"slug":"tango-festival"}) }}">{{"tango-festivals"|trans}}</a>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-md-4 item-xs-accueil-menu item-xs-accueil-encuentros">
+      <div class="conteneur-item-menu">
+        <a class='btn btn-transparent' href="{{ path('fabien_events_engine_bigevents_list',{"slug":"tango-encuentro"}) }}">{{"tango-encuentros"|trans}}</a>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-md-4 item-xs-accueil-menu item-xs-accueil-weekends">
+      <div class="conteneur-item-menu">
+        <a class='btn btn-transparent' href="{{ path('fabien_events_engine_bigevents_list',{"slug":"tango-week-end"}) }}">{{"tango-weekends"|trans}}</a>
+      </div>
+    </div>
+
+    <div class="col-xs-6 col-md-4 item-xs-accueil-menu item-xs-accueil-voyages">
+      <div class="conteneur-item-menu">
+        <a class='btn btn-transparent' href="{{ path("fabien_events_coutry_list")}}">{{"tango-vacations"|trans}}</a>
+      </div>
+    </div>
+
+</div>
+
+
+
+
+
+<div class='bande-accueil accueil-map-events hidden-xs'>
+  <div class="container">
+    <h2><span class='glyphicon glyphicon-map-marker'></span> {{"map_big_events"|trans}}</h2>
+    <div id="map-tangoagenda" class="col-md-9"></div>
+    <div class="col-md-3 legends-map">
+      <h3>{{"order_by"|trans}}</h3>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-marathon'><img src="{{asset('img/pins/redpin.png')}}" alt='pin maps' />  Marathons</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-festival'><img src="{{asset('img/pins/greenpin.png')}}" alt='pin maps' /> Festivals</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-encuentro'><img src="{{asset('img/pins/bluepin.png')}}" alt='pin maps' /> Encuentros</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-week-end'><img src="{{asset('img/pins/violetpin.png')}}" alt='pin maps' />  Week-ends</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='voyage-tango'><img src="{{asset('img/pins/yellowpin.png')}}" alt='pin maps' />
+        {% if app.request.getLocale()=="fr" %}
+        Voyages
+        {% else %}
+        Tango vacations
+        {% endif  %}
+      </a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='all'>{{"all_events"|trans}}</a></p>
+
+      <p> <select class="form-control d-inline" name="month-map" id="month-map">
+        <option value="all">{{"by_month"|trans}}</option>
+        {% for i in 0..11 %}
+        <option value="{{ "now"|date_modify("+"~i~" month")|date("m-Y") }}">{{ "now"|date_modify("+"~i~" month")|localizeddate('none', 'none', "","Europe/Paris","LLLL Y") }}</option>
+        {% endfor %}
+              </select></p>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+<div class="bande-accueil bandeau-tangomap visible-xs">
+  <div class="container">
+    <a href='{{path('fabien_events_map')}}' class='btn btn-transparent'><span class='glyphicon glyphicon-map-marker'></span> {{"tango_map"|trans}}</a>
+  </div>
+</div>
+
+
+
+{#
+
+{% if countPost >0 or app.request.getLocale()=="fr" %}
+<div class="bande-accueil accueil-blog">
+  <div class="container" itemscope itemtype="http://schema.org/ItemList">
+    <h2 class='toptitre'><span class="glyphicon glyphicon-home"></span> {{ "last_posts"|trans }}</h2>
+
+    {% for post in posts|slice(0, 1) %}
+    <div class='item-first-blog post-item' >
+      <div class="content-item">
+        <a href=" {{ path('fabien_events_blog_view', { 'slug': post.slug }) }}">
+          <div class="box-image">
+            <div class="image-blog">
+              {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': post.imageDefault,"taille": "large"} only %}
+
+            </div>
+          </div>
+          <div class="texte-resume-blog ">
+            <div class="row">
+              <div class="col-md-6">
+                <h2>{{ post.title }}</h2>
+                <p class='blog-date-item'>{{ "by"|trans }} {{ post.author }} {{ "le_date"|trans }} {{ post.date|localizeddate('none', 'none', "fr","Europe/Paris","dd/MM/yyyy") }}</p>
+                </p>
+                <div class="chapo-blog">
+                  {{ post.header }}
+                </div>
+              </div>
+              <div class="col-md-6"></div>
+            </div>
+
+          </div>
+        </a>
+      </div>
+    </div>
+    {% endfor %}
+	  <div class='owl-carousel owl-theme hidden-xs' id='owl-carousel-1'>
+
+	  {% for post in posts|slice(1, 8) %}
+		<div class="item_event">
+			<div class="item_event_card card">
+			  <div class='content-item-small'>
+				<div class="image-box">
+				  <a href="{{ path('fabien_events_blog_view', { 'slug': post.slug }) }}" itemprop="url" >  {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': post.imageDefault,"taille": "small"} only %}</a>
+				</div>
+				<div class='item-text'>
+				  <p><a href="{{ path('fabien_events_blog_view', { 'slug': post.slug }) }}" itemprop="url" >{{ post.title }}</a></p>
+				</div>
+			  </div>
+			</div>
+		  </div>
+	  {% endfor %}
+	  </div>
+
+
+  </div>
+
+  <div class="">
+    <div class="col-md-12">
+      <p class="center">
+        <a class='btn btn-primary' href='{{ path('fabien_events_blog_list')}}'>{{ "see_all_posts"|trans({"%countPosts%":countPosts}) }}</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+#}
+
+
+
+
+
+
+
+{#
+
+<div class="bande-accueil accueil-topevents hidden-xs" itemscope itemtype="http://schema.org/ItemList">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-bullhorn"></span> {{ "featured_articles"|trans }}</h2>
+    <div class="row">
+        {% for date in valoEvents %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo"  } only %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+#}
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="bande-accueil-ajout-event bande-accueil hidden-xs">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-plus"></span> {{ "Add_tango_Agenda"|trans }}</h2>
+    <h3>{{ "Text_Add_tango_Agenda"|trans }}</h3>
+
+    <div class="row">
+      <div class="col-md-5 col-xs-10  home-ajout-evt">
+
+        <h4><span class="glyphicon glyphicon-hand-right"></span> {{ "Event_on_fb_Add"|trans }}</h4>
+        <p><a class="btn btn-info" data-toggle="modal" data-target="#modalAddFb">{{ "click_here"|trans }}</a></p>
+      </div>
+      <div class="col-md-2 col-xs-12 home-sinon">
+        <p><strong>{{ "sinon"|trans }}</strong></p>
+      </div>
+      <div class="col-md-5 col-xs-10   home-ajout-evt">
+        <h4><span class="glyphicon glyphicon-hand-right"></span> {{ "form_ajout_evt"|trans }}</h4>
+        <p>{{ "Event_type_Add"|trans }}</p>
+          <select onchange="location = this.options[this.selectedIndex].value;" class="selectpicker" title="Choisir un type">
+            <option value='#'></option>
+            {% for TypeEvt in listTypeEvt %}
+              <option value='{{ path('events_add_form_type',{"type":TypeEvt.slug}) }}'>{{ TypeEvt.title }}</option>
+            {% endfor %}
+          </select>
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalAddFb" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{ "facebook_event"|trans }}</h4>
+        </div>
+        <div class="modal-body">
+
+            <p>{{"Event_add_copy_paste"|trans}}
+            <input type="text" name="facebookevt" value="" id="fblink" class="form-control" placeholder="https://www.facebook.com/events/333040897051350/">
+            </p>
+
+            <p>
+            {{"event_type"|trans}}
+            <select id='add_fb_type_select' class="selectpicker" title="Choisir un type">
+              <option value='#'></option>
+              {% for TypeEvt in listTypeEvt %}
+                <option value='{{ TypeEvt.id }}'>{{ TypeEvt.title }}</a></option>
+              {% endfor %}
+            </select>
+            </p>
+
+
+            <div id='alert_type'></div>
+            <p>
+            <a href="{{ path("events_add") }}/fb" id='addfb' class='btn btn-primary'>{{ "add"|trans }}</a>
+            </p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<div class="bande-accueil bande-accueil-video">
+  <div class="container ">
+    <h2><span class="glyphicon glyphicon glyphicon-facetime-video"></span> {{ "last_videos"|trans }}</h2>
+    <div class="row owl-carousel owl-theme" id='owl-carousel-4'>
+      {% set listMaestro =[] %}
+      {% for maestro in listMaestros %}
+
+        {% if maestro.0.image.url is defined  and maestro.0.slug !="" %}
+          {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.0,"video":true, "mode":"video","style":"sans"} only %}
+            {% set listMaestro =listMaestro|merge([maestro.0.id])  %}
+
+          {% if maestro.0.partner is defined and maestro.0.id not in listMaestro %}
+
+            {% include 'FabienEventsEngineBundle:person:person-item.html.twig' with {'person':  maestro.0.partner,"video":true,"mode":"video","style":"sans"} only %}
+          {% endif %}
+
+        {% endif %}
+      {% endfor %}
+
+    </div>
+
+    <div class="row hidden-xs">
+
+        {% for video in lastVideos|slice(0,6) %}
+        {% include 'FabienEventsEngineBundle:video:item-video.html.twig' with {'video': video,"lazyload":true,"mode":"list"  } only %}
+        {% endfor %}
+
+
+
+    </div>
+    <div class='center more-videos col-xs-12'>
+      <a class='btn btn-primary' href="{{path('fabien_video_list')}}">{{"more_videos"|trans}}</a>
+    </div>
+  </div>
+</div>
+
+
+<div class="bande-accueil accueil-lastadded hidden-xs" itemscope itemtype="http://schema.org/ItemList">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-calendar"></span> {{ "last_events"|trans }}</h2>
+    <p>{{ "for_big_events"|trans }}</p>
+
+    <p class='loadingMsg'>Loading ...</p>
+    <div class='owl-carousel owl-theme' id='owl-carousel-2'>
+    {% for date in lastEvents %}
+      <div class='item-owl'>
+          {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"card"  } only %}
+      </div>
+    {% endfor %}
+    </div>
+
+    </div>
+
+    <div class="btn-7jours">
+      <div class="center">
+        <a class='btn btn-xs btn-primary' href="{{path("events_recap",{type:"all",days:7,format:"complet"})}}">{{ "every_events"|trans }} <br/> {{"added_this_last_7_days"|trans}}</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% include 'FabienEventsEngineBundle:video:modalvideo.html.twig' %}
+
+
+</div>
+{% endblock %}
+
+{% block codeJs %}
+
+ <script type="text/javascript">
+
+
+  /* Déclaration des variables  */
+  var geocoder;
+  var map;
+  var markers = new Array();
+  var i = 0;
+
+  var gmarkers = [];
+
+
+  /* Initialisation de la carte  */
+  function initialize() {
+    var center = new google.maps.LatLng(48.8566667, 2.3509871);
+
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function (position) {
+            center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+        });
+    }
+
+    map = new google.maps.Map(document.getElementById('map-tangoagenda'), {
+      zoom: 4,
+      center: center,
+      mapTypeId: 'terrain'
+    });
+    var iw = new google.maps.InfoWindow();
+
+    var oms = new OverlappingMarkerSpiderfier(map, {
+      markersWontMove: true,
+      markersWontHide: true,
+      basicFormatEvents: true
+    });
+
+
+
+
+     //$.getJSON( "{{path("fabien_events_engine_json_all")}}", function( data ) {
+     $.getJSON( "{{asset("events.json")}}", function( data ) {
+
+      var items = [];
+
+
+      $.each( data, function( key, val ) {
+
+        markers.push(val);
+
+
+        var latLng = new google.maps.LatLng(val.lat,val.lng);
+        var marker = new google.maps.Marker({
+            position: latLng,
+            map: map,
+            category:val.type,
+            month:val.month,
+          });
+
+
+
+          {% if app.request.getLocale()=="fr" %}
+            var localisationDate='Du '+val.start_fr+' au '+val.end_fr+' à '+val.city+' ('+val.country+')' ;
+          {% else %}
+            var localisationDate='From '+val.start_fr+' to '+val.end_fr+' in '+val.city+' ('+val.country+')' ;
+          {% endif %}
+          var urlDate='<a href="./date/'+val.date_id+'" class="btn btn-primary">Voir</a> ';
+
+          if(val.image){
+            imageMap='<p><a href="./date/'+val.date_id+'" ><img src="../../'+val.image+'" /></a></p>';
+          }else{
+            imageMap='';
+          }
+
+          var contentString = '';
+
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+              })
+
+          /*
+          marker.addListener('click', function() {
+            infowindow.open(map, marker);
+          });
+          */
+
+          google.maps.event.addListener(marker, 'spider_click', function(e) {  // 'spider_click', not plain 'click'
+
+
+            $.ajax({
+              method: "POST",
+              url: "{{path('getInfosMarker_ajax')}}",
+              data: { id:val.date_id }
+            })
+              .done(function( msg ) {
+                contentString=msg;
+                iw.setContent(contentString);
+                iw.open(map, marker);
+              });
+
+
+          });
+          oms.addMarker(marker);  // adds the marker to the spiderfier _and_ the map
+
+        gmarkers.push(marker);
+
+          switch(val.type){
+            case "tango-encuentro":
+              marker.setIcon("{{asset('img/pins/bluepin.png')}}");
+              break;
+
+            case "tango-festival":
+              marker.setIcon("{{asset('img/pins/greenpin.png')}}");
+              break;
+
+            case "tango-marathon":
+              marker.setIcon("{{asset('img/pins/redpin.png')}}");
+              break;
+
+
+            case "voyage-tango":
+                marker.setIcon("{{asset('img/pins/yellowpin.png')}}");
+                break;
+
+            default :
+              marker.setIcon("{{asset('img/pins/violetpin.png')}}");
+              break;
+          }
+
+
+      });
+
+
+
+    });
+
+
+  }
+
+  var $slug="all";
+
+  $(document).ready(function(){
+    $(".load-map-data").click(function(){
+      $slug=$(this).data("slug");
+
+      $month=$("#month-map").val();
+
+
+      for (i = 0; i < markers.length; i++) {
+          marker = gmarkers[i];
+
+          // If is same category or category not picked
+          if (marker.category == $slug || $slug=="all" ) {
+
+            if (marker.month == $month || $month=="all" ) {
+                marker.setVisible(true);
+            }else{
+              marker.setVisible(false);
+            }
+          }
+          // Categories don't match
+          else {
+              marker.setVisible(false);
+          }
+      }
+      return false;
+    });
+
+
+
+    $("#month-map").change(function(){
+      $month=$(this).val();
+      for (i = 0; i < markers.length; i++) {
+          marker = gmarkers[i];
+
+          // If is same category or category not picked
+          if (marker.month == $month || $month=="all" ) {
+            if (marker.category == $slug || $slug=="all" ) {
+              marker.setVisible(true);
+            }else{
+              marker.setVisible(false);
+            }
+          }
+          // Categories don't match
+          else {
+              marker.setVisible(false);
+          }
+      }
+    });
+
+  })
+</script>
+
+
+  <script type="text/javascript">
+  $.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyB7KdaJtR8VdgzG3WyKIGeeTS-utcBBEo0', () => {
+    initialize();
+
+  })
+  </script>
+
+
+
+  <script>
+  $(document).ready(function(){
+    $("#addfb").click(function(){
+      typeFb=$("#add_fb_type_select").val();
+      idFb=$("#fblink").val();
+      if(idFb!=""){
+        if(typeFb!=""){
+          idFb=idFb.replace("https://www.facebook.com/events/","");
+          idFb=idFb.replace('/',"");
+          cible=$(this).attr("href")+"/"+idFb+"/"+typeFb;
+          window.location.href=cible;
+        }else{
+          $("#alert_type").html("<div class='alert alert-danger' role='alert'>{{"please_choose_type"|trans}} </div>");
+        }
+      }else{
+        $("#alert_type").html("<div class='alert alert-danger' role='alert'>{{"Adresse_fb_manquante"|trans}} </div>");
+
+      }
+      return false;
+    });
+  })
+
+  $(document).ready(function(){
+
+    $("#owl-carousel-1").owlCarousel({
+        center: false,
+        loop:false,
+        lazyLoad:true,
+        margin:20,
+        items:2,
+        onInitialize:callback,
+        responsive:{
+          0:{
+            center: true,
+            nav:false,
+            items:2
+          },
+          600:{
+            nav:true,
+            items:3
+          },
+          1000:{
+            nav:true,
+            items:5
+          }
+        }
+
+    });
+
+
+    $("#owl-carousel-2").owlCarousel({
+        center: false,
+        loop:false,
+        lazyLoad:true,
+        margin:20,
+        items:2,
+        onInitialize:callback,
+        responsive:{
+          0:{
+            center: true,
+            nav:false,
+            items:2
+          },
+          600:{
+            nav:true,
+            items:3
+          },
+          1000:{
+            nav:true,
+            items:5
+          }
+        }
+
+    });
+
+
+    $("#owl-carousel-3").owlCarousel({
+        center: false,
+        loop:false,
+        lazyLoad:true,
+        margin:20,
+        items:2,
+        onInitialize:callback,
+        responsive:{
+          0:{
+            center: true,
+            nav:false,
+            items:2
+          },
+          600:{
+            nav:true,
+            items:3
+          },
+          1000:{
+            nav:true,
+            items:5
+          }
+        }
+
+    });
+
+
+    $("#owl-carousel-4").owlCarousel({
+        center: false,
+        loop:false,
+        autoplay:true,
+        lazyLoad:true,
+        autoplayTimeout:3000,
+        margin:20,
+        items:2,
+        onInitialize:callback,
+        responsive:{
+          0:{
+            center: true,
+            nav:false,
+            items:2
+          },
+          600:{
+            nav:true,
+            items:3
+          },
+          1000:{
+            nav:true,
+            items:5
+          }
+        }
+
+    });
+
+  });
+
+
+
+  function callback(){
+    $(".loadingMsg").hide();
+  }
+
+  </script>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+{{ "events_list"|trans }}
+{% endblock %}
+
+
+{% block body %}
+
+<h1>{{ "events_list"|trans }}</h1>
+
+<ul>
+  {% for event in listEvents %}
+
+  {% else %}
+  <li>{{ "no_event_found"|trans }}li>
+  {% endfor %}
+</ul>
+
+<p><a class='button' href="{{ path('events_add') }}">{{ "add_an_event"|trans }}a></p>
+
+{% endblock %}

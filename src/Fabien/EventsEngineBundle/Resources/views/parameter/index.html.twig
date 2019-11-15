@@ -1,0 +1,46 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Paramètres
+{% endblock %}
+
+{% block body %}
+<div class='container'>
+<h1>Paramètres</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Tokenfb</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for parameter in parameters %}
+            <tr>
+                <td><a href="{{ path('parameter_show', { 'id': parameter.id }) }}">{{ parameter.id }}</a></td>
+                <td>{{ parameter.tokenfb }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('parameter_show', { 'id': parameter.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('parameter_edit', { 'id': parameter.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('parameter_new') }}">Create a new parameter</a>
+        </li>
+    </ul>
+</div>
+{% endblock %}

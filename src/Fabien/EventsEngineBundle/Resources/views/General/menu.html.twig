@@ -1,0 +1,203 @@
+
+<nav class="navbar navbar-inverse navbar-static-top">
+			<div class="container">
+
+
+
+				<div class="bouton-ajouter-princ hidden-xs">
+						<form class='navbar-form navbar-left '>
+								<p><a href="{{ path('events_add') }}" class='btn btn-primary '><span class="glyphicon glyphicon-plus"></span> <span class="visible-lg-inline">{{ "Ajouter"|trans }}</span></a>
+									<a class='btn btn-default btn-search toggle-search bt-search'   href="#"><span class='glyphicon glyphicon-search'></span> <span class="visible-lg-inline">{{"searchTitle"|trans}}</span></a><br>
+
+									</p>
+						</form>
+				</div>
+
+
+
+
+				<div class="navbar-brand hidden-xs">
+					<a class="" href="{{ path('fabien_events_engine_home') }}">  <span class='titresite'>{{appTitle}}</span></a>
+				</div>
+
+
+				<div class="langue-selector hidden-xs">
+						<div class=' navbar-right '>
+								<div class='switchlang'>
+									{% set laroute = app.request.attributes.get('_route')  %}
+									<a   class='langue-menu{% if app.request.getLocale()=="fr" %}  langue-selected {% endif %}' href="{{  currentUrl|replace({"/en":"/fr"}) }}">français</a>
+									<a class='langue-menu{% if app.request.getLocale()!="fr" %}  langue-selected {% endif %}' href="{{ currentUrl|replace({"/fr":"/en"}) }}">english</a>
+								</div>
+
+						</div>
+
+				</div>
+
+
+
+
+        <div class=" visible-xs">
+			          <div class="col-xs-3 row-menu-mobile">
+            <button type="button" class="navbar-toggle collapsed .navbar-right bt-menu-mobile" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+          </div>
+
+          <div class="col-xs-7 row-titre-mobile">
+            <a class="" href="{{ path('fabien_events_engine_home') }}"><span class='titresite-small'>{{appTitle}}</span></a>
+          </div>
+			<div class="col-xs-2 ">
+
+					<a class='btn btn-xs btn-default  toggle-search bt-search btn-search-small' href="#"><span class='glyphicon glyphicon-search'></span> </a>
+			</div>
+        </div>
+    </div>
+
+
+    <!-- Collect the nav links, forms, and other content for toggling -->
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="container">
+          <ul class="nav navbar-nav">
+
+						<li class='visible-xs'><a href="{{ path("fabien_events_map")}}">Tango Map</a></li>
+
+            <li>
+              <a href='{{ path('fabien_events_blog_list')}}'>{{"posts"|trans}} <!--<span class="badge visible-lg-inline visible-xs-inline">{{listBlog|length}}</span>--></a>
+            </li>
+
+						<li>
+              <a href='{{ path('fabien_video_list')}}'>{{"Videos"|trans}} <!--<span class="badge visible-lg-inline visible-xs-inline">{{listBlog|length}}</span>--></a>
+            </li>
+
+						<li>
+              <a href='{{ path('fabien_maestro_list')}}'>{{"maestros"|trans}} <!--<span class="badge visible-lg-inline visible-xs-inline">{{listBlog|length}}</span>--></a>
+            </li>
+
+
+						{% set cptMilonga = 0 %}
+						{% for TypeEvt in listTypeEvt %}
+							{% if TypeEvt.slug == "milonga" or TypeEvt.slug == "tango-cours" or TypeEvt.slug == "tango-pratique" or TypeEvt.slug == "tango-initiation" %}
+								{% set cptMilonga = cptMilonga + TypeEvt.cptevt %}
+							{% endif %}
+						{% endfor %}
+
+
+						<li><a href="{{ path("fabien_events_coutry_list")}}">{{ "milonga_and_classes"|trans }} <!--<span class="badge visible-lg-inline visible-xs-inline">{{ cptMilonga }}</span>--></a></li>
+
+
+
+						{% for TypeEvt in listTypeEvt %}
+						{% if TypeEvt.slug != "stage-tango" and TypeEvt.slug !="milonga" and TypeEvt.slug !="tango-initiation" and TypeEvt.slug !="tango-cours" and TypeEvt.slug !="tango-pratique" %}
+							{% if app.request.getLocale()=="fr" %}
+								<li><a href='{{ path('fabien_events_engine_bigevents_list',{"slug":TypeEvt.slug}) }}'>{{ TypeEvt.title }}s <!-- <span class="badge visible-lg-inline visible-xs-inline">{{TypeEvt.cptevt}}</span>--></a></li>
+							{% else %}
+								<li><a href='{{ path('fabien_events_engine_bigevents_list',{"slug":TypeEvt.slug}) }}'>{{ TypeEvt.titleTrad }}s <!--<span class="badge visible-lg-inline visible-xs-inline">{{TypeEvt.cptevt}}</span>--></a></li>
+							{% endif %}
+						{% endif %}
+						{% endfor %}
+
+
+
+
+						<li class="visible-xs">
+							<a href="{{ path('events_add') }}" ><span class="glyphicon glyphicon-plus"></span> {{ "Add_tango_Agenda"|trans }}</a>
+						</li>
+
+						<li class='visible-xs'>
+							{% if app.request.getLocale()!="fr" %}
+							 <a   class='langue-menu{% if app.request.getLocale()=="fr" %}  langue-selected {% endif %}' href="{{  currentUrl|replace({"/en":"/fr"}) }}"><span class="glyphicon glyphicon-user"></span> Traduire en français</a>
+							{% else %}
+							<a class='langue-menu{% if app.request.getLocale()!="fr" %}  langue-selected {% endif %}' href="{{ currentUrl|replace({"/fr":"/en"}) }}"><span class="glyphicon glyphicon-user"></span> Switch to english</a>
+							{% endif %}
+						</li>
+
+
+          </ul>
+
+        </div>
+
+			</div>
+
+</nav>
+
+<div id="search_menu">
+	<form method='POST' action='{{path('fabien_events_search')}}'>
+	<div class="container">
+		<h2>{{"searchTitle"|trans}}</h2>
+
+		<div class="row">
+			<div class="col-md-4 col-md-offset-2">
+				<div class='form-group row'>
+						<label class=' col-md-5 text-right'>{{"Type"|trans}} : </label>
+						<div class="col-md-6 checkbox">
+								{% for type in listTypeEvt %}
+								{% if type.id != 11 %}
+								<label><input type="checkbox" checked name='type[]' value="{{type.id}}" />{{type.title}}</label> <br/>
+								{% endif %}
+								{% endfor %}
+						</div>
+				</div>
+			</div>
+
+			<div class="col-md-6">
+				<div class='form-group row'>
+						<label class=' col-md-3 text-right'>{{"Country"|trans}} : </label>
+						<div class="col-md-6">
+							<select class="countryfieldSearch form-control" name='country' id='country' >
+								<option selected value="">{{"choose_a_country"|trans}}</option>
+								{% for country in listCountry %}
+									{% if country.id!=249 %}
+									<option value="{{ country.id }}">{{ country.title }}</option>
+									{% endif %}
+								{% endfor %}
+							</select>
+						</div>
+				</div>
+
+
+
+				<div class='form-group row'>
+						<label class='col-md-3 text-right'>{{"City"|trans}} : </label>
+						<div class="col-md-6">
+							<select class="cityfieldSearch form-control" id='city' name="city">
+								<option value="">{{"choose_a_city"|trans}}</option>
+							</select>
+						</div>
+				</div>
+
+
+				<div class='form-group row'>
+						<label class=' col-md-3 text-right'>{{"Start"|trans}} : </label>
+						<div class="col-md-4">
+							<input type="text" name="start" value="" class='form-control datepicker' id="start">
+						</div>
+				</div>
+
+
+
+				<div class='form-group row'>
+						<label class='col-md-3 text-right'>{{"End"|trans}} : </label>
+						<div class="col-md-4">
+							<input type="text" name="end" value="" class='form-control datepicker' id='end'>
+						</div>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+
+		<div class="col-md-offset-5	">
+			<p><input type='submit' class='bt-search btn btn-primary' value='{{"searchTitle"|trans}}'></p>
+
+		</div>
+
+
+	</div>
+</form>
+</div>

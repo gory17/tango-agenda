@@ -1,0 +1,21 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+Personne ajout
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Ajouter une personne</h1>
+
+    <div>
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Ajouter" class='btn-primary btn' />
+    {{ form_end(form) }}
+
+
+    <a class='btn btn-secondary' href="{{ path('person_index') }}">Retour</a></div>
+
+  </div>
+{% endblock %}

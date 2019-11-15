@@ -1,0 +1,29 @@
+ajax_list_city:
+  path:      /listcity
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:listCityFromCountry
+  requirements:
+    id: \d+
+
+
+ajax_find_city:
+  path: /findCity
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:findCity
+
+
+ajax_change_type:
+    path: /changeType
+    defaults:
+      _controller: FabienEventsEngineBundle:Ajax:ChangeType
+
+ajax_find_city_menu:
+  path: /findCityMenu
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:findCityMenu
+
+
+ajax_more_dates:
+  path: /moreDates
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:moreDates

@@ -1,0 +1,43 @@
+rest_get_maestros:
+    path:  /maestros/{lastConnexion}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:getMaestros
+
+rest_get_videos:
+    path:  /videos/{offset}/{type}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:getVideos
+
+rest_get_videos_maestro:
+    path:  /videos/{id}/{offset}/{type}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:getVideosMaestro
+    requirements:
+        id: \d+
+        offset: \d+
+
+rest_delete_video:
+    path:  /videos/delete/{id}/{code}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:deleteVideo
+
+rest_set_video_type:
+    path: /videos/settype/{id}/{type}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:setVideoType
+
+rest_get_videos_type:
+    path:  /type/{id}/{offset}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:getVideosType
+    requirements:
+        id: \d+
+
+
+rest_get_videos_maestro_type:
+    path:  /type/{idtype}/maestro/{idmaestro}/{offset}
+    defaults:
+        _controller: FabienEventsEngineBundle:Rest:getVideosTypeMaestro
+    requirements:
+        idtype: \d+
+        idmaestro: \d+

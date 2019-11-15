@@ -1,0 +1,70 @@
+<div id="map" class="col-xs-12"></div>
+   <script>
+     function initMap() {
+
+
+
+       var map = new google.maps.Map(document.getElementById('map'), {
+       center: {lat: -34.397, lng: 150.644},
+       scrollwheel: false,
+       zoom: 2
+        });
+
+
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({'address': "Paris, France"}, function(results, status) {
+              map.setCenter(results[0].geometry.location);
+        });
+
+
+       var styles = [{"featureType": "landscape", "stylers": [{"saturation": -100}, {"lightness": 65}, {"visibility": "on"}]}, {"featureType": "poi", "stylers": [{"saturation": -100}, {"lightness": 51}, {"visibility": "simplified"}]}, {"featureType": "road.highway", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "road.arterial", "stylers": [{"saturation": -100}, {"lightness": 30}, {"visibility": "on"}]}, {"featureType": "road.local", "stylers": [{"saturation": -100}, {"lightness": 40}, {"visibility": "on"}]}, {"featureType": "transit", "stylers": [{"saturation": -100}, {"visibility": "simplified"}]}, {"featureType": "administrative.province", "stylers": [{"visibility": "off"}]}, {"featureType": "water", "elementType": "labels", "stylers": [{"visibility": "on"}, {"lightness": -25}, {"saturation": -100}]}, {"featureType": "water", "elementType": "geometry", "stylers": [{"hue": "#ffff00"}, {"lightness": -25}, {"saturation": -97}]}];
+       map.set('styles', styles);
+
+      {% for event in listEvents %}
+
+       var contentString_{{event.id}} = '<div id="content">'+
+          '<div id="siteNotice">'+
+          '</div>'+
+          {% for image in event.images %}//'<div class="image-box"><a href="{{ path("events_view",{'id':event.id}) }}"><img class="img-responsive" itemprop="image" src='{{ asset(uploadImage~"thumb/"~image.url) }}' alt='{{ image.alt }}'/></a></div>'+{% endfor %}
+          '<h1 id="firstHeading" class="firstHeading">{{event.title}}</h1>'+
+          '<div id="bodyContent">'+
+          '<img src="{{ asset('img/flags/flags_iso/32')}}/{{ event.city.state.country.sortname|lower }}.png" class="flag" alt="flag {{ event.city.state.country.title }} ">'+
+          '<span class="item-city">{{ event.city.title }}, {{event.city.state.country.title}}</span><br />'+
+          '<span class="item-date "><span class="glyphicon glyphicon-calendar"></span> {{ event.dateStart|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL") }}</span>'+
+          '</div>'+
+          '</div>';
+
+      var infowindow_{{event.id}} = new google.maps.InfoWindow({
+        content: contentString_{{event.id}}
+      });
+
+      geocoder.geocode({'address': "{{event.adress}} ,{{event.city.title}} , {{event.city.state.country.title}}"}, function(results, status) {
+
+        if (status === google.maps.GeocoderStatus.OK) {
+             var marker = new google.maps.Marker({
+               position: results[0].geometry.location,
+               map: map,
+               title: '{{event.title}}'
+             });
+
+             marker.addListener('click', function() {
+               infowindow_{{event.id}}.open(map, marker);
+             });
+         } else {
+           wait = true;
+      setTimeout("wait = true", 20000);
+           console.log('Geocode was not successful for the following reason: ' + status);
+         }
+
+
+
+      });
+
+
+      {% endfor %}
+
+
+
+     }
+
+   </script>

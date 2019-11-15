@@ -1,0 +1,38 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+Requète
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Requète</h1>
+
+    <table class='table table-stripped'>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ requeteFb.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ requeteFb.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('requetefb_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('requetefb_edit', { 'id': requeteFb.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+  </div>
+{% endblock %}

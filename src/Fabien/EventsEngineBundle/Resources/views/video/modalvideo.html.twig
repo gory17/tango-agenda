@@ -1,0 +1,88 @@
+
+<script>
+
+ $(document).ready(function(){
+   $("body").on("click",".open-video",function(){
+
+     var $selectType="";
+     {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+     var $admin="admin";
+     {% else %}
+     var $admin="";
+     {% endif %}
+
+     if(!$(this).data('type') || $admin=="admin"){
+
+       $selectType=$selectType+"<div class='selectType'>";
+       if($admin=="admin"){
+         $selectType=$selectType+"<h4>"+$(this).data('type')+"</h4>";
+       }
+
+       $selectType=$selectType+"   <h3>{{'help_us'|trans}} !</h3>";
+       $selectType=$selectType+"   <p>{{"select_video_type"|trans}}</p>";
+       $selectType=$selectType+"   <p>";
+       $selectType=$selectType+"     <a href='#' class='btn btn-primary video_select_type' data-id='"+$(this).data('id')+"' data-type='tango' >tango</a>";
+       $selectType=$selectType+"     <a href='#' class='btn btn-primary video_select_type' data-id='"+$(this).data('id')+"' data-type='vals' >{{"valse"|trans}}</a>";
+       $selectType=$selectType+"     <a href='#' class='btn btn-primary video_select_type' data-id='"+$(this).data('id')+"' data-type='milonga' >milonga</a>";
+       $selectType=$selectType+"     <a href='#' class='btn btn-primary video_select_type' data-id='"+$(this).data('id')+"' data-type='lesson' >lesson</a>";
+       $selectType=$selectType+"     <a href='#' class='btn btn-primary video_select_type' data-id='"+$(this).data('id')+"' data-type='other' >{{"other"|trans}}</a>";
+       $selectType=$selectType+"   </p>";
+       $selectType=$selectType+"</div>";
+     }
+
+     var $content='<div class=""><iframe width="560" class="embed-responsive-item" height="315" src="'+$(this).attr('href')+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div>';
+
+     $(".content-modal-body-video").html($content);
+     $(".content-modal-body-infos").html($selectType);
+     $(".modal-title").html($(this).data("title"));
+
+     $('#view-video').modal("show");
+     return false;
+   });
+
+   $('body').on('click', '.video_select_type', function () {
+     var $videoid=$(this).data('id');
+     var $videotype=$(this).data('type');
+
+     $.ajax({
+       method: "POST",
+       url: "{{path('ajax_set_type_video')}}",
+       data: { id:$videoid,type:$videotype }
+     }).done(function(msg){
+       $(".content-modal-body-infos").html("<h3>{{'thank_you'|trans}} ! :)</h3>");
+     });
+
+     return false;
+   });
+
+
+   $(".close").click(function(){
+     $(".content-modal-body-video").html("");
+     $(".content-modal-body-infos").html("");
+   });
+
+ });
+</script>
+
+
+<div id='view-video' class='modal fade' role="dialog">
+  <div class='container'>
+    <div class="modal-content col-md-10">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="content-modal-body ">
+        <div class="content-modal-body-video embed-responsive embed-responsive-16by9">
+
+        </div>
+        <div class="content-modal-body-infos">
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default close" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

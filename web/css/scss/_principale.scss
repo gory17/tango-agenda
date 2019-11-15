@@ -1,0 +1,1183 @@
+
+/* General */
+
+body, html {
+    height: 100%;
+}
+
+body{
+  height: 100%;
+  background-color:$background-general;
+  font-family:$defaultFont;
+
+
+  h1,h2{
+    font-family:$titleFont2;
+    font-weight: 300;
+    margin-bottom:30px;
+    span{
+      //border-bottom:1px dotted white;
+    }
+  }
+
+.img-responsive{
+  margin:0 auto;
+}
+
+.owl-next,.owl-prev{
+background:black !important;
+border:1px solid #ededed;
+}
+
+
+.ouverture_inscription{
+margin-top:35px;
+margin-bottom:35px;
+}
+
+#addtocalendar{
+  display:inline;
+}
+
+.bande-accueil-menu-items{
+    background: $background-menu-xs-items;
+
+    .item-xs-accueil-menu{
+      padding-right: 0px ;
+      padding-left: 0px ;
+    }
+
+    .item-xs-accueil-milonga{
+      background:url("../img/fond-country-list-thumb.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .item-xs-accueil-voyages{
+      background:url("../img/fond-voyage-thumb.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+    .item-xs-accueil-weekends{
+        background:url("../img/fond-we-thumb.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .item-xs-accueil-encuentros{
+        background:url("../img/fond-encuentro-thumb.jpg");
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+
+    .item-xs-accueil-festivals{
+      background:url("../img/fond-festival-thumb.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+
+    .item-xs-accueil-menu-marathons{
+      background:url("../img/fond-marathon-thumb.jpg");
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+    }
+
+  .item-xs-accueil-menu {
+    //background:$background-menu-xs-item opacity:;
+    .conteneur-item-menu{
+      background-color: rgba(0, 0, 0, 0.5);
+      min-height:100%;
+      min-width:100%;
+    }
+    border: 1px solid #303131;
+
+    height:17rem;
+    text-align:center;
+    a{
+      margin-top:5rem;
+    }
+  }
+}
+
+#addcal{
+  background:white;
+  width:170px;
+  border:1px solid black;
+  label{
+    margin:0;
+    padding:7px;
+    text-align:center;
+    cursor:pointer;
+    width:170px;
+     &:hover{
+    cursor:pointer;
+       background:black;
+       color:white;
+     }
+    }
+}
+
+  h4,h5,h6{
+    font-family:$defaultFont;
+  }
+
+  h1{
+    font-size:3.4em;
+    margin-bottom:0.7em;
+    &.title-city-h1 {
+      margin-top:0px;
+      padding-top:0px;
+    }
+  }
+
+  h2{
+
+    font-size:2.3em;
+    &.titre-mois{
+      font-size:2.7em;
+    }
+    .small-h2{
+      font-size:0.35em;
+    }
+  }
+
+  a{
+    color:$font-color-link;
+    &:hover{
+      color:$font-color-link-hover;
+    }
+  }
+}
+
+
+
+
+
+.sitenotice,#map-tangoagenda,#map-big-events{
+  color:black;
+}
+
+.bandeau-tangomap{
+  background-image: url("../img/tangomap.jpg");
+  min-height:250px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  text-align:center;
+
+  a{
+    margin-top:50px;
+  }
+}
+
+.accueil-blog{
+  box-shadow: -7px 0 10px #000;
+  background:$background-totalevents;
+  background: radial-gradient(circle, #2E2D2D,$background-totalevents);
+  padding:60px;
+  color:$font-color-light;
+  /* Extra Small Devices, Phones */
+  @media only screen and (max-width : 480px) {
+    padding:20px;
+  }
+
+  .accueil-nb-events{
+    font-size:6em;
+    line-height:1em;
+  }
+  .accueil-nb-slogan{
+    font-size:1.5em;
+    span{
+      font-size:2em;
+    }
+  }
+}
+
+.accueil{
+  h1{
+    position:absolute;
+    left:-3000px;
+  }
+
+
+.accueil-searchCity{
+  font-size:1.8em;
+  input{
+    margin-bottom:10px;
+  }
+}
+
+
+
+.searchLocation{
+  text-align:center;
+  margin-left:auto;
+  margin-right:auto;
+  margin-top:40px;
+  line-height: 1em;
+}
+
+.bande-accueil{
+  padding-bottom:50px;
+  //color:$font-color-light;
+  padding-top:30px;
+}
+
+
+
+
+
+
+
+
+
+
+
+  .accueil-topevents{
+    background:$background-topevents;
+    color:black;
+  }
+
+
+
+  .accueil-lastadded{
+    background:$background-lastadded;
+  }
+
+
+}
+
+
+.accueil-stats{
+  background : $background-bande-stats;
+  background: radial-gradient(circle, #52b290,$background-bande-stats);
+  box-shadow: -7px 0 10px #666666 ;
+  padding-bottom:50px;
+  padding-top:20px;
+
+
+  h2{
+    text-align:center;
+    color:white;
+  }
+  .bloc-stat-accueil{
+    margin-top:20px;
+    text-align:center;
+    font-size:1.3em;
+  }
+
+  .stat-accueil{
+    font-size:1.5em;
+    text-align:center;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom: 10px;
+    border-radius: 50%;
+    border:3px solid white;
+    height:110px;
+    width:110px;
+    padding-top:10px;
+    font-weight:bold;
+    text-transform: uppercase;
+    font: "Lato", sans-serif;
+    color:white;
+  }
+}
+
+.big-events-header, .bande-general{
+  @extend .bande-welcome ;
+  color : white;
+  h1{
+    line-height:1.3em;
+    span{
+      background:$couleur-secondaire;
+      padding:5px;
+
+    }
+    font-size:4em;
+    color:black;
+    @media only screen and (max-width : 480px) {
+      font-size:2.4em;
+    }
+  }
+
+  .bigevent-desc{
+    font-size:1.3em;
+    color:white;
+    text-shadow: 0 1px 0 black;
+    span{
+      background:rgba(0,0,0,0.5);
+    }
+    @media only screen and (max-width : 480px) {
+      font-size:1.2em;
+    }
+  }
+
+
+  &.country-list{
+    background-image: url("../img/fond-country-list.jpg");
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-country-list_small.jpg");
+    }
+  }
+
+  &.big-events-tango-marathon{
+    background-image: url("../img/fond-marathon.jpg");
+    @media only screen and (max-width : 480px) {
+      background-image: url("../img/fond-marathon_small.jpg");
+    }
+  }
+
+  &.big-events-tango-festival{
+    background-image: url("../img/fond-festival.jpg");
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-festival_small.jpg");
+    }
+  }
+
+  &.big-events-tango-encuentro {
+    background-image: url("../img/fond-encuentro.jpg");
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-encuentro_small.jpg");
+    }
+  }
+
+  &.big-events-stage-tango{
+    background-image: url("../img/fond-stage.jpg");
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-stage_small.jpg");
+    }
+  }
+
+
+
+  &.big-events-voyage-tango{
+    background-image: url("../img/fond-voyage.jpg");
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-voyage_small.jpg");
+    }
+  }
+
+  &.big-events-tango-week-end{
+    background-image: url("../img/fond-we.jpg");
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-we_small.jpg");
+    }
+  }
+
+  &.bande-video{
+    background-image: url("../img/fond-videos.jpg");
+    min-height:400px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-videos_small.jpg");
+    }
+  }
+
+  &.bande-listvideo{
+    background-image: url("../img/fond-listvideos.jpg");
+    min-height:400px;
+
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    @media only screen and (max-width : 600px) {
+      background-image: url("../img/fond-listvideos_small.jpg");
+    }
+  }
+
+
+}
+
+
+
+
+
+.bande-welcome{
+
+
+  /* The image used */
+  background-image: url("../img/fond.jpg");
+  @media only screen and (max-width : 480px) {
+    background-image: url("../img/fond_small.jpg");
+  }
+
+  /* Full height */
+  min-height:400px;
+
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  .round-box{
+    text-align:center;
+    margin-bottom: 20px;
+    margin-left:30px;
+    border-radius: 50%;
+    border:3px solid white;
+    background: rgba(5, 5, 5, .5);
+    height:270px;
+    width:270px;
+    margin-top:4em;
+    color:white;
+    text-transform: uppercase;
+    font: "Lato", sans-serif;
+    .accueil-nb-events{
+      font-size:4.5em;
+      line-height:1em;
+      margin-top:30px;
+
+      @media only screen and (max-width : 480px) {
+        margin-top:0.8em;
+        font-size:2.3em;
+      }
+    }
+
+    .accueil-nb-slogan{
+      font-size:2em;
+      @media only screen and (max-width : 480px) {
+        font-size:1em;
+      }
+    }
+
+    &:hover{
+      border-radius: 50%;
+      border:3px solid $couleur-secondaire;
+
+      background: rgba(255, 255, 255, .5);
+      transition:  0.3s ease;
+      color:black;
+
+    }
+  }
+
+
+
+  .btn-tango-city{
+    margin-top:1em;
+    margin-bottom:1em;
+
+    margin-bottom:3em;
+    @media only screen and (max-width : 480px) {
+        margin-bottom:5em;
+    }
+
+  }
+
+  .presentation-site{
+    margin-top:2em;
+    padding:3em;
+    @media only screen and (max-width : 480px) {
+      font-size:2em;
+      margin-top:0.5em;
+      padding:0.5em;
+    }
+
+  }
+
+  .slogan1{
+
+    a{
+      @media only screen and (max-width : 480px) {
+        font-size:1.2em;
+      }
+      span{
+        background:$couleur-secondaire;
+        padding:5px;
+      }
+      font-size:4em;
+      color:black;
+
+      &:hover{
+
+        text-decoration:none;
+        span{
+          transition:  0.3s ease;
+          background:black;
+          color:$couleur-secondaire;
+          padding:5px;
+        }
+      }
+    }
+
+
+  }
+
+
+  .slogan2{
+    font-size:2em;
+    color:white;
+    text-shadow: 0 1px 0 black;
+    span{
+      background:rgba(0,0,0,0.3);
+    }
+    @media only screen and (max-width : 480px) {
+      font-size:0.8em;
+    }
+  }
+
+
+  .browse-events{
+    margin-bottom:35px;
+    text-align:center;
+  }
+
+}
+
+
+.maestro-list{
+  padding-top:30px;
+  background:$background-maestro-list;
+}
+
+
+.bande-accueil-video{
+  padding-bottom:20px;
+  padding-bottom:50px;
+  padding-top:20px;
+  box-shadow: -7px 0 10px #000;
+  background: radial-gradient(circle, #2E2D2D,$background-bande-top-inscriptions);
+  color:$font-color-light;
+
+}
+
+
+
+.maestro-list-videos{
+  background:$background-maestro-video-list;
+  h2{
+    color:white;
+  }
+}
+
+.reveal-open {
+  overflow: auto;
+  height: auto;
+}
+
+.reveal-closed {
+  overflow: hidden;
+  height: 320px;
+}
+
+.seeMoreMaestros{
+  font-size:1.3em;
+  background:#353535;
+  box-shadow: -7px 0 10px #000 ;
+  color:white;
+  text-align:center;
+  height:60px;
+  padding:10px;
+  cursor: pointer;
+}
+
+.bande-accueil-ajout-event,.top-events-color{
+  background : $background-bande-accueil-ajout-event;
+  background: radial-gradient(circle, #52b290,$background-bande-accueil-ajout-event);
+  box-shadow: -7px 0 10px #666666 ;
+  padding-bottom:50px;
+  padding-top:20px;
+  .home-ajout-evt{
+    text-align:center;
+    border: 1px solid white;
+    padding:15px;
+    min-height:150px;
+    background:white;
+  }
+  .home-sinon{
+    font-size:1.5em;
+    text-align:center;
+    padding-top:40px;
+    color:$font-color-light;
+  }
+  h2{
+    color:$font-color-light;
+  }
+  h3{
+    color:$font-color-light;
+  }
+
+  .bootstrap-select{
+    border:1px solid #c0C0C0;
+  }
+}
+
+
+.accueil-mostactive{
+  //background:$background-mostactive;
+  color:$font-color-dark;
+  margin-bottom:30px;
+  .city-item{
+    border:1px solid $couleur-secondaire;
+    padding:4px;
+    margin-bottom:10px;
+    &:hover{
+      background:#e2e2e2;
+    }
+  }
+}
+
+.accueil-inscriptions{
+  padding-bottom:50px;
+  padding-top:20px;
+  box-shadow: -7px 0 10px #000;
+  background: radial-gradient(circle, #2E2D2D,$background-bande-top-inscriptions);
+  color:$font-color-light;
+}
+
+.addtocalendar{
+  font-style:$defaultFont !important;
+  a{
+    font-style:$defaultFont !important;
+  }
+  a.atcb-link{
+    margin-top:15px;
+    font-style:$defaultFont !important;
+    background:$background-primary-btn !important;
+
+    &:hover{
+      margin-top:15px;
+    }
+  }
+}
+
+table  tr  {
+     vertical-align: top !important;
+}
+/* FIn général */
+
+#map{
+  height:400px;
+}
+
+#map-tangoagenda{
+  height:450px;
+  .titleMap{
+    font-size:1.5em;
+    font-weight:bold;
+  }
+}
+
+#map-big-events{
+  height:400px;
+  .titleMap{
+    font-size:1.5em;
+    font-weight:bold;
+  }
+}
+
+.filter-month{
+  padding-top:30px;
+}
+
+.menu-date-block{
+  background-color:$background-raccourci-date;
+  padding:25px;
+  ul.menu-date{
+    li{
+      list-style-type:none;
+    }
+  }
+}
+
+.accueil-map-events{
+  box-shadow: inset 0 0 10px #000000;;
+  padding-bottom:30px;
+  background-color:$background-map;
+  background: radial-gradient(circle, #827f7f,$background-map);
+  color:white;
+
+
+}
+
+/* admin */
+.warning{
+  color:red;
+}
+
+.footer{
+  font-family:"Lato";
+  color:$font-color-light;
+  background:$background-footer;
+  padding-top:35px;
+  padding-bottom: 25px;
+  .socialFooter{
+    p{
+      font-size:1.3em;
+      font-family:"Muli";
+    }
+  }
+
+}
+
+.autocomplete-suggestions { border: 1px solid #999; background: #FFF; overflow: auto; }
+.autocomplete-suggestion { padding: 2px 5px; white-space: nowrap; overflow: hidden; }
+.autocomplete-selected { background: #F0F0F0; }
+.autocomplete-suggestions strong { font-weight: normal; color: #3399FF; }
+.autocomplete-group { padding: 2px 5px; }
+.autocomplete-group strong { display: block; border-bottom: 1px solid #000; }
+
+/* fin admin */
+
+.bande-fb-comments{
+  background:$background-bande-light;
+}
+
+
+
+.bande-header-article{
+  //@extend .bande-top-events;
+  //color:white;
+  background:$background-bande-light;
+  color:black;
+  padding-top:30px;
+  padding-bottom:20px;
+  margin-bottom:15px;
+    .infosResume {
+      font-size:1.5em;
+    }
+
+
+  .details-type{
+    border:1px dotted $background-label;
+    color:$font-color-label;
+    padding:6px;
+    &:hover{
+      background:$background-label;
+      color:white;
+    }
+  }
+
+  a{
+    text-decoration:none;
+  }
+
+
+}
+
+.float-right{
+  float:right;
+}
+
+.float-left{
+  float:left;
+}
+
+.btn-7jours{
+  margin-top:30px;
+  margin-bottom:30px;
+}
+
+/* recherche dans les pages */
+.filter-country{
+  float:right;
+  margin-top:30px;
+}
+
+.bigsearchbox{
+  margin-top:40px;
+  margin-bottom:40px;
+}
+
+#cityInputMenu{
+  color:black;
+}
+
+
+
+.bouton-display-more{
+  text-align:center;
+  margin:15px;
+}
+
+
+.blog-list{
+  background:$background-bande-even;
+  color:$font-color-light;
+}
+
+.center{
+text-align:center;
+margin-left:auto;
+margin-right:auto;
+}
+
+
+
+.gros{
+  font-size:1.2em;
+}
+
+.cityMilongaCours{
+  width:100%;
+  height:70px;
+  font-size:2em;
+}
+
+.block-cours{
+  margin-bottom:20px;
+}
+
+.block-dates{
+  &.limit-right{
+    border-right : 1px dashed white;
+    margin-bottom:40px;
+  }
+}
+
+.invisible{
+display:none;
+}
+.resultDates{
+  z-index: 100;
+}
+.bande-resume-city{
+  h1{
+    font-size:2.2em;
+    font-family:$defaultFont;
+    line-height:0.8em;
+    margin-bottom:20px;;
+    text-shadow: 0 1px 0 black;
+    .mini-titre{
+      font-size:0.4em;
+    }
+  }
+  color:white;
+  font-size:2em;
+
+
+  .btn{
+    margin-top:100px;
+    margin-left:5%;
+  }
+  .nb_event{
+    float:left;
+    padding-top:40px;
+    height:150px;
+    font-size:7em;
+  }
+
+  background:$background-resume-city;
+
+  .count-event{
+    text-shadow: 0 1px 0 black;
+    line-height:1.3em;
+    margin-top:7%;
+    font-size:0.8em;
+  }
+
+  .text-nb_event{
+     background: rgba(0, 0, 0, .7);
+  }
+
+
+  .box-image{
+    height:300px;
+    position:relative;
+    img {
+      position:absolute;
+        width: 100%;
+        height: 100%;
+        left: 50%;
+        transform: translateX(-50%);
+        object-fit: cover;
+        background: -webkit-linear-gradient(left,
+          rgba(0,0,0,0.9) 0%,
+          rgba(0,0,0,0) 90%,
+          rgba(0,0,0,0) 90%,
+          rgba(0,0,0,0.9) 100%
+        )
+    }
+  }
+
+  .image-city{
+    position:relative;
+  }
+
+    .texte-resume-city{
+        position:absolute;
+        bottom:      0px;
+        color:       #fff;
+        padding:     0 0px;
+        width:       100%;
+        height:100%;
+        background: -webkit-linear-gradient(left,
+          rgba(0,0,0,0.9) 0%,
+          rgba(0,0,0,0) 90%,
+          rgba(0,0,0,0) 90%,
+          rgba(0,0,0,0.9) 100%
+        )
+
+
+    }
+
+    .city-link-head{
+      font-size:0.7em;
+      margin-bottom:3px;
+    }
+
+    @media only screen and (max-width : 480px) {
+      .box-image{
+        height:400px;
+      }
+
+      .nb_event{
+
+        font-size:1.4em;
+      }
+
+      background:$background-resume-city;
+
+      .count-event{
+        line-height: 1.1em;
+        font-size:0.8em;
+        margin-top:20px;
+      }
+      .btn{
+        margin-top:20px;
+        margin-left:5%;
+      }
+    }
+
+
+}
+
+.modal-title{
+  color:black;
+}
+
+.bande-top-events{
+  padding-bottom:30px;
+  background: $background-bande-top-events;
+  h1,h2{
+    color:$font-color-light;
+  }
+
+}
+
+
+
+.today{
+  background:$adminToday !important;
+}
+
+.direct_input{
+  background:$adminDirect !important;
+}
+
+.multiple{
+    background:$adminMultiple !important;
+}
+
+.longEvent{
+  background:$adminLong !important;
+}
+
+.bande-even{
+  background:$background-bande-even;
+  box-shadow: -7px 0 10px #000;
+  h2{
+    color:$font-color-light;
+  }
+  h3{
+    color:$font-color-light;
+  }
+  h4{
+    color:$font-color-light;
+  }
+
+    color:$font-color-light;
+
+
+  .item_event{
+    color:$font-color-dark;
+  }
+
+}
+
+.bande-odd{
+
+  background:$background-bande-odd;
+  h2{
+    color:$font-color-light;
+  }
+  h3{
+    color:$font-color-light;
+  }
+  h4{
+    color:$font-color-light;
+  }
+
+}
+
+
+.menu-date-large{
+  columns:4;
+}
+
+.menu-date-small{
+  columns:2;
+}
+
+
+.listCity{
+  columns:3;
+}
+
+
+
+.description-event{
+  padding-top:15px;
+  padding-bottom:15px;
+
+  .image_event_description{
+    width:100%;
+    height:auto;
+    margin-bottom:15px;
+  }
+}
+
+.btn {
+    padding: 10px 18px;
+    border: 0 none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.btn:focus, .btn:active:focus, .btn.active:focus {
+    outline: 0 none;
+}
+
+.btn-primary {
+    background: $background-primary-btn;
+    color: #ffffff;
+}
+
+a.btn-transparent{
+  background: rgba(255, 255, 255, .3);
+  border: 1px solid white;
+  border-style: dotted;
+  color:white;
+  padding:15px;
+  padding-left:35px;
+  padding-right:40px;
+  font-size:2em;
+  @media only screen and (max-width : 480px) {
+    font-size:1.3em;
+  }
+  &:hover {
+    background: rgba(0, 0, 0, .5) ;
+    color:$background-primary-btn ;
+    border: 1px solid $background-primary-btn;
+  }
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    background: #5cb294;
+}
+
+.btn-primary:active, .btn-primary.active {
+    background: $background-primary-btn;
+    box-shadow: none;
+}
+
+.btn-info{
+  @extend .btn-primary;
+}
+
+.shareBar{
+
+}
+
+
+.warning-ta{
+  margin-top:30px;
+}
+
+
+.other_dates{
+  margin-top:40px;
+}
+
+.adress_event, .more-infos{
+  border:2px solid $border-infos-dates;
+  margin-bottom:30px;
+  padding:10px;
+  background:$background-infos-dates;
+
+  .link_event{
+    font-size:1.4em;
+    margin-left:40px;
+  }
+
+
+}
+
+
+.header-maestro{
+background:$background-header-maestro;
+padding-top:30px;
+padding-bottom:30px;
+h1{
+  margin-top:1em;
+    color:$couleur-secondaire;
+    padding:5px;
+}
+
+  .logo-maestro img{
+    border:4px solid $couleur-secondaire;
+    display: block;
+    width: 18em;
+    height: 18em;
+
+    border-radius:9em;
+
+  }
+}
+
+.maestro-events{
+  h2{
+    color:white;
+  }
+background:$background-event-maestro;
+}
+
+.maestro-videos,.maestro-list {
+  h2{
+    color:white;
+  }
+background:$background-videos-maestro;
+}
+
+
+.and_liasion{
+  font-size:2.5em;
+  color:grey;
+}
+
+.more-videos{
+  margin-top:20px;
+  margin-bottom:20px;
+}
+
+.pub-mobile{
+  text-align:center;
+  padding:25px;
+}
+
+.pub-dark{
+  background:$background-pub-dark;
+}

@@ -1,0 +1,144 @@
+{% set counter = 0 %}
+
+{% if lazyload is  defined %}
+	{% set lazytest = lazyload %}
+	{% else %}
+	{% set lazytest = "ok" %}
+{% endif %}
+
+{% for day in range(startCounter, 30 + startCounter, 1)    %}
+  {% set displayDay = false %}
+  {% set displayDates = false %}
+  {% set displayCours = false %}
+
+  {% for date in dates %}
+    {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") == "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") %}
+        {% set displayDay = true %}
+        {% set displayDates = true %}
+     {% endif %}
+  {% endfor %}
+
+
+  {% for cours in coursCity %}
+    {% if ("now"|date_modify("+"~day~" day")>= cours.start) and ("now"|date_modify("+"~day~" day")<= cours.end) %}
+
+      {% if cours.event.day == "now"|date_modify("+"~day~" day")|date("N") %}
+          {% set displayDay = true %}
+          {% set displayCours = true %}
+       {% endif %}
+    {% endif %}
+  {% endfor %}
+
+
+  {% if displayDay == true   %}
+      {% set counter = counter +1 %}
+      <section>
+
+      <div class="bande-{{ cycle(['odd', 'even'], counter ) }} hidden-xs" >
+        <div class="container" itemscope itemtype="http://schema.org/ItemList">
+          <h2 itemprop='name'>{{ "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL yyyy") }} {{"in"|trans}} {{ city.title }}</h2>
+          {% set eventDisplayed = [] %}
+          {% if displayDates == true   %}
+            {% if displayCours == true   %}
+              <div class=" block-dates col-md-9 limit-right">
+            {% else %}
+              <div class="row block-dates col-md-12">
+            {% endif %}
+              {% for date in dates %}
+                {% if date.event.id not in eventDisplayed %}
+                  {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") == "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") %}
+                    {% if date.event.valorisation ==1 %}
+						{% if lazytest =="ok" %}
+							{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo","lazyload":"full"  } only %}
+						{% else %}
+							{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo","lazyload":false  } only %}
+						{% endif %}
+					
+                      
+                    {% else %}
+						{% if lazytest =="ok" %}
+							{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small","lazyload":"full"  } only %}
+						{% else %}
+							{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small","lazyload":false  } only %}
+						{% endif %}
+						
+                      
+                    {% endif %}
+                   {% endif %}
+                {% endif %}
+                {% set eventDisplayed = {'eventDisplayed': date.event.id} %}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+          {% if displayCours == true   %}
+            {% if displayDates == true   %}
+            <div class="block-cours col-md-3">
+            {% else %}
+            <div class="row block-cours col-md-6">
+            {% endif %}
+
+              <h3>{{"tango_lessons"|trans}}</h3>
+              {% for cours in coursCity %}
+              {% if ("now"|date_modify("+"~day~" day")>= cours.start) and ("now"|date_modify("+"~day~" day")<= cours.end) %}
+                  {% if cours.event.day == "now"|date_modify("+"~day~" day")|date("N") %}
+                      {% include 'FabienEventsEngineBundle:Dates:itemCours.html.twig' with {'cours': cours,"lazyload":"full"  } only %}
+                   {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    <div class="visible-xs ">
+      <div class="bande-{{ cycle(['odd', 'even'], counter ) }}" >
+        <div class="container" itemscope itemtype="http://schema.org/ItemList">
+          <h2 itemprop='name'>{{ "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL yyyy") }} {{"in"|trans}} {{ city.title }}</h2>
+          <div class="owl-carousel owl-theme">
+            {% for date in dates %}
+              {% if date.start|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") == "now"|date_modify("+"~day~" day")|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") %}
+
+				{% if lazytest =="ok" %}
+					{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"card","lazyload":true  } only %}
+				{% else %}
+					{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"card","lazyload":false  } only %}
+				{% endif %}
+			  
+                  
+
+               {% endif %}
+            {% endfor %}
+            {% for cours in coursCity %}
+            {% if ("now"|date_modify("+"~day~" day")>= cours.start) and ("now"|date_modify("+"~day~" day")<= cours.end) %}
+                {% if cours.event.day == "now"|date_modify("+"~day~" day")|date("N") %}
+				
+				{% if lazytest =="ok" %}
+					{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': cours,"taille":"card","lazyload":true  } only %}
+				{% else %}
+					{% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': cours,"taille":"card","lazyload":false  } only %}
+				{% endif %}
+                
+
+                 {% endif %}
+              {% endif %}
+            {% endfor %}
+            </div>
+          </div>
+        </div>
+    </div>
+  {% endif %}
+
+
+{% endfor %}
+{% if counter <=0 %}
+<div class='container'>
+<h3> {{"no_event_found"|trans}}</h3>
+<p>
+{{"no_event_found"|trans}}
+{{"du_form"|trans }} {{start_date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy")}}
+{{"au_to"|trans }} {{end_date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy")}}
+</p>
+</div>
+{% endif %}

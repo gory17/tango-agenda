@@ -1,0 +1,159 @@
+<div class='panel panel-default'>
+  <div class="panel-heading">
+    Validation des {{ titlePage }}
+  </div>
+  <div class="panel-body">
+    <table>
+      <tr>
+        <th>Valider</th>
+        <th>Valoriser</th>
+        <th>Supprimer</th>
+        <th>Aperçu</th>
+        <th>Lien</th>
+        <th>Titre</th>
+        <th>Ville</th>
+        <th>Début / fin</th>
+        {% if titlePage in ["Marathon","Encuentro","week-end"] %}
+          <th>Inscription</th>
+        {% endif %}
+        <th>Type</th>
+      </tr>
+
+      {% for event in listEvent  %}
+      <tr>
+        <td>
+        {% if event.publish == 0 %}
+        <a href="{{ path('events_publish',{"id" : event.id,"mode":"publier"}) }}" class='btn btn-warning btpublier'><span class='glyphicon glyphicon-question-sign'></span></a>
+        {% else %}
+        <a href="{{ path('events_publish',{"id" : event.id,"mode":"depublier"}) }}" class='btn btn-success btdepublier'><span class='glyphicon glyphicon-ok-sign'></span></a>
+        {% endif %}
+        </td>
+
+        <td>
+        {% if event.valorisation == 0 %}
+        <a href="{{ path('events_valorise',{"id" : event.id,"mode":"valoriser"}) }}" class='btn btn-secondary btvaloriser'><span class="glyphicon glyphicon-star-empty" ></span></a>
+        {% else %}
+        <a href="{{ path('events_valorise',{"id" : event.id,"mode":"classique"}) }}" class='btn btn-info btdevaloriser'> <span class="glyphicon glyphicon-star" ></span></a>
+        {% endif %}
+        </td>
+        <td>
+          <div id="modal{{event.id}}" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+
+              <!-- Modal content-->
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal">&times;</button>
+                  <h4 class="modal-title">{{event.title}}</h4>
+                </div>
+                <div class="modal-body">
+                  {% if event.image %}
+                    {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image':  event.image,"taille":"tall"} only %}
+                  {% endif %}
+
+
+                  <p>{{ event.description|nl2br }}</p>
+
+                  <p class='ouverture_inscription'>
+                  {{ event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy 'à' HH:mm") }}
+                  </p>
+
+                  {% if event.city!="" %}
+                  <p>
+                  <strong>Adresse</strong><br />
+                  <span itemprop="location">
+                    {{event.adress}}<br />
+                    {{event.city.title}},{{event.city.state.country.title}}
+                  </span>
+                  </p>
+                  {% endif %}
+
+                  {% if event.lieuRaw!="" %}
+                  <p>
+                  <strong>Lieu (brut)</strong><br />
+                    {{event.lieuRaw}}
+                  </p>
+                  {% endif %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        <a class='btn btn-info' data-toggle="modal" data-target="#modal{{event.id}}" href="#"><span class="glyphicon glyphicon-eye-open"></span></a></td>
+        <td><a href="{{ path("events_delete",{"id":event.id}) }}" class='publish btn btn-danger btsupprimer'><span class="glyphicon glyphicon-trash"></span></a></td>
+        <td><a href="{{ event.urlFb}}" target="_blank" class=''><span class="glyphicon glyphicon-link"></span></a></td>
+        <td><a href='{{path("events_edit",{"id":event.id})}}' data-toggle="tooltip" title="
+          {% if event.city %}
+            {% if event.city.title=="Inconnue" %}
+            Adresse : {{ event.adress }} {{event.cityother}} .
+            {% endif %}
+
+            {% if event.TypeEvent.id in [3,4] %}
+              {% if event.dateInscription=="" %}
+                {% set phrases = event.description|split('.') %}
+                {% for phrase in phrases %}
+                  {% if "starts" in phrase  %} {{phrase}}. {% endif %}
+                {% else %}
+
+                {% endfor %}
+
+              {% endif %}
+            {% endif %}
+          {% endif %}
+            ">{{event.title}}</a>
+        </td>
+
+
+        <td>
+
+            <input type='text' class="cityInput" id="{{ event.id }}" name="city" />
+
+            {% if event.city !=''  %}
+            <span class='cityText' id="{{ event.id }}">{{ event.city.title }} ({{ event.city.state.country.title}})</span>
+            {% endif %}
+        </td>
+
+
+        <td>
+        {% for date in event.dates %}
+
+        {{ date.start|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }}
+        {% if event.TypeEvent.id in [3,4,5] %}<br /> {{ date.end|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }} {% endif %}
+        {% endfor %}
+        </td>
+
+        {% if event.TypeEvent.id in [3,4,12] %}
+          <td>
+          {% if event.dateInscription %}
+          <span class='dateinsctxt' id='{{event.id}}'>{{ event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }}</span>
+          <div class='input-group date invisible'>
+              <input type='text' class='datetimepicker' id='{{event.id}}' {% if event.dateInscription !="" %} value="{{event.dateInscription|date("Y-m-d H:i:s")}}" {% else %}  {% endif %} />
+          </div>
+          {% else %}
+          <span class='dateinsctxt invisible' id='{{event.id}}'></span>
+          <div class='input-group date'>
+              <input type='text' class='datetimepicker' id='{{event.id}}'  />
+          </div>
+          {% endif %}
+          </td>
+        {% endif %}
+
+          <td>
+            <select eventnumber='{{ event.id }}' class="typeChoice" name="">
+              {% for typeEvt in listTypes %}
+                <option value="{{ typeEvt.id }}"
+                {% if typeEvt.id==event.TypeEvent.id %}
+                  selected
+                {% endif %}
+                >{{ typeEvt.title}}</option>
+              {% endfor %}
+            </select>
+          </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>

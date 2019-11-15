@@ -1,0 +1,209 @@
+home: Home
+last_posts: Last posts
+events_saved: Events saved
+about_tango_agenda: About Tango-Agenda.com
+terms_of_us: Terms of use
+follow_us: Follow us
+on_facebook: on Facebook
+country_list: Cities
+milonga_and_lessons: Find milongas, tango workshops, classes ...
+milonga_and_lessons_slogan: Choose a country and find every tango events for each city
+search_by_country: Search by country
+events: events
+cities_of: cities of %cityName%
+tango_events_in : Events in %countryName%
+tango_events_description_in : Find all tango events in %countryName%, stages, milongas, festivals, marathons and many others
+all_cities: All cities
+by: by
+le_date: ,
+comments: comments
+Help : Help
+help_choose_day : Choose de day of the week of your course
+help_choose_period : Then choose the start date and the end date (exemple from 01/01/2017 to 20/06/2018)
+post_list: Posts list
+tang_blog: Tango blog
+lessons_in: Classes in
+no_lesson_on: No classes found in
+events_in: Events in
+see_the: see the
+tango_lessons: tango classes
+no_lessons_found: no class found
+Delete : Delete
+see_next_2_weeks: see next 30 days
+no_events_ins: No events in
+what_a_shame_please_add_an_event: What a shame ! Please add an event :)
+add: Add
+the: on
+see_all_posts: See all posts
+choose_a_city:  city
+Ajouter : Add event
+or: or
+choose_a_country: Choose a country
+close: Close
+form_ajout_evt : Event form
+Adresse_fb_manquante : Enter a valid Facebook URL
+featured_articles: Recommended
+inscriptions_starts: Registration opening
+for_big_events: Among tango festivals, marathons, encuentros and tang week-ends
+opening: opening
+last_events: Last events
+tango_worshops_in: Tango workshops in
+something_whent_wrong: Something went wrong
+operation_success: Operation succeeded
+a_la_une: Recommended
+list_of: List of %typeTitle%
+lesxxxxstype: Tango %typeTitle%s
+registration_opening: Registration opening
+open_on: opening :
+du_from: from
+au_to: to
+events_added_these: Last events added
+last_days: days
+no_event_found: no event found
+add_form: Add form
+validation_needed: Your event will be available after validation. Thank you ! :) .
+facebook_event : Facebook event
+please_choose_type : please choose an event type
+add_an_event_or_lesson: Add an event or a class
+Add_tango_Agenda : Add your event on Tango-Agenda
+Text_Add_tango_Agenda : It's free and easy !
+Event_add_copy_paste : Copy / paste your facebook event URL
+Event_on_fb_Add : Is your event already on Facebook ?
+click_here : click here
+sinon : if not
+Event_type_Add : What kind of event is it ?
+'Pour ajouter un événement, un stage ou un cours de tango, vous avez à votre disposition 2 méthodes.': 'There are 2 ways to add your event.'
+'Méthode 1 : Importer de Facebook': '1. Import from Facebook'
+'Votre événement doit respecter quelques critères': 'your event must match the following criteria :'
+'il doit s''agir d''un événement et non d''une page': "it must be a facebook event importation (it won't work with a facebook group)"
+'votre événement doit avoir un statut public': 'your event must be public'
+'il doit contenir une photo d''illustration': 'it must have a picture'
+'le lieu doit être renseigné': 'it must have a clear location'
+'Saisissez ci-dessous l''adresse de l''événement Facebook à ajouter.': 'Url of your facebook event (please copy and paste it)'
+'Méthode 2 : Utiliser le formulaire d''ajout d''événement': '2. Fill in the form'
+'Vous pouvez ajouter un événement directement en utilisant le formulaire prévu à cet effet': 'Enter all informations about your event'
+'Formulaire d''ajout': 'Event form'
+'Les événements doivent concerner uniquement le tango argentin. Si ce n''est pas le cas, ils seront supprimés sans préavis.': 'All non-tango related events will be deleted.'
+events_list: Events list
+add_an_event: Add an event
+Something_whent_wrong: something went wrong :(
+Operation_success: operation succeeded
+event_form: Event form
+event_type: Event type
+event_title: Title
+Address: Address
+Country: Country
+closest_city: City (or closest city)
+Other_city: Other city (if not listed above)
+website: Website
+fb_page: Facebook page
+Organizer: Organizer
+gender_balanced: Gender balanced ?
+registration: registration
+actual_picture: current picture
+no_picture: no picture
+send_an_image: Send a picture
+add_a_date: Add a date
+a_in: In
+du_form: From
+organized_by: Organizer
+address: Address
+registration_opent_at: Registration opening
+more_informations: more information
+tango_worshop: Tango workshop
+every_events : All events
+added_this_last_7_days : added these last 7 days
+milonga_and_classes : Milongas & more
+these_last_7_days : these last 7 days
+added : added
+most_active_cities : Most active tango cities
+most_active_cities_in : Most active tango cities in
+save : Save
+date_start : Start date
+date_end : End date
+date_informations : More information
+delete : Delete
+other_countries: Other countries
+search_by_city: Search a city
+search_results : Search results for
+searchTitle : Search
+Start : Date start
+End : Date end
+City: City
+Type: Type
+tango_in : Tango in
+in: in
+tango_events_found: tango events found
+find_out_events : find out your next milonga, workshop, lesson or festival in
+find_next: Find your next
+in_en : in
+tango_events_in : Tango events in
+tango_events_in_city : Tango events in
+marathons_festivals_encuentros_in : tango marathons, tango festivals and encuentros in
+marathons_festivals_encuentros_city : marathons and tango festivals in
+all_events_in : Other events in
+posts : Posts
+whatsup_country : What's up in my city ?
+tango_events: Tango events
+slogan1 : Find new tango events !
+slogan2 : Tango festivals, tango marathons, encuentros, milongas, workshops ... Tango-Agenda is searching for you thousands of tango events worldwide.
+Error : Error
+error_occured : an error occured
+code_error : The server returned an error :
+message_error_generic : Something is broken. Please let us know what you were doing when this error occurred. We will fix it as soon as possible. Sorry for any inconvenience caused.
+order_by : Filter by
+map_big_events : Tango events map
+all : all
+by_month : By month
+all_events : All events
+voir : infos
+add_calendar : Add to Calendar
+modify_later: An email will be send at this address with a link that will allow you to modify your event
+warning: Warning
+warning-ta-not-organiser: Tango-Agenda.com doesn't organise any event. If you want to register or have more information about this event, please contact the organiser.
+biggest_tang_db : The biggest tango events repository
+stats-total-events : Total tango events
+stats-events-added-today : events added during last 24H
+stats-events-today : Events today
+stats-big-events : Big events (tango marathons, tango festivals, encuentros)
+browse : Browse tango events
+modif_event : You will be able to correct this event by using this link :
+save_link : (please save this link if you want to modify your event later)
+otherDates: Other dates for this event
+fbpage : Facebook event's page
+events_worldwide : events worldwide
+tango_videos_with : Last tango videos of
+tango_events_with : Tango events of
+With : With
+maestros : Maestros
+maestro_list : Tango maestro list
+last_videos : Last tango videos
+list_videos : Tango videos list
+more_videos : More videos
+no_video_found : No video found
+videos : Videos
+Videos : Vidéos
+all_videos : All tango videos
+slogan_video: Discover new Youtube videos of the most famous tango maestros. This list is updated every day !
+slogan_maestro : Follow your favorites tango maestros ! Find their next tango events, worskhops, festivals and their new videos.
+rss_video : Videos RSS feed
+see_more_maestros : See more tango maestros
+see_less_maestros : See less maestros
+filter_by_maestro : Filtrer par maestro
+videos_this_week : videos this week
+videos_total : videos
+tango_map : Tango map
+events_maestros : events
+searchbyname : Search by name
+see_all : See all
+tango-marathons :  marathons
+tango-festivals :  festivals
+local_milongas : local milongas
+tango-encuentros :  encuentros
+tango-weekends :  week-ends
+tango-vacations :  vacations
+help_us : Help us
+select_video_type : This video is a
+vals: vals
+other: other
+thank_you: Thank you

@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Organizer</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ organizer.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ organizer.title }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ organizer.description }}</td>
+            </tr>
+            <tr>
+                <th>Urlweb</th>
+                <td>{{ organizer.urlWeb }}</td>
+            </tr>
+            <tr>
+                <th>Urlfb</th>
+                <td>{{ organizer.urlFb }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('organizer_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('organizer_edit', { 'id': organizer.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Administration des Regions
+{% endblock %}
+
+{% block body %}
+  <div class='container'>
+    <h1>State</h1>
+
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Create" />
+    {{ form_end(form) }}
+
+    <ul>
+        <li>
+            <a href="{{ path('admin_state_index',{'iditem':Country.id}) }}">Back to the list</a>
+        </li>
+    </ul>
+  </div>
+{% endblock %}

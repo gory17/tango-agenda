@@ -1,0 +1,13 @@
+{% if image.url is defined %}
+<img class="img-responsive" itemprop="image" src='
+  {% if "http" in image.url %}
+    {{ image.url }}
+  {% else %}
+    {% if taille =="small" %}
+      {{ asset(uploadImage~"thumb/"~image.url) }}
+    {% else %}
+      {{ asset(uploadImage~image.url) }}
+    {% endif %}
+  {% endif %}
+    ' alt='{{ image.alt }}'/>
+{% endif %}

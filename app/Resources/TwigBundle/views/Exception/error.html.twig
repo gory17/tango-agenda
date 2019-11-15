@@ -1,0 +1,27 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "Erreur"  } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title': "Error"    } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block title %}
+{{ "Error"|trans }}
+{% endblock %}
+
+{% block body %}
+
+  <div class="container">
+    <h1>Oops ! {{ "error_occured"|trans }}</h1>
+    <h2>{{"code_error"|trans}} {{ status_code }} {{ status_text }}</h2>
+    <p>{{"message_error_generic"|trans}}</p>
+  </div>
+
+{% endblock %}
+
+{% block codeJs %}
+{% endblock %}

@@ -1,0 +1,83 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block scripttop %}
+<script src='{{ asset('tinymce/tinymce.min.js') }}'></script>
+<script>
+/*
+tinymce.init({
+  selector: ".editor",theme: "modern",
+  plugins: [
+       "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+       "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+       "table contextmenu directionality emoticons paste textcolor  code"
+ ],
+ toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
+ toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+ image_advtab: true ,
+ relative_urls: false,
+  remove_script_host : false,
+ external_filemanager_path:"http://www.tango-agenda.com/filemanager/",
+ filemanager_title:"Responsive Filemanager" ,
+ external_plugins: { "filemanager" : "../../filemanager/plugin.min.js"}
+});*/
+
+tinymce.init({
+    selector: ".editor",theme: "modern",width: 680,height: 300,
+    plugins: [
+         "advlist autolink link image lists charmap print preview hr anchor pagebreak",
+         "searchreplace wordcount visualblocks visualchars insertdatetime media nonbreaking",
+         "table contextmenu directionality emoticons paste textcolor responsivefilemanager code"
+   ],
+   toolbar1: "undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | styleselect",
+   toolbar2: "| responsivefilemanager | link unlink anchor | image media | forecolor backcolor  | print preview code ",
+   image_advtab: true ,
+   relative_urls: false,
+   image_class_list: [
+       {title: 'Responsive', value: 'img-responsive'},
+       {title: 'None', value: ''}
+   ],
+   external_filemanager_path:"{{ asset('filemanager/') }}",
+   filemanager_sort_by:"date",
+   filemanager_title:"Responsive Filemanager" ,
+   external_plugins: { "filemanager" : "{{ asset('filemanager/plugin.min.js') }}"}
+ });
+</script>
+{% endblock %}
+
+{% form_theme form _self %}
+
+{% block title %}
+Formulaire de création d'article
+{% endblock %}
+
+{% block body %}
+<div class="container">
+
+  {% if error_message is defined %}
+  <div class='container'>
+    <div class='alert alert-warning'>
+    <h3>Oops ! Quelque chose s'est mal passé !</h3>
+    {{ error_message }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if success_message is defined %}
+  <div class='container'>
+    <div class='alert alert-success'>
+    <h3>Opération réalisée avec succès</h3>
+    {{ success_message }}
+    </div>
+  </div>
+  {% endif %}
+
+  <h3>Formulaire d'ajout d'article</h3>
+
+  {{ form_start(form) }}
+      {{ form_widget(form) }}
+      <input class='btn btn-lg btn-primary' type="submit" value="Créer" />
+  {{ form_end(form) }}
+
+
+</div>
+{% endblock %}

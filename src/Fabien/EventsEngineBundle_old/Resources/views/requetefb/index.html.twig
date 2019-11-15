@@ -1,0 +1,49 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+liste
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Liste des requètes </h1>
+
+    <table class='table table-stripped'>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for requeteFb in requeteFbs %}
+            <tr>
+                <td><a href="{{ path('requetefb_show', { 'id': requeteFb.id }) }}">{{ requeteFb.id }}</a></td>
+                <td>{{ requeteFb.title }}</td>
+                <td>{{ requeteFb.TypeEvent.title }}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('requetefb_show', { 'id': requeteFb.id }) }}">show</a>
+                        </li>
+
+                        <li>
+                            <a href="{{ path('requetefb_edit', { 'id': requeteFb.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('requetefb_new') }}">Create a new requeteFb</a>
+        </li>
+    </ul>
+
+</div>
+{% endblock %}

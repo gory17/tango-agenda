@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+
+<channel>
+
+	<title>Tango-agenda</title>
+	<link>http://www.tango-agenda.Com</link>
+	<description>Actualité de {{maestro.prenom}} {{maestro.nom}}</description>
+
+	<language>fr-FR</language>
+
+
+{% for video in videos %}
+<item>
+  <title>{{ video.title }}</title>
+  <category>video</category>
+
+  {% set ladate="" %}
+
+
+  {% set ladate= video.datePublication|localizeddate('none', 'none', "","Europe/Paris","dd/MM/Y") %}
+
+  {% if (loop.first) %}
+  <guid isPermaLink="false">https://www.youtube.com/embed/{{ video.youtubeId   }}</guid>
+  <link>https://www.youtube.com/embed/{{ video.youtubeId   }}</link>
+  {% endif %}
+
+  <description>
+    <![CDATA[
+    {% if video.urlImage is defined %}
+      <img class="img-responsive" src='
+          {{ video.urlImage }}
+        ' alt='{{ video.title }}'/>
+    {% endif %}
+  <br />{{ video.description|striptags }}
+  ]]>
+</description>
+</item>
+
+{% endfor %}
+
+
+
+
+{% for date in events %}
+{% if date.event.title %}
+<item>
+  <title>{{ date.event.title }}</title>
+  <category><![CDATA[{{ date.event.TypeEvent.title }}]]></category>
+
+  {% set ladate="" %}
+
+
+  {% set ladate= date.start|localizeddate('none', 'none', "","Europe/Paris","dd/MM/Y") %}
+
+  {% if (loop.first) %}
+  <guid isPermaLink="false">http://www.tango-agenda.com{{ path("date_view",{'id':date.id}) }}</guid>
+  <link>http://www.tango-agenda.com{{ path("date_view",{'id':date.id}) }}</link>
+  {% endif %}
+
+  <description>
+    <![CDATA[
+    {% if date.event.image.url is defined %}
+      <img class="img-responsive" src='
+          {{ asset(uploadImage~date.event.image.url) }}
+        ' alt='{{ date.event.image.alt }}'/>
+    {% endif %}
+  <br /><strong>{{ date.event.TypeEvent.title }} - {{ date.event.city.title }}, {{date.event.city.state.country.title}} - {{ ladate }}</strong>
+  <br />{{ date.event.description|striptags }}
+  ]]>
+</description>
+</item>
+{% endif %}
+
+
+
+{% endfor %}
+
+
+</channel>
+</rss>

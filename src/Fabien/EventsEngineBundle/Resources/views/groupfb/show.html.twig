@@ -1,0 +1,46 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+Groupe Facebook
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Groupe Facebook</h1>
+
+    <table>
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ groupFb.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ groupFb.title }}</td>
+            </tr>
+            <tr>
+                <th>Url</th>
+                <td>{{ groupFb.url }}</td>
+            </tr>
+            <tr>
+                <th>Count</th>
+                <td>{{ groupFb.count }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul>
+        <li>
+            <a href="{{ path('groupfb_index') }}">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('groupfb_edit', { 'id': groupFb.id }) }}">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+  </div>
+  {% endblock %}

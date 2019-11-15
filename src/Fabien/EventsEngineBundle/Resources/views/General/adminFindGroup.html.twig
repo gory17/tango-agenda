@@ -1,0 +1,84 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+{% block title %}
+Administration
+{% endblock %}
+
+{% block body %}
+<div class='container'>
+<h1>Administration</h1>
+<p>Découverte de groupes : <input type="text" name="" value="" id="reqfb"><input type="button" id='btfindgroup' value="OK" class='button btn-primary' /></p>
+
+<div class="resultats" id="resultats">
+
+</div>
+
+
+{% endblock %}
+
+
+{% block codeJs %}
+<script>
+$(document).ready(function(){
+  $("#btfindgroup").click(function(){
+    $requete=$("#reqfb").val();
+
+    $(".resultats").html("<div class='alert alert-success'>Recherche en cours</div>");
+
+
+      $.ajax({
+          url: "{{ path("ajax_find_group") }}",
+          type: 'POST',
+          data:
+          {
+              requete : $requete
+          },
+          success: function(response) {
+              $(".resultats").empty();
+              $(".resultats").html(response);
+          },
+          error: function(response) {
+              $(".resultats").empty();
+              $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+          }
+        });
+
+  })
+
+
+  $('body').on('click', '.addGroup',function(){
+    $id=$(this).data('id');
+    $name=$(this).data('name');
+
+    //Ajoute en ajax le groupe
+
+
+      $.ajax({
+          url: "{{ path("ajax_add_group") }}",
+          type: 'POST',
+          data:
+          {
+              id : $id,
+              name:$name
+
+          },
+          success: function(response) {
+              console.log(response);
+          },
+          error: function(response) {
+              console.log(response);
+          }
+        });
+
+
+    $(this).parent().hide("slow");
+
+
+
+    return false;
+  });
+
+});
+</script>
+{% endblock %}

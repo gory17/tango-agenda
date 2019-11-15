@@ -1,0 +1,254 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block og %}
+
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'website','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+{% endblock %}
+
+{% block title %}
+TangoMap
+{% endblock %}
+
+{% block body %}
+<div class='container'>
+<h1><span class='glyphicon glyphicon-map-marker'></span> Tango Map</h1>
+
+
+
+<div class=''>
+  <div class="container">
+    <h2>{{"map_big_events"|trans}}</h2>
+    <div id="map-tangoagenda" class="col-md-9"></div>
+    <div class="col-md-3 legends-map">
+      <h3>{{"order_by"|trans}}</h3>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-marathon'><img src="{{asset('img/pins/redpin.png')}}" alt='pin maps' />  Marathons</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-festival'><img src="{{asset('img/pins/greenpin.png')}}" alt='pin maps' /> Festivals</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-encuentro'><img src="{{asset('img/pins/bluepin.png')}}" alt='pin maps' /> Encuentros</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='tango-week-end'><img src="{{asset('img/pins/violetpin.png')}}" alt='pin maps' />  Week-ends</a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='voyage-tango'><img src="{{asset('img/pins/yellowpin.png')}}" alt='pin maps' />
+        {% if app.request.getLocale()=="fr" %}
+        Voyages
+        {% else %}
+        Tango vacations
+        {% endif  %}
+      </a></p>
+      <p><a href='#' class='load-map-data btn-primary btn btn-block filterMap' data-slug='all'>{{"all_events"|trans}}</a></p>
+
+      <p> <select class="form-control d-inline" name="month-map" id="month-map">
+        <option value="all">{{"by_month"|trans}}</option>
+        {% for i in 0..11 %}
+        <option value="{{ "now"|date_modify("+"~i~" month")|date("m-Y") }}">{{ "now"|date_modify("+"~i~" month")|localizeddate('none', 'none', "","Europe/Paris","LLLL Y") }}</option>
+        {% endfor %}
+              </select></p>
+    </div>
+  </div>
+
+</div>
+
+
+</div>
+{% endblock %}
+
+
+{% block codeJs %}
+<script type="text/javascript">
+
+
+
+
+
+ /* Déclaration des variables  */
+ var geocoder;
+ var map;
+ var markers = new Array();
+ var i = 0;
+
+ var gmarkers = [];
+
+
+ /* Initialisation de la carte  */
+ function initialize() {
+   var center = new google.maps.LatLng(48.8566667, 2.3509871);
+
+   if (navigator.geolocation) {
+       navigator.geolocation.getCurrentPosition(function (position) {
+           center = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+
+       });
+   }
+
+   map = new google.maps.Map(document.getElementById('map-tangoagenda'), {
+     zoom: 4,
+     center: center,
+     mapTypeId: 'terrain'
+   });
+   var iw = new google.maps.InfoWindow();
+
+   var oms = new OverlappingMarkerSpiderfier(map, {
+     markersWontMove: true,
+     markersWontHide: true,
+     basicFormatEvents: true
+   });
+
+
+
+
+    $.getJSON( "{{asset("events.json")}}", function( data ) {
+     var items = [];
+
+
+     $.each( data, function( key, val ) {
+
+
+
+       markers.push(val);
+
+
+       var latLng = new google.maps.LatLng(val.lat,val.lng);
+       var marker = new google.maps.Marker({
+           position: latLng,
+           map: map,
+           category:val.type,
+           month:val.month,
+         });
+
+
+
+         {% if app.request.getLocale()=="fr" %}
+           var localisationDate='Du '+val.start_fr+' au '+val.end_fr+' à '+val.city+' ('+val.country+')' ;
+         {% else %}
+           var localisationDate='From '+val.start_fr+' to '+val.end_fr+' in '+val.city+' ('+val.country+')' ;
+         {% endif %}
+         var urlDate='<a href="./date/'+val.date_id+'" class="btn btn-primary">Voir</a> ';
+
+         if(val.image){
+           imageMap='<p><a href="./date/'+val.date_id+'" ><img src="../../'+val.image+'" /></a></p>';
+         }else{
+           imageMap='';
+         }
+
+
+         var contentString = '';
+
+           var infowindow = new google.maps.InfoWindow({
+               content: contentString
+             })
+
+
+         google.maps.event.addListener(marker, 'spider_click', function(e) {  // 'spider_click', not plain 'click'
+           $.ajax({
+             method: "POST",
+             url: "{{path('getInfosMarker_ajax')}}",
+             data: { id:val.date_id }
+           })
+           .done(function( msg ) {
+             contentString=msg;
+             iw.setContent(contentString);
+             iw.open(map, marker);
+           });
+
+
+         });
+         oms.addMarker(marker);  // adds the marker to the spiderfier _and_ the map
+
+       gmarkers.push(marker);
+
+         switch(val.type){
+           case "tango-encuentro":
+             marker.setIcon("{{asset('img/pins/bluepin.png')}}");
+             break;
+
+           case "tango-festival":
+             marker.setIcon("{{asset('img/pins/greenpin.png')}}");
+             break;
+
+           case "tango-marathon":
+             marker.setIcon("{{asset('img/pins/redpin.png')}}");
+             break;
+
+
+           case "voyage-tango":
+               marker.setIcon("{{asset('img/pins/yellowpin.png')}}");
+               break;
+
+           default :
+             marker.setIcon("{{asset('img/pins/violetpin.png')}}");
+             break;
+         }
+
+
+     });
+
+
+
+   });
+
+
+ }
+
+ var $slug="all";
+ $(document).ready(function(){
+
+   $(".load-map-data").click(function(){
+     $slug=$(this).data("slug");
+
+     $month=$("#month-map").val();
+
+
+     for (i = 0; i < markers.length; i++) {
+         marker = gmarkers[i];
+
+         // If is same category or category not picked
+         if (marker.category == $slug || $slug=="all" ) {
+
+           if (marker.month == $month || $month=="all" ) {
+               marker.setVisible(true);
+           }else{
+             marker.setVisible(false);
+           }
+         }
+         // Categories don't match
+         else {
+             marker.setVisible(false);
+         }
+     }
+     return false;
+   });
+
+
+
+   $("#month-map").change(function(){
+     $month=$(this).val();
+     for (i = 0; i < markers.length; i++) {
+         marker = gmarkers[i];
+
+         // If is same category or category not picked
+         if (marker.month == $month || $month=="all" ) {
+           if (marker.category == $slug || $slug=="all" ) {
+             marker.setVisible(true);
+           }else{
+             marker.setVisible(false);
+           }
+         }
+         // Categories don't match
+         else {
+             marker.setVisible(false);
+         }
+     }
+   });
+ });
+
+
+</script>
+
+
+<script type="text/javascript">
+$.getScript('https://maps.googleapis.com/maps/api/js?key=AIzaSyB7KdaJtR8VdgzG3WyKIGeeTS-utcBBEo0', () => {
+  initialize();
+
+})
+</script>
+
+
+{% endblock %}

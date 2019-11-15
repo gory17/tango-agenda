@@ -1,0 +1,59 @@
+<div class="item_event ">
+  {% if taille == "tall" %}
+  <div class="item_event_{{ taille }} row">
+  {% elseif taille == "valo" %}
+  <div class="item_event_{{ taille }} col-xs-12 col-md-6 form-group">
+  {% elseif taille == "medium" %}
+  <div class="item_event_{{ taille }} col-xs-12 col-md-6 form-group">
+  {% elseif taille =="topPage" or taille =="topPageBig" %}
+  <div class="item_event_{{ taille }}">
+  {% else %}
+  <div class="item_event_{{ taille }} col-xs-12 col-md-4 col-lg-3 form-group">
+  {% endif %}
+    <div class='content-item'>
+
+      {% if taille == "tall" %}
+      <div class="col-md-8 col-xs-12">
+      {% endif %}
+
+        <div class="image-box">
+          <a href="{{ path("date_view",{'id':date.id}) }}">{% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': date.event.image,"taille": taille} only %}</a>
+        </div>
+
+      {% if taille == "tall" %}
+      </div>
+      <div class="col-md-4 col-xs-12">
+      {% endif %}
+
+      <div class='item-text'>
+        <p class='item-infos-location'>
+          {% if date.event.city.state.country.sortname!="inconnu" %}
+          <img src="{{ asset('img/flags/flags_iso/32')}}/{{ date.event.city.state.country.sortname|lower }}.png" class='flag' alt="flag {{ date.event.city.state.country.title }} ">
+          {% endif %}
+          <span class='item-city place'>{{ date.event.city.title }}, {{date.event.city.state.country.title}}</span><br />
+
+          {% if app.request.getLocale()=="fr" %}
+          <span class='item-type'>{{ date.event.typeevent.title }}</span><br />
+          {% else %}
+          <span class='item-type'>{{ date.event.typeevent.titletrad }}</span><br />
+          {% endif %}
+
+          {% if date.event.typeevent.id == 8 %}
+          {% if app.request.getLocale()=="fr" %}
+            {% set jour=["","lundi","mardi","mercredi","jeudi","vendredi","samedi","dimanche"] %}
+          {% else %}
+            {% set jour=["","monday","thuesday","wednesday","thursday","friday","saturday","sunday"] %}
+          {% endif %}
+            <span class='item-date '>Le {{ jour[date.event.day] }}</span>
+          {% else %}
+            <span class='item-date '><span class="glyphicon glyphicon-calendar"></span> {{ date.start|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL") }}</span>
+          {% endif %}
+        </p>
+        <h3><a href="{{ path("date_view",{'id':date.id}) }}">{{ date.event.title }}</a></h3>
+      </div>
+      {% if taille == "tall" %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>

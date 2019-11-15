@@ -1,0 +1,116 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{% if app.request.getLocale()=="fr" %}
+{{ event.typeevent.title }}
+{% else %}
+{{ event.typeevent.titletrad }}
+{% endif %} {{ event.title }}
+{% endblock %}
+
+
+{% block og %}
+{% set imageOG="" %}
+{% if event.image.url is defined %}
+  {% set imageOG=uploadImage~""~event.image.url %}
+{% endif %}
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'titleOG': event.title,"descriptionOG":event.typeevent.title~" - "~ event.city.title~" ("~event.city.state.country.title~")"  ,"imageOG": imageOG  } only %}
+{% endblock %}
+
+{% block body %}
+<article>
+<div class='container' itemscope itemtype="http://schema.org/Event">
+
+  {% if error_message is defined %}
+  <div class='container'>
+    <div class='alert alert-warning'>
+    <h3>Attention</h3>
+    {{ error_message }}
+    </div>
+  </div>
+  {% endif %}
+
+  {% if success_message is defined %}
+  <div class='container'>
+    <div class='alert alert-success'>
+    <h3>{{ "operation_success"|trans }}</h3>
+    {{"modif_event"|trans}} <br /><a href='{{ success_message }}'>{{ success_message }}</a>
+
+    </div>
+  </div>
+  {% endif %}
+
+
+  {% for message in app.flashes('notice') %}
+  <div class='container'>
+    <div class='alert alert-success'>
+    <h3><span class='glyphicon glyphicon-ok'></span> {{ "operation_success"|trans }}</h3>
+    {{"modif_event"|trans}} <br /><a href='{{ message }}'>{{ message }}</a>
+    <br />{{"save_link"|trans}}
+    </div>
+  </div>
+  {% endfor %}
+
+  <h1 itemprop="name">{{ event.title }}</h1>
+  <div class="shareBar">
+    <div class="fb-like" data-href="{{ app.request.uri }}" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+  </div>
+
+  <div itemprop="description">
+    <p class='details'>{% if app.request.getLocale()=="fr" %}
+    {{ event.typeevent.title }}
+    {% else %}
+    {{ event.typeevent.titletrad }}
+    {% endif %} {% if event.organizer is not null %}{{ "organized_by"|trans }} <span itemprop="organizer">{{ event.organizer }}</span> {% endif %}</p>
+    {% include 'FabienEventsEngineBundle:Events:horaires.html.twig' with {'event': event} only %}
+
+
+    {% if event.image %}
+      {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image':  event.image,"taille":"tall","event":event} only %}
+    {% endif %}
+
+
+    <p>{{ event.description|nl2br }}</p>
+
+    <p class='ouverture_inscription'>
+    {{ event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy 'à' HH:mm") }}
+    </p>
+
+    {% if event.city!="" %}
+    <p>
+    <strong>{{ "address"|trans }}</strong><br />
+    <span itemprop="location">
+      {{event.adress}}<br />
+      {{event.city.title}}
+    </span>
+    </p>
+    {% endif %}
+
+    <ul>
+      {% if event.urlWeb is not null %} <li{{ "website"|trans }} <span itemprop="url"><a href="{{ event.urlWeb }}">{{ event.urlWeb }}</a></span></li> {% endif %}
+      {% if event.urlFb is not null %} <li><a href="{{ event.urlFB }}">Facebook</a></li> {% endif %}
+    </ul>
+  </div>
+
+</div>
+</article>
+
+{% include 'FabienEventsEngineBundle:General:blockAdminObjet.html.twig' with {'event':  event} only %}
+
+
+{% endblock %}
+
+{% block codeJs %}
+<script>
+$(".btsupprimer").click(function(){
+  var result = confirm("Voulez vous vraiment supprimer ?");
+  if (result) {
+      //Logic to delete the item
+  }else{
+    return false;
+  }
+});
+
+</script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDaGgZMxyHsTiZW_Ha5UMztq0rx7jC68Ck&callback=initMap" async defer></script>
+{% endblock %}

@@ -1,0 +1,389 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block og %}
+
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'website','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+{% endblock %}
+
+{% block title %}
+{{ "home"|trans }} {{appTitle}}
+{% endblock %}
+
+{% block body %}
+<div class='accueil'>
+<h1>{{ "home"|trans }} {{appTitle}} </h1>
+
+{% set countPost = 0 %}
+{% for post in posts %}
+  {% if post.titletrad !="" %}
+    {% set countPost = countPost+1 %}
+  {% endif %}
+{% endfor %}
+
+{% if countPost >0 or app.request.getLocale()=="fr" %}
+<div class="bande-accueil accueil-blog">
+  <div class="container">
+    <h2 class='toptitre'><span class="glyphicon glyphicon-home"></span> {{ "last_posts"|trans }}</h2>
+    <div class="row ">
+      <div class="col-md-7 col-xs-12">
+        {% set countPost = 0 %}
+        {% for post in posts|slice(0, 1) %}
+        {% if app.request.getLocale()=="fr" or post.titletrad !="" %}
+        <div class='item-first-blog post-item' >
+          <div class="content-item">
+            <a href=" {{ path('fabien_events_blog_view', { 'slug': post.slug }) }}">
+              <div class="box-image">
+                <div class="image-blog">
+                  {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': post.imageDefault,"taille": "large"} only %}
+
+                </div>
+              </div>
+              <div class="texte-resume-blog ">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h2>{{ post.title }}</h2>
+                    <p class='blog-date-item'>{{ "by"|trans }} {{ post.author }} {{ "the"|trans }} {{ post.date|localizeddate('none', 'none', "fr","Europe/Paris","dd/MM/yyyy") }}</p>
+                    </p>
+                    <div class="chapo-blog">
+                      {{ post.header }}
+                    </div>
+                  </div>
+                  <div class="col-md-6"></div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+      </div>
+
+
+
+      <div class="col-md-5 col-xs-12">
+        {% for post in posts|slice(1, 1) %}
+        {% if app.request.getLocale()=="fr" or post.titletrad !="" %}
+        <div class='item-first-blog post-item' >
+          <div class="content-item">
+            <a href=" {{ path('fabien_events_blog_view', { 'slug': post.slug }) }}">
+              <div class="box-image">
+                <div class="image-blog">
+                  {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': post.imageDefault,"taille": "large"} only %}
+
+                </div>
+              </div>
+              <div class="texte-resume-blog ">
+                <div class="row">
+                  <div class="col-md-6">
+                    <h2>{{ post.title }}</h2>
+                    <p class='blog-date-item'>{{ "by"|trans }} {{ post.author }} {{ "the"|trans }} {{ post.date|localizeddate('none', 'none', "fr","Europe/Paris","dd/MM/yyyy") }}</p>
+                    </p>
+                    <div class="chapo-blog">
+                      {{ post.header }}
+                    </div>
+                  </div>
+                  <div class="col-md-6"></div>
+                </div>
+
+              </div>
+            </a>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <p class="center">
+        <a class='btn btn-primary' href='{{ path('fabien_events_blog_list')}}'>{{ "see_all_posts"|trans({"%countPosts%":countPosts}) }}</a>
+      </p>
+    </div>
+  </div>
+</div>
+{% endif %}
+
+
+<div class="bande-accueil accueil-totalevents">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-12 col-xs-offset-0 col-md-2 col-md-offset-2">
+        <div class='accueil-nb-events'><span class=''>{{ countEvents }}<span> </div>
+
+      </div>
+      <div class="col-xs-12 col-md-6">
+        <p class='accueil-nb-slogan'>
+        <span>{{ "events_saved"|trans }}</span><br />
+          {% if app.request.getLocale()=="fr" %}
+          {{ random(["Vous n'avez pas finit d'user vos semelles.",
+           'Ca en fait des tours de piste.',
+          'Tout choix implique un renoncement ...',
+          ]) }}
+          {% endif %}
+        </p>
+      </div>
+
+      <div class="col-xs-12 col-xs-offset-0 searchLocation ">
+        <p class="accueil-searchCity">
+          <span class="glyphicon glyphicon-search"></span>
+          <input type="text" id="cityInputMenu" class="cityInputMenu input-lg" name="" value="" placeholder="{{ "choose_a_city"|trans }}" />
+          {{ "or"|trans }}
+          <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalCountry">{{ "choose_a_country"|trans }}</button>
+        </p>
+        <!-- Modal -->
+        <div id="modalCountry" class="modal  fade" role="dialog">
+          <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h3 class="modal-title">{{ "choose_a_country"|trans }}</h3>
+              </div>
+              <div class="modal-body">
+                <div class="row">
+                  {% for country in countries%}
+                  {% if country.title !="Inconnu" %}
+                  <div class="col-md-4 col-xs-6">
+                    <a class='btn-country btn btn-primary btn-xs btn-block ' href="{{ path("fabien_events_coutry_listcities",{'slug':country.slug}) }}">
+                        <img src="{{ asset('img/flags/flags_iso/24')}}/{{country.sortname|lower }}.png" class='bigflag' alt="flag {{ country.title }} ">
+                        {{ country.title }}
+                        <span class="badge">{{country.cptevt}}</span>
+                      </a>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{{ "close"|trans }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+  </div>
+</div>
+
+
+<div class="bande-accueil accueil-topevents">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-bullhorn"></span> {{ "featured_articles"|trans }}</h2>
+    <div class="row">
+        {% for date in valoEvents %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"valo"  } only %}
+        {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="bande-accueil-ajout-event bande-accueil ">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-plus"></span> {{ "Add_tango_Agenda"|trans }}</h2>
+    <h3>{{ "Text_Add_tango_Agenda"|trans }}</h3>
+
+    <div class="row">
+      <div class="col-md-5 home-ajout-evt">
+
+        <h4><span class="glyphicon glyphicon-hand-right"></span> {{ "Event_on_fb_Add"|trans }}</h4>
+        <p><a class="btn btn-info" data-toggle="modal" data-target="#modalAddFb">{{ "click_here"|trans }}</a></p>
+      </div>
+      <div class="col-md-2 home-sinon">
+        <p><strong>{{ "sinon"|trans }}</strong></p>
+      </div>
+      <div class="col-md-5 home-ajout-evt">
+        <h4><span class="glyphicon glyphicon-hand-right"></span> {{ "form_ajout_evt"|trans }}</h4>
+        <p>{{ "Event_type_Add"|trans }}</p>
+          <select onchange="location = this.options[this.selectedIndex].value;" class="selectpicker" title="Choisir un type">
+            <option value='#'></option>
+            {% for TypeEvt in listTypeEvt %}
+              <option value='{{ path('events_add_form_type',{"type":TypeEvt.slug}) }}'>{{ TypeEvt.title }}</option>
+            {% endfor %}
+          </select>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="modalAddFb" role="dialog">
+    <div class="modal-dialog">
+
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">{{ "facebook_event"|trans }}</h4>
+        </div>
+        <div class="modal-body">
+
+            <p>{{"Event_add_copy_paste"|trans}}
+            <input type="text" name="facebookevt" value="" id="fblink" class="form-control" placeholder="https://www.facebook.com/events/333040897051350/">
+            </p>
+
+            <p>
+            {{"event_type"|trans}}
+            <select id='add_fb_type_select' class="selectpicker" title="Choisir un type">
+              <option value='#'></option>
+              {% for TypeEvt in listTypeEvt %}
+                <option value='{{ TypeEvt.id }}'>{{ TypeEvt.title }}</a></option>
+              {% endfor %}
+            </select>
+            </p>
+
+
+            <div id='alert_type'></div>
+            <p>
+            <a href="{{ path("events_add") }}/fb" id='addfb' class='btn btn-primary'>{{ "add"|trans }}</a>
+            </p>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="bande-accueil accueil-lastadded">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-calendar"></span> {{ "last_events"|trans }}</h2>
+    <p>{{ "for_big_events"|trans }}</p>
+
+    <div class="row">
+      {% for date in lastEvents %}
+      {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small"  } only %}
+      {% endfor %}
+    </div>
+
+    <div class="row btn-7jours">
+      <div class="col-md-4 col-md-offset-4">
+        <a class='btn btn-xs btn-primary' href="{{path("events_recap",{type:"all",days:7,format:"complet"})}}">{{ "every_events"|trans }} <br/> {{"added_this_last_7_days"|trans}}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="bande-accueil accueil-inscriptions">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-pencil"></span> {{ "inscriptions_starts"|trans }}</h2>
+    <p>{{ "for_big_events"|trans }}</p>
+    <div class='row'>
+
+    {% for date in inscDates %}
+
+    {% if date.event.dateInscription %}
+    <div class='item-date-inscription col-xs-6 col-md-4 col-lg-3 '>
+
+      <p><span class='glyphicon glyphicon-calendar'></span> {{ "opening"|trans }}
+      {{ date.event.dateInscription|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy 'à' HH:mm") }} <br />
+      </p>
+      <p>
+        <a href="{{ path("events_view",{'id':date.event.id}) }}"><strong>{{date.event.title}}</strong></a><br />
+        {{date.event.city.title}}, {{date.event.city.state.country.title}} <br />
+        du <span itemprop="startDate">{{ date.start|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }}</span>
+        au
+        <span itemprop="endDate">{{ date.end|localizeddate('none', 'none', "fr","Europe/Paris","dd LLLL yyyy") }}</span>
+        <!-- 3. Place event data -->
+      </p>
+      <p>
+      <span class="addtocalendar atc-style-blue">
+            <var class="atc_event">
+                <var class="atc_date_start">{{ date.start|localizeddate('none', 'none', "en","Europe/Paris","Y-LL-d HH:mm:ss") }}</var>
+                <var class="atc_date_end">{{ date.end|localizeddate('none', 'none', "en","Europe/Paris","Y-LL-d HH:mm:ss") }}</var>
+                <var class="atc_timezone">Europe/London</var>
+                <var class="atc_title">Inscription : {{date.event.title}}</var>
+                <var class="atc_location">{{date.event.adress}} {{date.event.city.title}}, {{date.event.city.state.country.title}}</var>
+            </var>
+        </span>
+      </p>
+    </div>
+    {% endif %}
+
+    {% endfor %}
+  </div>
+</div>
+</div>
+
+
+
+
+<div class="bande-accueil accueil-mostactive">
+  <div class="container">
+    <h2><span class="glyphicon glyphicon-globe"></span> {{ "most_active_cities"|trans }}</h2>
+    <div class="row">
+      {% for city in citiesActive %}
+
+      {% if city.slug != "" %}
+      <div class='col-xs-4 col-md-2'>
+        <a href="{{ path("fabien_events_city_slug",{"slug":city.slug}) }}">{{ city.title }}</a> <span class="badge">{{ city.cptevt }}</span>
+      </div>
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+
+
+
+</div>
+{% endblock %}
+
+{% block codeJs %}
+  <script>
+  $(document).ready(function(){
+    $("#addfb").click(function(){
+      typeFb=$("#add_fb_type_select").val();
+      idFb=$("#fblink").val();
+      if(idFb!=""){
+        if(typeFb!=""){
+          idFb=idFb.replace("https://www.facebook.com/events/","");
+          idFb=idFb.replace('/',"");
+          cible=$(this).attr("href")+"/"+idFb+"/"+typeFb;
+          window.location.href=cible;
+        }else{
+          $("#alert_type").html("<div class='alert alert-danger' role='alert'>{{"please_choose_type"|trans}} </div>");
+        }
+      }else{
+        $("#alert_type").html("<div class='alert alert-danger' role='alert'>{{"Adresse_fb_manquante"|trans}} </div>");
+
+      }
+      return false;
+    });
+  })
+  </script>
+{% endblock %}

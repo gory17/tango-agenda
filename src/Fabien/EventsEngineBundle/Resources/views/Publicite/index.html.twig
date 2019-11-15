@@ -1,0 +1,42 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+liste
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Liste des Publicités</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for pub in publicites %}
+            <tr>
+                <td><a href="{{ path('publicite_edit', { 'id': pub.id }) }}">{{ pub.title }}</a> </td>
+
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('publicite_show', { 'id': pub.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('publicite_edit', { 'id': pub.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+            <a class='btn btn-primary' href="{{ path('publicite_new') }}">Nouvelle publicite</a>
+    </p>
+  </div>
+{% endblock %}

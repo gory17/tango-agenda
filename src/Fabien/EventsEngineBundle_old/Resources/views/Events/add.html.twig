@@ -1,0 +1,533 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+{% form_theme form _self %}
+
+
+
+
+
+{% block title %}
+{{ "event_form"|trans }}
+{% endblock %}
+
+
+{% block body %}
+<div class="container">
+
+{% if error_message is defined %}
+<div class='container'>
+  <div class='alert alert-warning'>
+  <h3>{{ "something_whent_wrong"|trans }}</h3>
+  {{ error_message }}
+  <img src="{{ asset(
+  'img/gif/sad'~random(6)~'.gif'
+  )}}" alt="quelle tristesse !">
+  </div>
+</div>
+{% endif %}
+
+{% if success_message is defined %}
+<div class='container'>
+  <div class='alert alert-success'>
+  <h3>{{ "operation_success"|trans }}</h3>
+  {{ success_message }}
+  <img src="{{ asset(
+  'img/gif/yes'~random(6)~'.gif'
+  )}}" alt="quel succès !">
+  </div>
+</div>
+{% endif %}
+
+<div class="col-md-10 col-md-offset-1">
+  <h3>{{ "add_form"|trans }}</h3>
+
+  <div class="well">
+    {{ form_start(form, {'attr': {'class': 'form-horizontal'}}) }}
+
+    {# Les erreurs générales du formulaire. #}
+    {{ form_errors(form) }}
+
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.type_event,  "event_type"|trans , {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.type_event) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.type_event, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+
+    {# Génération manuelle et éclatée : #}
+    <div class="form-group">
+
+      {# Génération du label. #}
+      {{ form_label(form.title,  "event_title"|trans , {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {# Affichage des erreurs pour ce champ précis. #}
+      {{ form_errors(form.title) }}
+
+      <div class="col-sm-10">
+        {# Génération de l'input. #}
+        {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+
+
+
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.description, "", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.description) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.adress, "Address"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.adress) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.adress, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.country, "Country"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.country) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.country, {'attr': {'class': 'countryfield form-control'}}) }}
+      </div>
+    </div>
+
+    <div class="form-group">
+      {{ form_label(form.city, "closest_city"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.city) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.city, {'attr': {'class': 'cityfield form-control'}}) }}
+      </div>
+    </div>
+
+
+
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.city_other,"Other_city"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.city_other) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.city_other, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.urlWeb,"website"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.urlWeb) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.urlWeb, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.urlFb,"fb_page"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.urlFb) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.urlFb, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group form-group-organisateur">
+      {{ form_label(form.organizer,"Organizer"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.organizer) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.organizer, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+    {# Idem pour un autre champ. #}
+    <div class="form-group form-group-parite">
+      {{ form_label(form.genderBalance, "gender_balanced"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.genderBalance) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.genderBalance, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+    <div class="form-group form-group-inscription">
+      {{ form_label(form.inscription, "registration"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.inscription) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.inscription, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+    <div class="form-group form-group-dateinscription" id='inscriptionsOpeing'>
+      {{ form_label(form.dateInscription,"registration_opening"|trans , {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.dateInscription) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.dateInscription) }}
+      </div>
+    </div>
+
+
+
+    <div class='form-group'>
+
+      <label class="col-sm-2 control-label">{{ "actual_picture"|trans }}</label>
+
+      <div class="col-sm-10">
+        {% if event.image %}
+          {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': event.image,"taille":"tall"} only %}
+        {% else %}
+        <p>{{ "no_picture"|trans }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+
+    <div class='form-group'>
+      {{ form_label(form.file, "send_an_image"|trans, {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      <div class="col-sm-10">
+        <p>{{ form_widget(form.file) }} {{ form_errors(form.file) }}</p>
+      </div>
+    </div>
+
+    <div class="cours-helper">
+      <div class="col-sm-10 col-md-offset-2">
+      <div class="well">
+        <h3><span class='glyphicon glyphicon-info-sign'></span> {{ "Help"|trans }}</h3>
+        <p> {{ "help_choose_day"|trans }}<br/> {{ "help_choose_period"|trans }} .</p>
+      </div>
+    </div>
+    </div>
+
+
+    <div class='form-group form-group-day'>
+      {{ form_label(form.day, "", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.day) }} {{ form_errors(form.day) }}
+      </div>
+    </div>
+
+    <div class='form-group'>
+
+      {{ form_label(form.dates, "", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+
+      {# Gère l'affichage du prototype dans un autre fichier #}
+      <div class="col-sm-10">
+        <div id='fabien_eventsenginebundle_event_dates' class='' data-prototype="
+        {% filter escape %}
+             {{ include('FabienEventsEngineBundle:Dates:prototypeDate.html.twig', { 'form': form.dates.vars.prototype }) }}
+         {% endfilter %}
+         ">
+
+
+
+        {# Pour chaque date existante, on les customize aussi #}
+         {% for date in form.dates %}
+            {{ include('FabienEventsEngineBundle:Dates:prototypeDate.html.twig', { 'form': date }) }}
+         {% endfor %}
+
+
+         {{ form_widget(form.dates) }}
+
+
+        </div>
+
+        <a href="#" id="add_date" class="btn btn-default">{{ "add_a_date"|trans }}</a>
+      </div>
+
+      {# ... #}
+    </div>
+
+
+
+    {# Idem pour un autre champ. #}
+
+    {% if form.mail_creator is defined %}
+    <div class="form-group">
+      {{ form_label(form.mail_creator, "", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.mail_creator) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.mail_creator, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+    {% endif %}
+
+    {% if form.password_creator is defined %}
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.password_creator, "", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_errors(form.password_creator) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.password_creator, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+    {% endif %}
+
+
+    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+    {# Idem pour un autre champ. #}
+    <div class="form-group">
+      {{ form_label(form.publish, "Publié ?", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.publish) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.publish, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      {{ form_label(form.valorisation, "Valorisation", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+      {{ form_errors(form.valorisation) }}
+      <div class="col-sm-10">
+        {{ form_widget(form.valorisation, {'attr': {'class': 'form-control'}}) }}
+      </div>
+    </div>
+    {% endif %}
+    {# Pour le bouton, pas de label ni d'erreur, on affiche juste le widget #}
+    {{ form_widget(form.Sauvegarder , {"value":"save"|trans,'attr': {'class': 'btn btn-primary'}}) }}
+
+    {# Génération automatique des champs pas encore écrits.
+       Dans cet exemple, ce serait le champ CSRF (géré automatiquement par Symfony !)
+       et tous les champs cachés (type « hidden »). #}
+
+
+    {# Fermeture de la balise <form> du formulaire HTML #}
+    {{ form_end(form) }}
+  </div>
+  </div>
+</div>
+
+{% endblock %}
+
+
+{% block codeJs %}
+
+
+
+{# Voici le script en question : #}
+<script type="text/javascript">
+
+  function modif_display(valselect){
+    $(".form-group-day").hide();
+    $("#add_date").hide();
+    $(".cours-helper").hide();
+
+    if(valselect==8){
+      $(".form-group-day").show();
+      $(".cours-helper").show();
+      $(".form-group-dateinscription").hide();
+      $(".form-group-organisateur").hide();
+      $(".form-group-inscription").hide();
+    }else{
+      $(".cours-helper").hide();
+      $(".form-group-dateinscription").show();
+      $(".form-group-organisateur").show();
+      $(".form-group-inscription").show();
+    }
+
+    if(valselect==1 || valselect==9){
+        $("#add_date").show();
+    }
+  }
+
+  $(document).ready(function(){
+
+    modif_display($("#fabien_eventsenginebundle_event_type_event").val());
+
+    $("#fabien_eventsenginebundle_event_type_event").change(function(){
+      modif_display($("#fabien_eventsenginebundle_event_type_event").val());
+    })
+
+  })
+
+
+  $(document).ready(function() {
+
+    // On récupère la balise <div> en question qui contient l'attribut « data-prototype » qui nous intéresse.
+    var $container = $('#fabien_eventsenginebundle_event_dates');
+
+    // On définit un compteur unique pour nommer les champs qu'on va ajouter dynamiquement
+    var index = $container.find(':input').length;
+
+    // On ajoute un nouveau champ à chaque clic sur le lien d'ajout.
+    $('#add_date').click(function(e) {
+      addDate($container);
+
+      e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+      return false;
+    });
+
+    // On ajoute un premier champ automatiquement s'il n'en existe pas déjà un (cas d'une nouvelle annonce par exemple).
+    if (index == 0) {
+      addDate($container);
+
+    } else {
+      // S'il existe déjà des catégories, on ajoute un lien de suppression pour chacune d'entre elles
+      $container.children('div').each(function() {
+        addDeleteLink($(this));
+      });
+    }
+
+    // La fonction qui ajoute un formulaire CategoryType
+    function addDate($container) {
+      // Dans le contenu de l'attribut « data-prototype », on remplace :
+      // - le texte "__name__label__" qu'il contient par le label du champ
+      // - le texte "__name__" qu'il contient par le numéro du champ
+      var template = $container.attr('data-prototype')
+        .replace(/__name__label__/g, 'Date n°' + (index+1))
+        .replace(/__name__/g,        index)
+      ;
+
+
+
+      // On crée un objet jquery qui contient ce template
+      var $prototype = $(template);
+
+      // On ajoute au prototype un lien pour pouvoir supprimer la catégorie
+      addDeleteLink($prototype);
+
+      //On récupere les dates qui viennent d'etre saisies pour pouvoir adapter le prochain bloc de dates
+      $previousStart=$(".dateStartField input").last().datepicker("getDate","+7d");
+      $previousEnd=$(".dateEndField input").last().datepicker("getDate","+7d");
+
+      $previousStartHour=$(".dateStartField select:first").val();
+      $previousStartMin=$(".dateStartField select:last").val();
+
+      $previousEndHour=$(".dateEndField select:first").val();
+      $previousEndMin=$(".dateEndField select:last").val();
+
+      // On ajoute le prototype modifié à la fin de la balise <div>
+      $container.append($prototype).find(".datepicker input").datepicker({ dateFormat: 'dd/mm/yy', firstDay: 1   });
+
+      //On modifie les dates en fonction des précédentes ... pour que ça soit plus facile a entrer
+
+      $previousStart.setDate($previousStart.getDate()+7);
+      $(".dateStartField input").last().datepicker("setDate",$previousStart);
+      $previousEnd.setDate($previousEnd.getDate()+7);
+      $(".dateEndField input").last().datepicker("setDate",$previousEnd);
+
+      $(".dateStartField").last().find("select:first").val($previousStartHour);
+      $(".dateStartField select").last().val($previousStartMin);
+
+      $(".dateEndField").last().find("select:first").val($previousEndHour);
+      $(".dateEndField select").last().val($previousEndMin);
+
+      // Enfin, on incrémente le compteur pour que le prochain ajout se fasse avec un autre numéro
+      index++;
+    }
+
+    function toDate(dateStr) {
+        var parts = dateStr.split("-");
+        return new Date(parts[2], parts[1] - 1, parts[0]);
+    }
+
+    // La fonction qui ajoute un lien de suppression d'une catégorie
+    function addDeleteLink($prototype) {
+      // Création du lien
+      var $deleteLink = $('<div class="row"><div class="col-md-2 col-md-offset-5"><p><a href="#" class="btn btn-danger">{{"Delete"|trans}}</a></p></div></div>');
+
+      // Ajout du lien
+      $prototype.append($deleteLink);
+
+      // Ajout du listener sur le clic du lien pour effectivement supprimer la catégorie
+      $deleteLink.click(function(e) {
+        $prototype.remove();
+
+        e.preventDefault(); // évite qu'un # apparaisse dans l'URL
+        return false;
+      });
+    }
+  });
+</script>
+
+<script>
+//Affiche les dates d'ouverture aux inscriptions... ou pas
+$(document).ready(function(){
+  if($(this).val()==1){
+    $("#inscriptionsOpeing").show();
+  }else{
+    $("#inscriptionsOpeing").hide();
+  }
+
+  $("#fabien_eventsenginebundle_event_inscription").change(function(){
+    if($(this).val()==1){
+      $("#inscriptionsOpeing").show();
+    }else{
+      $("#inscriptionsOpeing").hide();
+    }
+  });
+});
+
+
+//Facilite la saisie des dates
+$(document).on("change",".dateStartField",function(){
+  dateVal=$(this).find("input").val();
+
+  $(this).parent().find(".dateEndField input").val(dateVal);
+
+});
+
+</script>
+
+
+<script>
+  $(function () {
+    jQuery(document).ready(function() {
+        console.log("jQuery est prêt !");
+
+        $(".countryfield").change(function() {
+            mafonctionchange($(this).val());
+        }).trigger('change');
+
+          function mafonctionchange(idpays)
+          {
+            $.ajax({
+                url: '{{ path("ajax_list_city") }}',
+                type: 'POST',
+                data:
+                {
+                    id : idpays
+                },
+                dataType: 'json',
+                success: function(reponse) {
+
+                    $(".cityfield").empty();
+                    $.each(reponse, function(index, element) {
+
+                        {% if form.city.vars.value>0 %}
+                          var defaultcity={{form.city.vars.value}};
+                        {% else %}
+                          var defaultcity=17726;
+                        {% endif %}
+
+                        var selected=""
+                        if(defaultcity==element.id){
+                          selected="selected";
+                        }else{
+                          selected="";
+                        }
+
+                        $(".cityfield").append('<option '+selected+' value="'+ element.id +'"> '+ element.title +' </option>');
+                    });
+
+                }
+              });
+            }
+      });
+  });
+</script>
+{% endblock %}

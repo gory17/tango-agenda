@@ -1,0 +1,133 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block og %}
+
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':'website','titleOG': appTitle ,"descriptionOG": siteDescription  ,"imageOG":'/web/img/logo.png'  } only %}
+
+{% endblock %}
+
+{% block title %}
+Import des événements
+{% endblock %}
+
+{% block body %}
+<div class='container' itemscope itemtype="http://schema.org/Event">
+<h1>Import des événements</h1>
+
+<div class='resultats'></div>
+
+
+
+</div>
+{% endblock %}
+
+{% block codeJs %}
+
+
+<script>
+  $(document).ready(function() {
+          {% if mode=="groupe" %}
+          searchProcessGroup(0);
+          {% endif %}
+
+          {% if mode=="requete" %}
+          searchProcess();
+          {% endif %}
+        });
+
+
+  function searchProcessGroup(counter){
+    var link="{{ path("events_import_all_fb") }}";
+    var tokenfb="{{tokenfb}}";
+	counter=counter+3;
+    $.ajax({
+        url: link,
+        method: 'POST',
+        data:
+        {
+            importEntity:"GroupFb",
+            tokenfb : tokenfb,
+
+        },
+        success: function(response) {
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-success'><h3>Indexations des groupes en cours</h3>"+response+"</div>");
+            if(response!="done"){
+              searchProcessGroup(counter);
+            }else{
+              $(".resultats").html("<div class='alert alert-success'><h3>Fin des indexations de groupe</h3><p>Terminé !</p></div>"+response);
+              //lance l'import
+              launchProcess(tokenfb, "{{ path("fabien_events_engine_process_import") }}");
+            }
+        },
+        error: function(response) {
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+            searchProcessGroup(counter);
+        }
+      });
+  }
+
+
+
+  function searchProcess(){
+    var link="{{ path("events_import_all_fb") }}";
+    var tokenfb="{{tokenfb}}";
+
+    $.ajax({
+        url: link,
+        method: 'POST',
+        data:
+        {
+            importEntity:"RequeteFb",
+            tokenfb : tokenfb,
+        },
+        success: function(response) {
+          $(".resultats").empty();
+          $(".resultats").html("<div class='alert alert-success'><h3>Indexations des requetes en cours</h3>"+response+"</div>");
+          if(response!="done"){
+            searchProcess();
+          }else{
+            $(".resultats").html("<div class='alert alert-success'><h3>Fin des indexations des requetes</h3><p>Terminé !</p></div>");
+            //Lancement des imports dans la foulée
+
+            //launchProcess(tokenfb, $(".batchImport").attr("href"));
+            launchProcess(tokenfb, "{{ path("fabien_events_engine_process_import") }}");
+          }
+        },
+        error: function(response) {
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+
+            searchProcess();
+        }
+      });
+  }
+
+
+  function launchProcess(tokenfb,link){
+    $.ajax({
+        url: link,
+        type: 'POST',
+        data:
+        {
+            tokenfb : tokenfb
+        },
+        success: function(response) {
+          if(response!="termine"){
+            launchProcess(tokenfb,link);
+          }
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-success'><h3>Fin des imports</h3>"+response+"</div>");
+        },
+        error: function(response) {
+          launchProcess(tokenfb,link);
+            $(".resultats").empty();
+            $(".resultats").html("<div class='alert alert-danger'><h3>Erreur ! :(</h3>"+response+"</div>");
+        }
+      });
+  }
+
+</script>
+
+{% endblock %}

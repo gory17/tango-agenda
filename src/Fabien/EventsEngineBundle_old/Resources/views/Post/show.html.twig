@@ -1,0 +1,117 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{{post.title}}
+{% endblock %}
+
+{% block og %}
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': post.title,"descriptionOG":post.header,"imageOG":uploadImage~""~post.imageDefault.url  } only %}
+{% endblock %}
+
+
+{% block meta %}
+
+  {% if app.request.getLocale()=="fr" %}
+    {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':post.title,'description':post.header  } only %}
+  {% else %}
+    {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':post.titleTrad,'description':post.header } only %}
+  {% endif %}
+
+{% endblock %}
+
+
+
+{% block body %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v2.8&appId=194083261040351";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<article class='post'>
+<div class='container' itemscope itemtype="http://schema.org/Event">
+
+<header>
+<div class="row">
+  <div class="col-md-10 article-top-page">
+    <h1 itemprop="name">{{ post.title }}</h1>
+
+    <div class="row bar-infos">
+      <div class="col-md-8">
+        <p class='articles-infos'>{{ "by"|trans }} {{ post.author }} {{ "le_date"|trans }} {{ post.date|localizeddate('none', 'none', "fr","Europe/Paris","cccc dd LLLL yyyy") }}</p>
+      </div>
+      <div class="col-md-4">
+        <div class="shareBar">
+          <div class="fb-like" data-href="{{ app.request.uri }}" data-layout="button" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="article-header">
+      <div >
+      {% autoescape %}
+      {{ post.header|raw }}
+      {% endautoescape %}
+      </div>
+    </div>
+
+    <div class="article-image-princ">
+      {% if post.imageDefault %}
+        {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image':  post.imageDefault,"taille":"tall"} only %}
+      {% endif %}
+    </div>
+  </div>
+  <div class="col-md-2">
+
+  </div>
+</div>
+
+
+</header>
+
+<div class="article-content row" itemprop="description">
+
+  <div class="col-md-8">
+    {% autoescape %}
+    {{ post.content|raw }}
+    {% endautoescape %}
+  </div>
+  <div class="col-md-4"></div>
+</div>
+
+<aside>
+<div class="bande-fb-comments">
+  <div class="container">
+    <h2>{{ "comments"|trans }}</h2>
+    <div class="fb-comments" data-href="{{ app.request.uri }}" data-numposts="4" data-width="100%"></div>
+  </div>
+</div>
+<aside>
+
+
+{% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+<aside>
+  <div class="container blockadmin">
+    <h2>Administration</h2>
+    <p>Connecté en tant que {{ app.user.username }}</p>
+    <p>
+            <a class='btn btn-primary' href="{{ path('admin_post_index') }}">Retour à la liste</a>
+
+            <a class='btn btn-primary' href="{{ path('admin_post_edit', { 'id': post.id }) }}">Editer</a>
+
+            <a class='btn btn-danger' href='{{ path('admin_post_delete', { 'id': post.id }) }}' >Supprimer</a>
+
+    </p>
+    </div>
+</aside>
+{% endif %}
+
+</div>
+</article>
+
+
+
+{% endblock %}

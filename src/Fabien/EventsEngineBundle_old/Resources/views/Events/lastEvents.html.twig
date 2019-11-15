@@ -1,0 +1,92 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{{ events|length }} {{ "events_added_these"|trans }} {{days}} {{ "last_days"|trans }}
+{% endblock %}
+
+{% block og %}
+{% include 'FabienEventsEngineBundle:General:og.html.twig' with {'titleOG': "Les derniers événements ajoutés","descriptionOG": events|length ~ " événements ajoutés ces "~days~" derniers jours"  ,"imageOG":'/web/img/logo.png'  } only %}
+{% endblock %}
+
+{% block body %}
+
+<div class='container'>
+  <h1>{{ events|length }} {{ "events_added_these"|trans }} {{days}} {{ "last_days"|trans }} </h1>
+</div>
+
+  {% if format=="list" %}
+  <div class='container'>
+      <ul>
+      {% set actualType ="" %}
+      {% for event in events %}
+        {% if actualType != event.TypeEvent.title %}
+          {% set actualType = event.TypeEvent.title %}
+          </ul>
+            <div class="col-xs-12">
+              <h2>{{ actualType }}s</h2>
+            </div>
+          <ul>
+        {% endif %}
+
+          {% for date in event.dates %}
+          <li><a href="{{ date.event.urlFb }}">{{ date.event.title}}</a> <br /> le {{ date.start|localizeddate('none', 'none', "","Europe/Paris","cccc dd LLLL") }} -
+              {{ date.event.city.title|replace({ (date.event.city.state.country.sortname):"" }) }}, {{date.event.city.state.country.title}}
+          </li>
+          {% endfor %}
+      {% else %}
+      <li>{{ "no_event_found"|trans }}</li>
+      {% endfor %}
+      </ul>
+  </div>
+  {% else %}
+
+
+    {% set actualType ="" %}
+    {% set bandEvt = "bande-even" %}
+    {% for event in events %}
+      {% if actualType != event.TypeEvent.title %}
+        {% set actualType = event.TypeEvent.title %}
+
+        {% if bandEvt == "bande-odd" %}
+          {% set bandEvt = "bande-even" %}
+        {% else %}
+          {% set bandEvt = "bande-odd" %}
+        {% endif %}
+
+        {% if loop.first != true %}
+        </div>
+        </div>
+        {% endif %}
+
+        <div class='{{ bandEvt }}'>
+        <div class='container'>
+          <div class="col-xs-12">
+            <h2>{{ actualType }}s</h2>
+          </div>
+      {% endif %}
+
+        {% for date in event.dates %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"small"  } only %}
+        {% endfor %}
+    {% else %}
+    <p>{{ "no_event_found"|trans }}</p>
+
+
+
+    {% endfor %}
+
+  {% endif %}
+
+
+
+
+
+</div>
+
+
+
+{% endblock %}
+
+{% block codeJs %}
+
+{% endblock %}

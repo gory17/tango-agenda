@@ -1,0 +1,192 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+
+
+{% block meta %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Actualité tango de "~ maestro.prenom ~ " "~ maestro.nom ~ " ","description":"Trouvez des vidéos et les événements auxquels participe "~ maestro.prenom ~ " "~ maestro.nom ~ "" } only %}
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Tango videos and events of "~ maestro.prenom ~ " "~ maestro.nom ~ " ","description":"Find videos and events of "~ maestro.prenom ~ " "~ maestro.nom ~ "" } only %}
+{% endif %}
+{% endblock %}
+
+
+{% block og %}
+{% if app.request.getLocale()=="fr" %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Actualité tango de "~ maestro.prenom ~ " "~ maestro.nom ~ " ","descriptionOG":"Trouvez des vidéos et les événements auxquels participe "~ maestro.prenom ~ " "~ maestro.nom ~ "","imageOG":""  } only %}
+
+{% else %}
+  {% include 'FabienEventsEngineBundle:General:og.html.twig' with {'typeOG':"article",'titleOG': "Tango actuality of "~ maestro.prenom ~ " "~ maestro.nom ~ " ","descriptionOG":"Find videos and events of "~ maestro.prenom ~ " "~ maestro.nom ~ "","imageOG":"" } only %}
+
+{% endif %}
+{% endblock %}
+
+
+{% block body %}
+
+
+
+
+<article>
+
+
+
+<header>
+<div class="header-maestro ">
+  <div class="container">
+    <div class="col-md-3 ">
+      {% if maestro.image.url is defined %}
+      <div class="logo-maestro">
+        <img src="{{ asset(uploadImage~maestro.image.url) }}" alt="portrait du maestro" class=' image-maestro' />
+      </div>
+      {% else %}
+        <img class="img-responsive" itemprop="image" src='{{ asset("img/noimg.png") }}' alt=''/>
+      {% endif %}
+    </div>
+    <div class="col-md-9">
+      <h1 itemprop="name" class=''>
+
+        <span>
+        {{maestro.prenom}}
+        {% if maestro.surnom !="" %} "{{maestro.surnom}}" {% endif %}
+        {{maestro.nom}}
+        </span>
+      </h1>
+      {% if maestro.siteweb %}<p class='siteweb'><a href='{{ maestro.siteweb }}'><span class='glyphicon glyphicon-link'></span> {{ maestro.siteweb }}</a></p>{% endif %}
+      {% if maestro.facebook %}<p class='siteweb'><a href='{{maestro.facebook }}'><span class='glyphicon glyphicon-link'></span>  {{maestro.facebook }}</a></p>{% endif %}
+      {% if maestro.wikipedia %}<p class='wikipedia'><a href='{{maestro.wikipedia}}'><span class='glyphicon glyphicon-link'></span>  {{maestro.wikipedia}}</a></p>{% endif %}
+      <p><a href="{{path("fabien_maestro_list")}}"><span class='glyphicon glyphicon-heart-empty'></span> {{"maestro_list"|trans}}</a></p>
+      <p><a class='rss-maestro' href="{{ path('fabien_maestros_rss',{"slug":maestro.slug}) }}"><img src='{{ asset('img/rss.png')}}' alt='{{maestro.prenom}} {{maestro.nom}} rss feed' title="{{maestro.prenom}} {{maestro.nom}} RSS feed" /> {{maestro.prenom}} {{maestro.nom}} RSS</a></p>
+    </div>
+  </div>
+
+</div>
+</header>
+
+<section>
+  <div class="maestro-events ">
+    <div class="container">
+      <div class='pub-mobile'>
+
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Annonce en bande -->
+        <ins class="adsbygoogle"
+             style="display:inline-block;width:728px;height:90px"
+             data-ad-client="ca-pub-7075025232332457"
+             data-ad-slot="3720246951"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+       </div>
+      <h2>{{"tango_events_with"|trans}}
+          {{maestro.prenom}}
+            {% if maestro.surnom !="" %} "{{maestro.surnom}}" {% endif %}
+          {{maestro.nom}}
+        </h2>
+      {% for date in listevents %}
+        {% include 'FabienEventsEngineBundle:Dates:itemDates.html.twig' with {'date': date,"taille":"medium","lazyload":"full"  } only %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section id='maestro-videos'>
+<div class="maestro-videos">
+  <div class="container">
+		<div class='pub-mobile'>
+    		<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    		<!-- annonce carrée -->
+    		<ins class="adsbygoogle"
+    			 style="display:block"
+    			 data-ad-client="ca-pub-7075025232332457"
+    			 data-ad-slot="6039767468"
+    			 data-ad-format="auto"></ins>
+    		<script>
+    		window.onload = function() {
+    			(adsbygoogle = window.adsbygoogle || []).push({});
+    		}
+    		</script>
+	   </div>
+
+    <h2>{{"tango_videos_with"|trans}}
+        {{maestro.prenom}}
+          {% if maestro.surnom !="" %} "{{maestro.surnom}}" {% endif %}
+        {{maestro.nom}}
+      </h2>
+
+      <div class='resultVideos'>
+        {% for video in listvideos %}
+          {% include 'FabienEventsEngineBundle:video:item-video.html.twig' with {'video': video,"mode":"list","lazyload":true  } only %}
+        {% endfor %}
+      </div>
+        <div class='bouton-display-more more-videos col-xs-12'>
+          <a href='{{ path("ajax_more_videos") }}' class='nextPagination btn btn-lg  btn-primary' offset="12">{{ "more_videos"|trans }} <br /><span class='glyphicon glyphicon-triangle-bottom'></span></a>
+        </div>
+
+  </div>
+</div>
+</section>
+
+{% include 'FabienEventsEngineBundle:video:modalvideo.html.twig' %}
+
+
+</article>
+{% endblock %}
+
+
+{% block codeJs %}
+<script>
+$(function () {
+  $(".nextPagination").click(function(){
+    urlCible=$(this).attr("href");
+    offset=$(this).attr("offset");
+    $(this).attr("offset",parseInt(offset)+ parseInt(offset) );
+    $.ajax({
+      url: urlCible,
+      type: 'POST',
+      data:
+      {
+          offset : offset,
+          personId:{{maestro.id}}
+      },
+      success: function(response) {
+        $(".resultVideos").append(response);
+      }
+    });
+
+
+    return false;
+  });
+});
+
+
+  $(document).ready(function(){
+    $(".owl-carousel").owlCarousel({
+        loop:false,
+		nav:true,
+        margin:20,
+		items:2,
+        onInitialize:callback,
+		responsive:{
+			0:{
+				items:2
+			},
+			600:{
+				items:3
+			},
+			1000:{
+				items:5
+			}
+		}
+
+    });
+  });
+
+  function callback(){
+    $(".loadingMsg").hide();
+  }
+</script>
+
+
+{% endblock %}

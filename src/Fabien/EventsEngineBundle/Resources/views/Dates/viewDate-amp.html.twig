@@ -1,0 +1,121 @@
+{% extends "FabienEventsEngineBundle::amp-layout.html.twig" %}
+
+{% block title %}
+{% if app.request.getLocale()=="fr" %}
+{{ date.event.typeevent.title }}
+{% else %}
+{{ date.event.typeevent.titletrad }}
+{% endif %} {{ date.event.title }}
+{% endblock %}
+
+{% block canonical %}
+<link rel="canonical" href="{{path("date_view",{"id":date.id})}}">
+{% endblock %}
+
+
+{% block body %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Event",
+  "name": "{{date.event.typeevent.title}} {{date.event.title}}",
+  "startDate" : "{{ date.start|date("c") }}",
+  "endDate" : "{{ date.end|date("c") }}",
+  "url" : "{{ app.request.uri }}",
+  "description" : "{{date.event.description}}",
+
+   "publisher": {
+
+    "@type": "Organization",
+
+    "name": "Tango-Agenda",
+
+    "logo": {
+
+      "@type": "ImageObject",
+
+      "url": "http://www.tango-agenda.com{{ asset("img/logo-tango-agenda.png") }}",
+
+      "width": 600,
+
+      "height": 60
+
+    },
+
+  {% if date.event.image.url is defined %}
+  "image":"http://www.tango-agenda.com{{ asset(uploadImage~date.event.image.url) }}",
+  {% else %}
+  "image":"http://www.tango-agenda.com/img/noimg.png",
+  {% endif %}
+  "location" : {
+    "@type" : "Place",
+    "name" : "{{date.event.adress}}",
+    "address" : "{{date.event.adress}} {{date.event.city.title}}, {{date.event.city.state.country.title}}"
+  }
+}
+</script>
+
+<h1>{{ date.event.title }}</h1>
+{% include 'FabienEventsEngineBundle:Dates:horaires.html.twig' with {'date': date} only %}
+{% if date.event.organizer is not null %}
+
+
+<div class="organizer" itemprop="organizer" >
+  {{ "organized_by"|trans }} <span>{{ date.event.organizer }}</span>
+</div>
+{% endif %}
+<p class="heading">
+  <amp-social-share type="facebook"
+    width="45"
+    height="33"
+    data-attribution="254325784911610"></amp-social-share>
+  <amp-social-share type="twitter"
+    width="45"
+    height="33"></amp-social-share>
+  <amp-social-share type="email"
+    width="45"
+    height="33"></amp-social-share>
+</p>
+
+
+
+
+{% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image':  date.event.image,"taille":"amp","event":date.event} only %}
+
+
+{{ date.event.description|nl2br }}
+
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- annonce carrée -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-7075025232332457"
+     data-ad-slot="6039767468"
+     data-ad-format="auto"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+
+<div class='adress_event '>
+  <h2>{{ "Address"|trans }}</h2>
+  <div itemprop="location" itemscope itemtype="http://schema.org/Place">
+    <p itemscope itemprop="address" itemtype="http://schema.org/PostalAddress">
+      <span>{{date.event.adress}}<br />
+      {{date.event.city.title}}, {{date.event.city.state.country.title}}</span>
+    </p>
+  </div>
+  <div id='map'></div>
+</div>
+
+<div class="more-infos">
+  <h2>{{ "more_informations"|trans }} : </h2>
+  <ul class='link_event'>
+    {% if date.event.urlWeb is not null %} <li>{{ "website"|trans }} <span><a itemprop='url'  href="{{ date.event.urlWeb }}">{{ date.event.urlWeb }}</a></span></li> {% endif %}
+    {% if date.event.urlFb is not null %} <li ><a itemprop='sameAs' href="{{ date.event.urlFB }}">Facebook</a></li> {% endif %}
+  </ul>
+</div>
+
+
+
+{% endblock %}

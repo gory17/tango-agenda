@@ -1,0 +1,45 @@
+<div class="menu-amp">
+	<ul>
+
+		<li>
+			<a href='{{ path('fabien_events_blog_list')}}'>Blog</a>
+		</li>
+
+		{% for TypeEvt in listTypeEvt %}
+		{% if TypeEvt.slug != "stage-tango" and TypeEvt.slug !="milonga" and TypeEvt.slug !="tango-initiation" and TypeEvt.slug !="tango-cours" and TypeEvt.slug !="tango-pratique" %}
+			{% if app.request.getLocale()=="fr" %}
+				<li><a href='{{ path('fabien_events_engine_bigevents_list',{"slug":TypeEvt.slug}) }}'>{{ TypeEvt.title }}s <span class="w3-badge">{{TypeEvt.cptevt}}</span></a></li>
+			{% else %}
+				<li><a href='{{ path('fabien_events_engine_bigevents_list',{"slug":TypeEvt.slug}) }}'>{{ TypeEvt.titleTrad }}s <span class="w3-badge">{{TypeEvt.cptevt}}</span></a></li>
+			{% endif %}
+		{% endif %}
+		{% endfor %}
+
+
+		{% set cptMilonga = 0 %}
+		{% for TypeEvt in listTypeEvt %}
+			{% if TypeEvt.slug == "milonga" or TypeEvt.slug == "tango-cours" or TypeEvt.slug == "tango-pratique" or TypeEvt.slug == "tango-initiation" %}
+				{% set cptMilonga = cptMilonga + TypeEvt.cptevt %}
+			{% endif %}
+
+			{% if TypeEvt.slug == "stage-tango" %}
+			<li><a href='{{ path('fabien_events_engine_bigevents_list',{"slug":TypeEvt.slug}) }}'>{{ TypeEvt.title }}s <span class="w3-badge">{{TypeEvt.cptevt}}</span></a></li>
+			{% endif %}
+		{% endfor %}
+
+
+		<li><a href="{{ path("fabien_events_coutry_list")}}">{{ "milonga_and_classes"|trans }} <span class="w3-badge">{{ cptMilonga }}</span></a></li>
+
+		<li class='visible-xs'>
+			{% if app.request.getLocale()!="fr" %}
+			 <a   class='langue-menu{% if app.request.getLocale()=="fr" %}  langue-selected {% endif %}' href="{{  currentUrl|replace({"/en":"/fr"}) }}"><span class="glyphicon glyphicon-user"></span> Traduire en français</a>
+			{% else %}
+			<a class='langue-menu{% if app.request.getLocale()!="fr" %}  langue-selected {% endif %}' href="{{ currentUrl|replace({"/fr":"/en"}) }}"><span class="glyphicon glyphicon-user"></span> Switch to english</a>
+			{% endif %}
+		</li>
+
+
+		<li><a href="{{ path('events_add') }}" class='btn btn-primary '><span class="glyphicon glyphicon-plus"></span> <span class="hidden-md">{{ "Ajouter"|trans }}</span></a>
+		</li>
+	</ul>
+</div>

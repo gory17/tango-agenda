@@ -1,0 +1,224 @@
+<h2>
+{{ titlePage }}
+</h2>
+{% include 'FabienEventsEngineBundle:General:arrayAdmin.html.twig' with {'titlePage':titlePage,'listEvent': listEvent,"listActiveCity":listActiveCity,"listTypes":listTypes  } only %}
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".invisible").hide();
+  });
+
+  $(".datetimepicker").on("focusout",function(){
+
+    $.ajax({
+        url: "{{ path("events_change_dateinsc_ajax") }}",
+        type: 'POST',
+        data:
+        {
+            dateinsc:$(this).val(),
+            id_event:$(this).attr('id') ,
+        },
+        success: function(response) {
+
+        }
+      });
+    $(this).parent().hide();
+    $(this).parent().prev(".dateinsctxt").html($(this).val());
+    $(this).parent().prev(".dateinsctxt").removeClass("invisible").show();
+  });
+
+  $(".dateinsctxt").on("click",function(){
+    $(this).hide();
+    $(this).next(".input-group").removeClass("invisible").show();
+    $(this).next(".input-group").children(".datetimepicker").focus();
+  });
+
+</script>
+
+
+
+<script>
+
+$('.cityText').each(function(){
+  if($(this).html()=="Inconnue (Inconnu)"){
+    $(this).prev("input").show();
+    $(this).hide();
+  }else{
+    $(this).prev("input").hide();
+
+  }
+});
+
+
+$('.cityInput').devbridgeAutocomplete({
+    serviceUrl: '{{ path("ajax_find_city") }}',
+    minChars : 3,
+    type:"POST",
+    onSelect: function (suggestion) {
+        //alert('You selected: ' + suggestion.value + ', ' + suggestion.data+ ">"+$(this).attr('id'));
+
+        urlcible="{{ path("events_change_city_ajax") }}";
+
+        $.ajax({
+            url: urlcible,
+            type: 'POST',
+            data:
+            {
+                id_city:suggestion.data,
+                id_event:$(this).attr('id') ,
+            },
+            success: function(response) {
+
+            }
+          });
+            cityfind=$(this).val();
+            $(this).next(".cityText").html(cityfind);
+            $(this).next(".cityText").show();
+            $(this).hide();
+    }
+
+});
+
+
+$(document).on("click",".cityText",function(){
+  $(this).prev(".cityInput").show();
+  $(this).prev(".cityInput").focus();
+  $(this).hide();
+
+});
+
+
+
+
+$(".ajaxbt").click(function(){
+
+    $.ajax({
+        url: $(this).attr("href"),
+        type: 'POST',
+        success: function(response) {
+          $(".resultats").empty();
+          $(".resultats").html("<div class='alert alert-success'><h3>Opération terminée</h3>"+response+"</div>");
+        }
+      });
+
+      return false;
+
+});
+
+
+
+$(".typeChoice").change(function(){
+
+    $.ajax({
+        url: "{{ path('ajax_change_type') }}",
+        type: 'POST',
+        data:   {
+                        id_type:$(this).val(),
+                        id_event:$(this).attr('eventnumber') ,
+                    },
+        success: function(response) {
+        }
+      });
+
+      $(this).parent().parent("tr").hide("slow");
+      return false;
+
+});
+
+
+$(".btsupprimer").click(function(){
+  var result = confirm("Voulez vous vraiment supprimer ?");
+  if (result) {
+    $.ajax({
+        url: $(this).attr("href"),
+        type: 'POST',
+        success: function(response) {
+        }
+      });
+
+      $(this).parent().parent("tr").hide("slow");
+      return false;
+  }else{
+    return false;
+  }
+});
+
+
+
+
+
+
+$(document).on("click",".btvaloriser",function(){
+  $.ajax({
+      url: $(this).attr("href"),
+      type: 'POST',
+      success: function(response) {
+
+      }
+    });
+
+  $(this).addClass("btn-info btdevaloriser");
+  $(this).removeClass("btn-secondary btvaloriser");
+  $(this).html("<span class='glyphicon glyphicon-star' ></span>");
+
+  return false;
+});
+
+$(document).on("click",".btdevaloriser",function(){
+  $.ajax({
+      url: $(this).attr("href"),
+      type: 'POST',
+      success: function(response) {
+
+      }
+    });
+
+  $(this).removeClass("btn-info btdevaloriser");
+  $(this).addClass("btn-secondary btvaloriser");
+  $(this).html("<span class='glyphicon glyphicon-star-empty' ></span>");
+
+  return false;
+});
+
+
+
+
+
+
+$(document).on("click",".btpublier",function(){
+  $.ajax({
+      url: $(this).attr("href"),
+      type: 'POST',
+      success: function(response) {
+
+      }
+    });
+
+  $(this).addClass("btn-success btdepublier");
+  $(this).removeClass("btn-warning btpublier");
+  $(this).html("<span class='glyphicon glyphicon-ok-sign'></span>");
+
+  return false;
+});
+
+
+$(document).on("click",".btdepublier",function(){
+  $.ajax({
+      url: $(this).attr("href"),
+      type: 'POST',
+      success: function(response) {
+
+      }
+    });
+
+  $(this).addClass("btn-warning btpublier");
+  $(this).removeClass("btn-success btdepublier");
+  $(this).html("<span class='glyphicon glyphicon-question-sign'></span>");
+
+  return false;
+});
+
+
+
+</script>

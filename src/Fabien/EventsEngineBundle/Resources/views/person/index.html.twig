@@ -1,0 +1,47 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+liste
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <h1>Liste des Personnes</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Surnom</th>
+                <th>Type</th>
+                <th>Active</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for person in people %}
+            <tr>
+                <td><a href="{{ path('person_show', { 'id': person.id }) }}">{{ person.nom }}</a> {{ person.prenom }}</td>
+                <td>{{ person.surnom }}</td>
+                <td>{{ person.type }}</td>
+                <td>{% if person.active %}Yes{% else %}No{% endif %}</td>
+                <td>
+                    <ul>
+                        <li>
+                            <a href="{{ path('person_show', { 'id': person.id }) }}">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('person_edit', { 'id': person.id }) }}">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+            <a class='btn btn-primary' href="{{ path('person_new') }}">Nouvelle personne</a>
+    </p>
+  </div>
+{% endblock %}

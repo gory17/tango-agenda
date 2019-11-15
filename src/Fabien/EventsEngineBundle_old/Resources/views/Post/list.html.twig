@@ -1,0 +1,76 @@
+{% extends "FabienEventsEngineBundle::layout.html.twig" %}
+
+{% block title %}
+{{ "post_list"|trans }}
+{% endblock %}
+
+{% block meta %}
+
+  {% if app.request.getLocale()=="fr" %}
+    {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Blog Tango-Agenda",'description':"Retrouvez tous les articles publiés sur Tango-Agenda.com"  } only %}
+  {% else %}
+    {% include 'FabienEventsEngineBundle:General:meta.html.twig' with {'title':"Tango-Agenda Blog",'description':"Find all post published in Tango-Agenda.com" } only %}
+  {% endif %}
+
+{% endblock %}
+
+{% block body %}
+<div class="blog-list">
+
+  <div class="container">
+
+    <h1>{{ "tang_blog"|trans }}</h1>
+
+
+      {% for post in posts|slice(0, 1) %}
+      <div class='item-first-blog post-item' >
+        <div class="content-item">
+          <a href=" {{ path('fabien_events_blog_view', { 'slug': post.slug }) }}">
+            <div class="box-image">
+              <div class="image-blog">
+                {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': post.imageDefault,"taille": "large"} only %}
+
+              </div>
+            </div>
+            <div class="texte-resume-blog ">
+              <div class="row">
+                <div class="col-md-6">
+                  <h2>{{ post.title }}</h2>
+                  <p class='blog-date-item'>{{ "by"|trans }} {{ post.author }} {{ "le_date"|trans }} {{ post.date|localizeddate('none', 'none', "fr","Europe/Paris","dd/MM/yyyy") }}</p>
+                  </p>
+                  <div class="chapo-blog">
+                    {{ post.header }}
+                  </div>
+                </div>
+                <div class="col-md-6"></div>
+              </div>
+
+            </div>
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+
+    <div class="row">
+      {% for post in posts|slice(1, 1000) %}
+      <div class='post-item-small post-item col-md-6' >
+        <div class="content-item">
+          <a href=" {{ path('fabien_events_blog_view', { 'slug': post.slug }) }}">
+            <div class="box-image">
+            {% include 'FabienEventsEngineBundle:Images:voirImage.html.twig' with {'image': post.imageDefault,"taille": "large"} only %}
+            </div>
+            <div class="texte-resume-blog">
+              <h2>{{ post.title }}</h2>
+              <p class='blog-date-item'>{{ "by"|trans }} {{ post.author }} {{ "le_date"|trans }} {{ post.date|localizeddate('none', 'none', "fr","Europe/Paris","dd/MM/yyyy") }}</p>
+              </p>
+            </div>
+
+          </a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</div>
+{% endblock %}

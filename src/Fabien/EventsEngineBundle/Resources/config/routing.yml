@@ -1,0 +1,269 @@
+
+
+fabien_events_engine_events:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/event.yml"
+    prefix:   /event
+
+fabien_events_engine_dates:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/date.yml"
+    prefix:   /date
+
+fabien_events_engine_image:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/image.yml"
+    prefix:   /image
+
+fabien_events_engine_person:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/person.yml"
+    prefix:   /person
+
+fabien_events_engine_rest:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/rest.yml"
+    prefix:   /rest
+
+fabien_events_engine_ajax:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/ajax.yml"
+    prefix:   /ajax
+
+fabien_events_engine_parameter:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/parameter.yml"
+    prefix:   /parameter
+
+fabien_events_engine_home:
+    path: /
+    defaults:
+      _controller: FabienEventsEngineBundle:Home:displayHome
+
+fabien_events_engine_ajax:
+    resource: "@FabienEventsEngineBundle/Resources/config/routing/amp.yml"
+    prefix:   /amp
+
+
+fabien_events_map :
+  path: /tango-map
+  defaults:
+    _controller: FabienEventsEngineBundle:Home:map
+
+
+fabien_maestro_list:
+    path: /tango-maestro/
+    defaults:
+      _controller: FabienEventsEngineBundle:Person:listMaestro
+
+fabien_maestros_rss:
+  path: /tango-maestro/{slug}/rss
+  defaults :
+    _controller : FabienEventsEngineBundle:Person:maestroRss
+
+
+fabien_maestro_show:
+    path: /tango-maestro/{slug}
+    defaults:
+      _controller: FabienEventsEngineBundle:Person:showMaestro
+
+
+fabien_video_list:
+    path: /tango-videos/
+    defaults:
+      _controller: FabienEventsEngineBundle:Video:listVideos
+
+fabien_guess_videos_tyep:
+    path: /tango-videos/guesstypeall
+    defaults:
+      _controller: FabienEventsEngineBundle:Video:guessTypeAll
+
+
+fabien_videos_rss:
+  path: /tango-videos/rss
+  defaults :
+    _controller : FabienEventsEngineBundle:Video:videosRss
+
+
+fabien_events_search:
+  path: /search
+  defaults:
+    _controller: FabienEventsEngineBundle:Home:search
+
+fabien_events_engine_index:
+    path: /indexfree/{mode}
+    defaults:
+      _controller: FabienEventsEngineBundle:Admin:indexFree
+
+fabien_events_engine_process_import:
+  path: /processImport
+  defaults:
+    _controller : FabienEventsEngineBundle:Importer:ProcessSaveFB
+
+
+events_nettoyer:
+  path: /event/purge
+  defaults:
+    _controller : FabienEventsEngineBundle:Event:purgeEvents
+
+
+
+events_import_event_fb:
+    path:      /event/import/{TypeId}/{fbid}/{tocken}
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:importOne
+    requirements:
+      id: \d+
+
+
+getInfosMarker_ajax:
+    path:      /infosmapajax
+    defaults:
+      _controller: FabienEventsEngineBundle:Ajax:getInfosMarker
+
+events_import_event_fb_ajax:
+    path:      /event/import
+    defaults:
+      _controller: FabienEventsEngineBundle:Event:importOne
+
+events_change_city_ajax:
+    path:      /ajax/change-city
+    defaults:
+      _controller: FabienEventsEngineBundle:Ajax:ChangeCity
+
+
+events_change_dateinsc_ajax:
+  path: /event/changedateinsc
+  defaults:
+    _controller: FabienEventsEngineBundle:Ajax:changeDateInsc
+
+
+events_import_all_fb:
+    path:      /event/importall
+    defaults:
+      _controller: FabienEventsEngineBundle:Importer:importAll
+
+ajax_process_import:
+  path: /processImport
+  defaults:
+    _controller : FabienEventsEngineBundle:Importer:ProcessSaveFB
+
+events_importer_form:
+  path: /event/importer
+  defaults:
+    _controller: FabienEventsEngineBundle:Event:importerForm
+
+fabien_events_blog_list:
+  path: /blog-tango
+  defaults:
+    _controller: FabienEventsEngineBundle:Post:listPublic
+
+fabien_events_blog_rss:
+  path: /blog-tango/rss
+  defaults:
+    _controller: FabienEventsEngineBundle:Post:rss
+
+fabien_events_blog_view:
+  path: /blog-tango/{slug}
+  defaults:
+    _controller: FabienEventsEngineBundle:Post:viewPublic
+
+fabien_events_engine_cours:
+  path: /tango-class/{slug}
+  defaults:
+    _controller: FabienEventsEngineBundle:City:listCours
+
+fabien_events_coutry_list:
+    path: /country
+    defaults:
+      _controller: FabienEventsEngineBundle:Country:list
+
+fabien_events_coutry_listcities:
+    path: /country/{slug}
+    defaults:
+      _controller: FabienEventsEngineBundle:Country:listCities
+
+
+fabien_events_city_post_id:
+    path: /city/id
+    defaults :
+        _controller: FabienEventsEngineBundle:City:viewId
+
+
+fabien_events_city_slug:
+  path: /city/{slug}
+  defaults :
+    _controller : FabienEventsEngineBundle:City:viewSlug
+
+fabien_events_city_slug_rss:
+  path: /city/{slug}/rss
+  defaults :
+    _controller : FabienEventsEngineBundle:City:viewSlugRss
+
+
+
+
+
+fabien_events_city_slug_period:
+  path: /city/{slug}/{period}
+  defaults :
+    _controller : FabienEventsEngineBundle:City:viewSlug
+
+
+fabien_events_engine_state:
+    path:      state/{slug}
+    defaults:
+        _controller: FabienEventsEngineBundle:State:viewState
+
+fabien_events_engine_city:
+    path:      city/{slug}
+    defaults:
+        _controller: FabienEventsEngineBundle:City:viewSlug
+
+fabien_events_engine_city_period:
+    path:      city/{slug}/{period}
+    defaults:
+        _controller: FabienEventsEngineBundle:City:viewSlug
+
+
+
+fabien_events_engine_json_all:
+  path : /json
+  defaults :
+    _controller: FabienEventsEngineBundle:Home:json
+
+
+fabien_events_engine_bigevents:
+  path: /category/
+  defaults:
+    _controller: FabienEventsEngineBundle:Lister:bigEventsHome
+
+
+fabien_events_engine_bigevents_list:
+  path: /category/{slug}
+  defaults:
+    _controller: FabienEventsEngineBundle:Lister:bigEventsList
+
+fabien_events_engine_bigevents_list-amp:
+  path: /category/{slug}/{amp}
+  defaults:
+    _controller: FabienEventsEngineBundle:Lister:bigEventsList
+
+
+fabien_events_engine_stage_list:
+  path: /tango-workshop/{location}
+  defaults :
+    _controller: FabienEventsEngineBundle:Lister:stagesList
+
+fabien_user_edit_event:
+    path : /user-edit/{id}/{keyEvt}
+    defaults:
+      _controller : FabienEventsEngineBundle:Event:editUser
+
+events_admin_delete_userversion:
+    path : /user-delete/{id}/{keyEvt}
+    defaults:
+      _controller : FabienEventsEngineBundle:Event:deleteUserVersion
+
+fabien_events_engine_import_yt:
+  path: /imports-youtube
+  defaults:
+    _controller: FabienEventsEngineBundle:Video:imports
+
+fabien_events_engine_create_json:
+  path: /createjson
+  defaults:
+    _controller: FabienEventsEngineBundle:Home:createJson
